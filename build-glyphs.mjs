@@ -35,6 +35,35 @@ function fromRefs(file, transform = null, viewBox = "0 0 300 300") {
   return inkPaths(ds, viewBox, transform);
 }
 
+function fromOfficial(character, stage) {
+  const file = `${character}-${stage}.svg`;
+  const raw = fs.readFileSync(path.join(__dirname, "refs", file), "utf8");
+  const root = raw.match(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/i);
+  if (!root) throw new Error(`Invalid historical SVG: ${file}`);
+  const viewBox = root[1].match(/viewBox\s*=\s*["']([^"']+)["']/i)?.[1] || "0 0 300 300";
+  const body = root[2]
+    .replace(/<metadata\b[\s\S]*?<\/metadata>/gi, "")
+    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
+    .replace(/\b(fill|stroke)\s*=\s*["'](?!none\b|url\()[^"']+["']/gi, '$1="#e6dfd0"')
+    .replace(/(fill|stroke)\s*:\s*(?!none\b|url\()[^;"']+/gi, "$1:#e6dfd0");
+  return { viewBox, body, source: `Wikimedia ACC / CUHK / Academia Sinica · ${file}` };
+}
+
+function officialRaster(character, stage) {
+  const webp = path.join(__dirname, "refs", `${character}-${stage}.webp`);
+  const png = path.join(__dirname, "refs", `${character}-${stage}.png`);
+  const asset = fs.existsSync(webp)
+    ? `./refs/${character}-${stage}.webp`
+    : fs.existsSync(png)
+      ? `./refs/${character}-${stage}.png`
+      : null;
+  if (!asset) throw new Error(`Missing checked historical asset: ${character}-${stage}`);
+  return {
+    asset,
+    source: `Wikimedia Ancient Chinese Characters · ${character}-${stage}.svg · CUHK / Academia Sinica cross-check`,
+  };
+}
+
 const HAND = {};
 
 HAND["日-seal"] = {
@@ -797,7 +826,7 @@ const STORIES = [
     texts: [
       "甲骨文象侧立之马：鬃、身、四足、尾。奔走被画成一个字。",
       "金文马形更壮，鬃毛仍在背上飞。",
-      "小篆马首居上，四足化为四点。说文：怒也，武也。",
+      "小篆马首居上，鬃、目、身与足被收进纵向结构。说文：怒也，武也。",
       "隶书写成「馬」。四点定格，仍是四条腿。",
       "简体「马」。三画，仍能听见蹄声。",
     ],
@@ -911,6 +940,18 @@ const STORIES = [
   },
 ];
 
+const HISTORICAL_HEAD = {
+  ri: "日", yue: "月", shan: "山", shui: "水", ren: "人", mu: "木", huo: "火", yu: "雨",
+  ma: "馬", "yu-fish": "魚", che: "車", jia: "家", ming: "明", dong: "東",
+};
+
+for (const story of STORIES) {
+  const head = HISTORICAL_HEAD[story.id];
+  story.forms[0] = officialRaster(head, "oracle");
+  story.forms[1] = officialRaster(head, "bronze");
+  story.forms[2] = officialRaster(head, "seal");
+}
+
 const STORY_DIRECTION = {
   ri: {
     hook: "太阳第一次被写下，竟然不是圆的。",
@@ -1006,7 +1047,7 @@ const STORY_DIRECTION = {
     texts: [
       "鬃毛扬起，四蹄腾空，尾巴甩向身后。甲骨文把一匹马按在了奔跑的瞬间。",
       "青铜时代，马变得更强壮。它带来速度，也改变战争与疆域。",
-      "小篆让马站直，四条腿缩成四点。奔跑第一次被压进秩序。",
+      "小篆让马站直，鬃、目、身与足被收进纵向结构。奔跑第一次被压进秩序。",
       "隶书写成「馬」。四点仍在字底，像落地前一秒悬空的蹄。",
       "今天的「马」只剩三画。可当最后一横甩出，三千年的风仍从耳边掠过。",
     ],
