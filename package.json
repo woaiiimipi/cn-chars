@@ -1,0 +1,9 @@
+{
+  "name": "chinese-character-film",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.mjs",
+    "build:glyphs": "node build-glyphs.mjs"
+  }
+}

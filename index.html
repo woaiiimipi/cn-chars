@@ -594,7 +594,7 @@
       <h1 class="title">每个字，都是一部电影</h1>
       <p class="sub">14 个汉字，14 场穿越三千年的命运转折。</p>
       <div class="intro-meta" aria-label="作品信息">
-        <span id="storyCount">14 个字</span><span>5 个时代</span><span>磁性男声 · 原创配乐</span>
+        <span id="storyCount">20 个字</span><span>5 个时代</span><span>MiMo 男声 · 原创配乐</span>
       </div>
     </div>
     <div class="grid" id="grid"></div>
@@ -636,14 +636,13 @@
     <div class="dots" id="dots"></div>
     <div class="progress" aria-label="播放进度"><span id="progressFill"></span></div>
     <p class="source">甲金篆：中大 / 中研院校勘 · 隶书：中研院篆隶库结构重绘 · ACC（PD/CC0）</p>
-    <p class="voice-state" id="voiceState" aria-live="polite">声音已开启 · 真实古琴配乐 + 磁性男声</p>
+    <p class="voice-state" id="voiceState" aria-live="polite">声音已开启 · 真实古琴配乐 + MiMo「白桦」男声</p>
   </section>
 
   <script src="./glyphs.js"></script>
   <script>
     const SIZE = 360;
     const INK = [230, 223, 208];
-    const SAMPLE_STEP = 2;
     const MORPH_MS = 2050;
 
     const WORLDS = [
@@ -689,6 +688,12 @@
       home:     { top: [38, 17, 10], mid: [112, 54, 28], bot: [18, 7, 5], haze: [229, 143, 74], disc: [255, 193, 112], strength: 0.62, wind: 0.2, horizon: 0.74, weather: "ash" },
       glow:     { top: [12, 20, 38], mid: [57, 61, 74], bot: [6, 9, 18], haze: [214, 184, 119], disc: [247, 222, 161], strength: 0.58, wind: 0.24, horizon: 0.69, weather: "haze" },
       dawn:     { top: [33, 18, 42], mid: [151, 68, 57], bot: [14, 8, 18], haze: [255, 153, 111], disc: [255, 213, 150], strength: 0.68, wind: 0.32, horizon: 0.72, weather: "haze" },
+      dragon:   { top: [12, 17, 39], mid: [50, 56, 104], bot: [5, 8, 25], haze: [132, 151, 221], disc: [220, 205, 151], strength: 0.78, wind: 1.45, horizon: 0.76, weather: "rain" },
+      fly:      { top: [31, 54, 73], mid: [112, 137, 144], bot: [17, 29, 38], haze: [215, 220, 201], disc: [244, 218, 159], strength: 0.63, wind: 1.7, horizon: 0.67, weather: "haze" },
+      crawl:    { top: [27, 38, 27], mid: [78, 91, 53], bot: [13, 21, 12], haze: [170, 173, 106], disc: [220, 205, 139], strength: 0.54, wind: 0.18, horizon: 0.79, weather: "ash" },
+      sail:     { top: [9, 31, 52], mid: [24, 88, 106], bot: [3, 18, 34], haze: [113, 188, 199], disc: [226, 202, 143], strength: 0.68, wind: 0.9, horizon: 0.62, weather: "haze" },
+      prowl:    { top: [38, 19, 8], mid: [111, 66, 24], bot: [17, 8, 3], haze: [219, 142, 55], disc: [246, 187, 91], strength: 0.7, wind: 0.78, horizon: 0.77, weather: "sand" },
+      elephant: { top: [38, 42, 43], mid: [98, 92, 75], bot: [20, 19, 16], haze: [187, 167, 127], disc: [230, 204, 151], strength: 0.58, wind: 0.36, horizon: 0.76, weather: "sand" },
     };
 
     const gallery = document.getElementById("gallery");
@@ -697,21 +702,12 @@
     const canvas = document.getElementById("glyphCanvas");
     const ctx = canvas.getContext("2d", { alpha: true });
     const morphCanvas = document.createElement("canvas");
-    morphCanvas.width = SIZE * 2;
-    morphCanvas.height = SIZE * 2;
-    const morphCtx = morphCanvas.getContext("2d", { alpha: true });
-    const morphTrail = document.createElement("canvas");
-    morphTrail.width = SIZE * 2;
-    morphTrail.height = SIZE * 2;
-    const morphTrailCtx = morphTrail.getContext("2d", { alpha: true });
-    const morphSource = document.createElement("canvas");
-    morphSource.width = SIZE;
-    morphSource.height = SIZE;
-    const morphSourceCtx = morphSource.getContext("2d", { alpha: true });
-    const morphTarget = document.createElement("canvas");
-    morphTarget.width = SIZE;
-    morphTarget.height = SIZE;
-    const morphTargetCtx = morphTarget.getContext("2d", { alpha: true });
+    morphCanvas.width = SIZE;
+    morphCanvas.height = SIZE;
+    const morphCtx = morphCanvas.getContext("2d", { alpha: true, willReadFrequently: true });
+    const morphImage = morphCtx.createImageData(SIZE, SIZE);
+    const morphDistances = new Float32Array(SIZE * SIZE);
+    const morphHistogram = new Uint32Array(512);
     const worldEl = document.getElementById("world");
     const wctx = worldEl.getContext("2d", { alpha: false });
     const recordCanvas = document.createElement("canvas");
@@ -746,9 +742,9 @@
     let storyHideTimer = 0;
     let playToken = 0;
     let morphRaf = 0;
-    let pointClouds = [];
     let bitmaps = [];
-    let morphPairs = [];
+    let distanceFields = [];
+    let inkAreas = [];
     let fontsReady = null;
     let glyphSheets = [];
     let idleRaf = 0;
@@ -767,7 +763,8 @@
     let musicReverb = null;
     let musicTimer = 0;
     let musicPhrase = 0;
-    let narratorVoice = null;
+    let narrationSource = null;
+    const narrationCache = new Map();
     let guqinElement = null;
     let gongElement = null;
     let guqinGain = null;
@@ -946,83 +943,93 @@
       osc.stop(now + duration + 0.02);
     }
 
-    function scoreNarratorVoice(voice) {
-      const name = `${voice.name} ${voice.voiceURI}`;
-      if (!/^zh/i.test(voice.lang) && !/Chinese|中文|普通话/i.test(name)) return -1000;
-      let score = 20;
-      if (/Yunyang|云扬/i.test(name)) score += 180;
-      if (/Yunxi|云希/i.test(name)) score += 155;
-      if (/Kangkang|康康/i.test(name)) score += 135;
-      if (/Xiaoming|晓明/i.test(name)) score += 120;
-      if (/male|男声|男/i.test(name)) score += 90;
-      if (/Natural|Neural|Online/i.test(name)) score += 55;
-      if (/Microsoft/i.test(name)) score += 18;
-      if (/Xiaoxiao|晓晓|Xiaoyi|晓伊|Huihui|慧慧|Yaoyao|瑶瑶|female|女声|女/i.test(name)) score -= 180;
-      return score;
+    const TTS_VOICE = "白桦";
+    const TTS_DIRECTIONS = [
+      "中文纪录片男声，低沉克制，带一点神秘感；语速偏慢，句间留出呼吸。",
+      "中文纪录片男声，沉稳而有画面感；语速适中，逐渐增强叙事力量。",
+      "中文纪录片男声，清晰庄重；强调文字结构发生变化的关键词。",
+      "中文纪录片男声，节奏稍快、力量更强；在转折处明显停顿。",
+      "中文纪录片男声，温暖悠远，像讲完一段跨越三千年的故事；结尾放慢。",
+    ];
+
+    function narrationKey(text, chapterIndex) {
+      return `${TTS_VOICE}\0${chapterIndex}\0${text}`;
     }
 
-    function selectNarratorVoice() {
-      if (!window.speechSynthesis) return null;
-      const voices = window.speechSynthesis.getVoices();
-      narratorVoice = voices
-        .map((voice) => ({ voice, score: scoreNarratorVoice(voice) }))
-        .filter((item) => item.score > -1000)
-        .sort((a, b) => b.score - a.score)[0]?.voice || null;
-      return narratorVoice;
-    }
-
-    if (window.speechSynthesis) {
-      window.speechSynthesis.addEventListener("voiceschanged", selectNarratorVoice);
-      selectNarratorVoice();
-    }
-
-    function speak(text) {
-      return new Promise((resolve) => {
-        if (!soundOn || !window.speechSynthesis || !text) return resolve();
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        const preferred = narratorVoice || selectNarratorVoice();
-        if (preferred) utterance.voice = preferred;
-        utterance.lang = "zh-CN";
-        const naturalMale = preferred && /Yunyang|云扬|Yunxi|云希|Natural|Neural|Online/i.test(preferred.name);
-        const classicMale = preferred && /Kangkang|康康|Xiaoming|晓明/i.test(preferred.name);
-        const direction = [
-          { rate: 0.74, pitch: 0.76, volume: 0.92 },
-          { rate: 0.77, pitch: 0.78, volume: 0.94 },
-          { rate: 0.8, pitch: 0.8, volume: 0.92 },
-          { rate: 0.82, pitch: 0.79, volume: 0.94 },
-          { rate: 0.76, pitch: 0.82, volume: 0.9 },
-        ][chapter] || { rate: 0.78, pitch: 0.79, volume: 0.92 };
-        utterance.rate = naturalMale ? direction.rate + 0.06 : classicMale ? direction.rate : direction.rate + 0.02;
-        utterance.pitch = naturalMale ? direction.pitch + 0.08 : direction.pitch;
-        utterance.volume = direction.volume;
-        utterance.text = text
-          .replace(/——/g, "……")
-          .replace(/：/g, "：……")
-          .replace(/。/g, "。　");
-        const voiceLabel = preferred?.name
-          .replace(/Microsoft|Online|Natural|Neural|Chinese|\([^)]*\)/gi, "")
-          .replace(/[\s-]+$/g, "")
-          .trim();
-        voiceState.textContent = preferred
-          ? `真实古琴配乐 · 磁性男声「${voiceLabel || "中文男声"}」`
-          : "真实古琴配乐 · 中文男声兼容模式";
-        if (musicBus && audioCtx) musicBus.gain.setTargetAtTime(0.28, audioCtx.currentTime, 0.22);
-        let settled = false;
-        const finish = () => {
-          if (settled) return;
-          settled = true;
-          clearTimeout(fallback);
-          if (musicBus && audioCtx && current && soundOn) {
-            musicBus.gain.setTargetAtTime(musicLevel, audioCtx.currentTime, 0.65);
-          }
-          resolve();
-        };
-        const fallback = setTimeout(finish, Math.max(4200, text.length * 210));
-        utterance.onend = finish;
-        utterance.onerror = finish;
-        window.speechSynthesis.speak(utterance);
+    function fetchNarration(text, chapterIndex) {
+      const key = narrationKey(text, chapterIndex);
+      if (narrationCache.has(key)) return narrationCache.get(key);
+      const pending = fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text,
+          voice: TTS_VOICE,
+          direction: TTS_DIRECTIONS[chapterIndex] || TTS_DIRECTIONS[1],
+        }),
+      }).then(async (response) => {
+        if (!response.ok) {
+          const detail = await response.json().catch(() => ({}));
+          throw new Error(detail.error || `MiMo TTS ${response.status}`);
+        }
+        return response.arrayBuffer();
+      }).catch((error) => {
+        narrationCache.delete(key);
+        throw error;
       });
+      narrationCache.set(key, pending);
+      return pending;
+    }
+
+    function preloadNarration(texts) {
+      let cursor = 0;
+      const worker = async () => {
+        while (cursor < texts.length && current) {
+          const index = cursor++;
+          await fetchNarration(texts[index], index).catch(() => {});
+        }
+      };
+      return Promise.all([worker(), worker()]);
+    }
+
+    function stopNarration() {
+      if (!narrationSource) return;
+      try { narrationSource.stop(); } catch {}
+      narrationSource = null;
+    }
+
+    async function speak(text) {
+      if (!soundOn || !text) return;
+      ensureAudio();
+      stopNarration();
+      if (musicBus && audioCtx) musicBus.gain.setTargetAtTime(0.28, audioCtx.currentTime, 0.22);
+      voiceState.textContent = `MiMo-V2.5-TTS · 中文男声「${TTS_VOICE}」生成中…`;
+      try {
+        const encoded = await fetchNarration(text, chapter);
+        if (!current || !soundOn) return;
+        const decoded = await audioCtx.decodeAudioData(encoded.slice(0));
+        await new Promise((resolve) => {
+          const source = audioCtx.createBufferSource();
+          const gain = audioCtx.createGain();
+          source.buffer = decoded;
+          gain.gain.value = 0.96;
+          source.connect(gain).connect(audioMaster);
+          narrationSource = source;
+          source.onended = () => {
+            if (narrationSource === source) narrationSource = null;
+            resolve();
+          };
+          voiceState.textContent = `真实古琴配乐 · MiMo「${TTS_VOICE}」男声`;
+          source.start();
+        });
+      } catch (error) {
+        console.error(error);
+        voiceState.textContent = "MiMo TTS 不可用 · 请检查服务与 API Key";
+      } finally {
+        if (musicBus && audioCtx && current && soundOn) {
+          musicBus.gain.setTargetAtTime(musicLevel, audioCtx.currentTime, 0.65);
+        }
+      }
     }
 
     function setProgress(i, total) {
@@ -1051,8 +1058,8 @@
       soundOn = !soundOn;
       btnSound.classList.toggle("active", soundOn);
       btnSound.textContent = soundOn ? "声音" : "静音";
-      voiceState.textContent = soundOn ? "声音已开启 · 真实古琴配乐 + 磁性男声" : "声音已关闭";
-      if (!soundOn && window.speechSynthesis) window.speechSynthesis.cancel();
+      voiceState.textContent = soundOn ? "声音已开启 · 真实古琴配乐 + MiMo「白桦」男声" : "声音已关闭";
+      if (!soundOn) stopNarration();
       if (audioMaster) audioMaster.gain.setTargetAtTime(soundOn ? 0.72 : 0, audioCtx.currentTime, 0.12);
     }
 
@@ -1546,12 +1553,6 @@
         : 1 - Math.pow(-2 * t + 2, 5) / 2;
     }
 
-    function easeMorph(t) {
-      // Keep non-zero edge velocity so the living glyph never visibly brakes
-      // before or after a historical transition.
-      return t + Math.sin(t * Math.PI * 2) * 0.055;
-    }
-
     function renderGallery() {
       grid.innerHTML = STORIES.map(
         (s) => `<button type="button" class="card" data-id="${s.id}">
@@ -1638,173 +1639,137 @@
       });
     }
 
-    function mortonCode(x, y) {
-      const spread = (value) => {
-        let n = value & 0x1ff;
-        n = (n | (n << 8)) & 0x00f00f;
-        n = (n | (n << 4)) & 0x0c30c3;
-        n = (n | (n << 2)) & 0x249249;
-        return n;
-      };
-      return spread(x) | (spread(y) << 1);
-    }
-
-    function samplePoints(imageData) {
-      const { data, width, height } = imageData;
-      const pts = [];
-      for (let y = 0; y < height; y += SAMPLE_STEP) {
-        for (let x = 0; x < width; x += SAMPLE_STEP) {
-          const a = data[(y * width + x) * 4 + 3];
-          if (a > 40) {
-            const w = a / 255;
-            pts.push({
-              x: x + 0.5,
-              y: y + 0.5,
-              w,
-              key: mortonCode(x, y),
-            });
-          }
+    function edt1d(input, output, length, sites, bounds) {
+      let k = 0;
+      sites[0] = 0;
+      bounds[0] = -Infinity;
+      bounds[1] = Infinity;
+      for (let q = 1; q < length; q++) {
+        let site = sites[k];
+        let split = ((input[q] + q * q) - (input[site] + site * site)) / (2 * (q - site));
+        while (split <= bounds[k] && k > 0) {
+          k -= 1;
+          site = sites[k];
+          split = ((input[q] + q * q) - (input[site] + site * site)) / (2 * (q - site));
         }
+        k += 1;
+        sites[k] = q;
+        bounds[k] = split;
+        bounds[k + 1] = Infinity;
       }
-      pts.sort((a, b) => a.key - b.key);
-      return pts;
+      k = 0;
+      for (let q = 0; q < length; q++) {
+        while (bounds[k + 1] < q) k += 1;
+        const delta = q - sites[k];
+        output[q] = delta * delta + input[sites[k]];
+      }
     }
 
-    function hashUnit(index, salt = 0) {
-      const value = Math.sin((index + 1) * 12.9898 + salt * 78.233) * 43758.5453;
-      return value - Math.floor(value);
+    function squaredDistanceTransform(mask, seekInk) {
+      const total = SIZE * SIZE;
+      const temp = new Float32Array(total);
+      const result = new Float32Array(total);
+      const input = new Float32Array(SIZE);
+      const output = new Float32Array(SIZE);
+      const sites = new Int32Array(SIZE);
+      const bounds = new Float32Array(SIZE + 1);
+      const far = SIZE * SIZE * 4;
+
+      for (let y = 0; y < SIZE; y++) {
+        const row = y * SIZE;
+        for (let x = 0; x < SIZE; x++) input[x] = Boolean(mask[row + x]) === seekInk ? 0 : far;
+        edt1d(input, output, SIZE, sites, bounds);
+        temp.set(output, row);
+      }
+      for (let x = 0; x < SIZE; x++) {
+        for (let y = 0; y < SIZE; y++) input[y] = temp[y * SIZE + x];
+        edt1d(input, output, SIZE, sites, bounds);
+        for (let y = 0; y < SIZE; y++) result[y * SIZE + x] = output[y];
+      }
+      return result;
     }
 
-    function matchClouds(from, to) {
-      const n = Math.min(6500, Math.max(from.length, to.length, 1));
-      const A = densify(from, n);
-      const B = densify(to, n);
-      const paired = new Array(n);
-      for (let i = 0; i < n; i++) {
-        paired[i] = {
-          x0: A[i].x,
-          y0: A[i].y,
-          w0: A[i].w,
-          x1: B[i].x,
-          y1: B[i].y,
-          w1: B[i].w,
-          scatter: (hashUnit(i, 1) - 0.5) * 3.4,
-          scatterY: (hashUnit(i, 2) - 0.5) * 3.4,
-          delay: hashUnit(i, 5) * 0.055,
-          depth: hashUnit(i, 6),
-          phase: hashUnit(i, 7) * Math.PI * 2,
-        };
+    function buildDistanceField(imageData) {
+      const total = SIZE * SIZE;
+      const mask = new Uint8Array(total);
+      for (let i = 0; i < total; i++) mask[i] = imageData.data[i * 4 + 3] > 32 ? 1 : 0;
+      const toInk = squaredDistanceTransform(mask, true);
+      const toClear = squaredDistanceTransform(mask, false);
+      const field = new Float32Array(total);
+      for (let i = 0; i < total; i++) {
+        field[i] = mask[i] ? -Math.sqrt(toClear[i]) : Math.sqrt(toInk[i]);
       }
-      return paired;
+      return field;
     }
 
-    function densify(pts, n) {
-      if (!pts.length) {
-        const cx = SIZE / 2;
-        const cy = SIZE / 2;
-        return Array.from({ length: n }, (_, i) => {
-          const a = (i / n) * Math.PI * 2;
-          return { x: cx + Math.cos(a) * 4, y: cy + Math.sin(a) * 4, w: 0.2 };
-        });
-      }
-      if (pts.length === n) return pts.slice();
-      if (pts.length > n) {
-        const out = [];
-        for (let i = 0; i < n; i++) out.push(pts[Math.floor((i / n) * pts.length)]);
-        return out;
-      }
-      const out = pts.slice();
-      let i = 0;
-      while (out.length < n) {
-        const p = pts[i % pts.length];
-        out.push({
-          x: p.x + (hashUnit(i, 3) - 0.5) * 0.8,
-          y: p.y + (hashUnit(i, 4) - 0.5) * 0.8,
-          w: p.w,
-        });
-        i += 1;
-      }
-      return out;
+    function measureInkArea(imageData) {
+      let area = 0;
+      for (let i = 3; i < imageData.data.length; i += 4) area += imageData.data[i] / 255;
+      return area;
     }
 
-    function drawMorphFrame(points, fromIdx, toIdx, t = 1) {
-      const eased = easeMorph(t);
-      const breath = Math.sin(Math.PI * eased);
-      const sourceAlpha = Math.pow(Math.cos(eased * Math.PI * 0.5), 2);
-      const targetAlpha = Math.pow(Math.sin(eased * Math.PI * 0.5), 2);
+    function smoothstep(edge0, edge1, value) {
+      const x = Math.max(0, Math.min(1, (value - edge0) / (edge1 - edge0)));
+      return x * x * (3 - 2 * x);
+    }
 
+    function drawMorphFrame(fromField, toField, fromIdx, toIdx, t = 1, phase = 0) {
+      const eased = easeInOutQuint(t);
+      const pixels = morphImage.data;
+      const edge = 1.35;
+      const histogramMin = -48;
+      const histogramMax = 96;
+      const histogramScale = morphHistogram.length / (histogramMax - histogramMin);
+      morphHistogram.fill(0);
+
+      for (let i = 0; i < fromField.length; i++) {
+        const distance = fromField[i] + (toField[i] - fromField[i]) * eased;
+        morphDistances[i] = distance;
+        const bin = Math.max(0, Math.min(morphHistogram.length - 1, Math.floor((distance - histogramMin) * histogramScale)));
+        morphHistogram[bin] += 1;
+      }
+
+      const desiredArea = inkAreas[fromIdx] + (inkAreas[toIdx] - inkAreas[fromIdx]) * eased;
+      let accumulated = 0;
+      let isoBin = 0;
+      while (isoBin < morphHistogram.length - 1 && accumulated + morphHistogram[isoBin] < desiredArea) {
+        accumulated += morphHistogram[isoBin];
+        isoBin += 1;
+      }
+      const binCount = Math.max(1, morphHistogram[isoBin]);
+      const binFraction = Math.max(0, Math.min(1, (desiredArea - accumulated) / binCount));
+      const iso = histogramMin + (isoBin + binFraction) / histogramScale;
+      const sourceBlend = smoothstep(0, 0.06, t);
+      const targetBlend = smoothstep(0.94, 1, t);
+      const sourcePixels = bitmaps[fromIdx].data;
+      const targetPixels = bitmaps[toIdx].data;
+
+      for (let i = 0; i < morphDistances.length; i++) {
+        let alpha = smoothstep(iso + edge, iso - edge, morphDistances[i]);
+        if (sourceBlend < 1) alpha += (sourcePixels[i * 4 + 3] / 255 - alpha) * (1 - sourceBlend);
+        if (targetBlend > 0) alpha += (targetPixels[i * 4 + 3] / 255 - alpha) * targetBlend;
+        const p = i * 4;
+        pixels[p] = INK[0];
+        pixels[p + 1] = INK[1];
+        pixels[p + 2] = INK[2];
+        pixels[p + 3] = Math.round(alpha * 255);
+      }
+      morphCtx.putImageData(morphImage, 0, 0);
+
+      const motion = current?.motion || "pulse";
+      const fromAmp = eraAmp(fromIdx);
+      const toAmp = eraAmp(toIdx);
+      const amp = fromAmp + (toAmp - fromAmp) * eased;
+      const era = fromIdx + (toIdx - fromIdx) * eased;
       ctx.clearRect(0, 0, SIZE, SIZE);
       ctx.save();
+      const breath = Math.sin(Math.PI * t);
       ctx.translate(SIZE / 2, SIZE / 2);
-      ctx.filter = `blur(${(breath * 1.15).toFixed(2)}px)`;
-      ctx.globalAlpha = sourceAlpha * (1 - breath * 0.1);
-      ctx.translate(-breath * 1.6, breath * 0.7);
-      ctx.scale(1 - breath * 0.018, 1 - breath * 0.018);
-      ctx.drawImage(morphSource, -SIZE / 2, -SIZE / 2);
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.translate(SIZE / 2, SIZE / 2);
-      ctx.filter = `blur(${(breath * 0.95).toFixed(2)}px)`;
-      ctx.globalAlpha = targetAlpha * (1 - breath * 0.08);
-      ctx.translate(breath * 1.4, -breath * 0.55);
-      ctx.scale(1 + breath * 0.014, 1 + breath * 0.014);
-      ctx.drawImage(morphTarget, -SIZE / 2, -SIZE / 2);
+      ctx.scale(1 + breath * 0.012, 1 - breath * 0.006);
+      ctx.translate(-SIZE / 2, -SIZE / 2);
+      drawSemanticLayer(morphCanvas, motion, phase, amp, era);
       ctx.restore();
-
-      morphCtx.setTransform(1, 0, 0, 1, 0, 0);
-      morphCtx.clearRect(0, 0, morphCanvas.width, morphCanvas.height);
-      morphCtx.setTransform(2, 0, 0, 2, 0, 0);
-      const particlePresence = Math.pow(breath, 0.72);
-      for (let layer = 0; layer < 3; layer++) {
-        const layerAlpha = [0.2, 0.32, 0.46][layer] * particlePresence;
-        morphCtx.fillStyle = `rgba(238,229,212,${layerAlpha})`;
-        morphCtx.beginPath();
-        for (let i = layer; i < points.length; i += 3) {
-          const p = points[i];
-          const span = 1 - p.delay;
-          const local = Math.max(0, Math.min(1, (t - p.delay) / span));
-          const e = easeMorph(local);
-          const lift = Math.sin(e * Math.PI);
-          const arc = Math.sin(e * Math.PI + p.phase) * (0.5 + p.depth * 1.8) * lift;
-          const x = p.x0 + (p.x1 - p.x0) * e + p.scatter * lift + arc;
-          const y = p.y0 + (p.y1 - p.y0) * e + p.scatterY * lift - arc * 0.45;
-          const weight = p.w0 + (p.w1 - p.w0) * e;
-          const size = 0.48 + p.depth * 0.58 + weight * 0.34;
-          morphCtx.moveTo(x + size, y);
-          morphCtx.arc(x, y, size, 0, Math.PI * 2);
-        }
-        morphCtx.fill();
-      }
-
-      morphTrailCtx.save();
-      morphTrailCtx.globalCompositeOperation = "destination-out";
-      morphTrailCtx.fillStyle = `rgba(0,0,0,${0.22 + (1 - breath) * 0.16})`;
-      morphTrailCtx.fillRect(0, 0, morphTrail.width, morphTrail.height);
-      morphTrailCtx.globalCompositeOperation = "source-over";
-      morphTrailCtx.globalAlpha = 0.34 * particlePresence;
-      morphTrailCtx.filter = "blur(1.4px)";
-      morphTrailCtx.drawImage(morphCanvas, 0, 0);
-      morphTrailCtx.restore();
-
-      ctx.save();
-      ctx.globalCompositeOperation = "screen";
-      ctx.globalAlpha = 0.34 * particlePresence;
-      ctx.drawImage(morphTrail, 0, 0, SIZE, SIZE);
-      ctx.globalAlpha = 0.72 * particlePresence;
-      ctx.drawImage(morphCanvas, 0, 0, SIZE, SIZE);
-      ctx.restore();
-
-      ctx.save();
-      ctx.globalCompositeOperation = "lighter";
-      ctx.strokeStyle = `rgba(232,210,170,${0.07 * breath})`;
-      ctx.lineWidth = 0.65;
-      for (let k = 0; k < 5; k++) {
-        const bit = specks[k];
-        const radius = 84 + k * 17 + Math.sin(performance.now() * 0.001 + bit.p) * 7;
-        ctx.beginPath();
-        ctx.arc(SIZE / 2, SIZE / 2, radius, bit.p + t, bit.p + t + 0.28 + breath * 0.18);
-        ctx.stroke();
-      }
-      ctx.restore();
+      drawExtras(motion, phase, amp, era);
     }
 
     function drawBitmap(i) {
@@ -1929,7 +1894,42 @@
     }
 
     function drawSemanticGlyph(sheet, motion, t, amp, era) {
-      if (motion === "swim") {
+      if (motion === "dragon") {
+        drawGridWarp(sheet, (x, y) => {
+          const spine = 0.35 + Math.sin((y / SIZE) * Math.PI) * 0.65;
+          return {
+            x: Math.sin(t * 2.5 + y * 0.035) * 11 * spine * amp,
+            y: Math.cos(t * 1.8 + x * 0.025) * 3.2 * spine * amp,
+          };
+        }, 24);
+      } else if (motion === "fly") {
+        drawGridWarp(sheet, (x, y) => {
+          const wing = Math.min(1, Math.abs(x - SIZE / 2) / (SIZE * 0.32));
+          const flap = Math.sin(t * 5.4) * wing * amp;
+          return {
+            x: Math.sign(x - SIZE / 2) * Math.abs(flap) * 3,
+            y: -flap * 13 - Math.sin(t * 2.7 + y * 0.03) * 1.5 * amp,
+          };
+        }, 24);
+      } else if (motion === "crawl") {
+        drawArticulatedLegs(sheet, t, amp, 4, 188, 2.2, 0.055);
+      } else if (motion === "sail") {
+        drawGridWarp(sheet, (x, y) => ({
+          x: Math.sin(t * 1.35 + y * 0.017) * 3.2 * amp,
+          y: Math.sin(t * 1.8 + x * 0.025) * (0.8 + y / SIZE) * 2.5 * amp,
+        }), 26);
+      } else if (motion === "prowl") {
+        drawArticulatedLegs(sheet, t, amp, 4, 174, 4.2, 0.08);
+      } else if (motion === "elephant") {
+        drawGridWarp(sheet, (x, y) => {
+          const trunk = Math.max(0, Math.min(1, (x - SIZE * 0.52) / (SIZE * 0.3))) * Math.max(0, 1 - y / SIZE);
+          const legs = Math.max(0, Math.min(1, (y - SIZE * 0.58) / (SIZE * 0.3)));
+          return {
+            x: Math.sin(t * 1.65 + y * 0.02) * trunk * 10 * amp + Math.sin(t * 2.4 + x * 0.04) * legs * 2 * amp,
+            y: Math.cos(t * 1.65 + x * 0.018) * trunk * 5 * amp - Math.abs(Math.sin(t * 2.4 + x * 0.035)) * legs * 2.5 * amp,
+          };
+        }, 24);
+      } else if (motion === "swim") {
         if (era < 2) {
           drawGridWarp(sheet, (x) => ({ x: 0, y: Math.sin(t * 3.6 + x * 0.035) * Math.pow(x / SIZE, 1.8) * 12 * amp }), 30);
         } else {
@@ -1996,19 +1996,27 @@
       }
     }
 
-    function paintAlive(i, t) {
-      const sheet = glyphSheets[i];
-      if (!sheet) {
-        drawBitmap(i);
-        return;
-      }
-      const amp = eraAmp(i);
-      const motion = current.motion || "pulse";
-      ctx.clearRect(0, 0, SIZE, SIZE);
+    function drawSemanticLayer(sheet, motion, t, amp, era) {
       ctx.save();
       ctx.translate(SIZE / 2, SIZE / 2);
 
-      if (motion === "gallop") {
+      if (motion === "dragon") {
+        ctx.translate(Math.sin(t * 1.7) * 5 * amp, Math.cos(t * 1.25) * 5 * amp);
+        ctx.rotate(Math.sin(t * 1.4) * 0.025 * amp);
+      } else if (motion === "fly") {
+        ctx.translate(Math.sin(t * 1.9) * 4 * amp, Math.sin(t * 3.1) * 5 * amp);
+        ctx.rotate(Math.sin(t * 1.9) * 0.025 * amp);
+      } else if (motion === "crawl") {
+        ctx.translate(Math.sin(t * 2.2) * 2.2 * amp, -Math.abs(Math.sin(t * 2.2)) * 1.2 * amp);
+      } else if (motion === "sail") {
+        ctx.translate(Math.sin(t * 1.4) * 3 * amp, Math.sin(t * 1.8) * 2.2 * amp);
+        ctx.rotate(Math.sin(t * 1.4) * 0.018 * amp);
+      } else if (motion === "prowl") {
+        ctx.translate(Math.sin(t * 4.2) * 2.2 * amp, -Math.abs(Math.sin(t * 4.2)) * 2.5 * amp);
+        ctx.rotate(Math.sin(t * 4.2) * 0.012 * amp);
+      } else if (motion === "elephant") {
+        ctx.translate(Math.sin(t * 2.4) * 1.4 * amp, -Math.abs(Math.sin(t * 2.4)) * 1.3 * amp);
+      } else if (motion === "gallop") {
         const beat = t * 7.2;
         ctx.translate(Math.sin(beat) * 1.8 * amp, -Math.abs(Math.sin(beat * 2)) * 3.8 * amp);
         ctx.rotate(Math.sin(beat) * 0.014 * amp);
@@ -2027,9 +2035,20 @@
       }
 
       ctx.translate(-SIZE / 2, -SIZE / 2);
-      drawSemanticGlyph(sheet, motion, t, amp, i);
+      drawSemanticGlyph(sheet, motion, t, amp, era);
       ctx.restore();
+    }
 
+    function paintAlive(i, t) {
+      const sheet = glyphSheets[i];
+      if (!sheet) {
+        drawBitmap(i);
+        return;
+      }
+      const amp = eraAmp(i);
+      const motion = current.motion || "pulse";
+      ctx.clearRect(0, 0, SIZE, SIZE);
+      drawSemanticLayer(sheet, motion, t, amp, i);
       drawExtras(motion, t, amp, i);
     }
 
@@ -2038,6 +2057,56 @@
       ctx.fillStyle = "rgba(230,223,208,0.55)";
       ctx.strokeStyle = "rgba(230,223,208,0.28)";
       ctx.lineWidth = 1;
+
+      if (motion === "dragon") {
+        ctx.globalAlpha = 0.16 + amp * 0.16;
+        for (let k = 0; k < 10; k++) {
+          const sp = specks[k];
+          const x = (sp.x * SIZE + t * (16 + sp.s * 10)) % SIZE;
+          const y = SIZE * 0.2 + sp.y * SIZE * 0.55 + Math.sin(t + sp.p) * 12;
+          ctx.beginPath();
+          ctx.arc(x, y, 7 + sp.s * 7, Math.PI * 0.15, Math.PI * 0.85);
+          ctx.stroke();
+        }
+      }
+
+      if (motion === "fly") {
+        for (let k = 0; k < 12; k++) {
+          const sp = specks[k];
+          const x = SIZE * 0.78 - ((t * (35 + sp.s * 22) + sp.p * 18) % (SIZE * 0.64));
+          const y = SIZE * 0.32 + sp.y * SIZE * 0.42 + Math.sin(t * 2 + sp.p) * 10;
+          ctx.globalAlpha = 0.12 + 0.25 * amp;
+          ctx.beginPath();
+          ctx.ellipse(x, y, 3.4 * sp.s, 0.8, sp.p, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      if (motion === "crawl" || motion === "prowl" || motion === "elephant") {
+        const speed = motion === "prowl" ? 65 : motion === "elephant" ? 28 : 18;
+        for (let k = 0; k < 10; k++) {
+          const sp = specks[k];
+          const x = SIZE * 0.72 - ((t * speed + sp.p * 18) % (SIZE * 0.55));
+          const y = SIZE * 0.76 + sp.y * 12;
+          ctx.globalAlpha = (0.1 + sp.s * 0.16) * amp;
+          ctx.beginPath();
+          ctx.arc(x, y, 0.8 + sp.s * 1.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      if (motion === "sail") {
+        ctx.globalAlpha = 0.16 + 0.18 * amp;
+        for (let row = 0; row < 3; row++) {
+          ctx.beginPath();
+          for (let x = 28; x <= SIZE - 28; x += 5) {
+            const y = SIZE * (0.7 + row * 0.045) + Math.sin(x * 0.055 + t * (2 + row * 0.35)) * (4 + row * 1.5) * amp;
+            if (x === 28) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      }
 
       if (motion === "gallop") {
         for (let k = 0; k < 12; k++) {
@@ -2148,25 +2217,18 @@
 
     function morphBetween(fromIdx, toIdx, duration) {
       const t0 = performance.now();
-      morphSourceCtx.clearRect(0, 0, SIZE, SIZE);
-      morphSourceCtx.drawImage(canvas, 0, 0);
       stopIdle();
       cancelAnimationFrame(morphRaf);
       glyphFrame.classList.add("morphing");
-      morphTrailCtx.clearRect(0, 0, morphTrail.width, morphTrail.height);
-      const paired = morphPairs[fromIdx] || matchClouds(pointClouds[fromIdx], pointClouds[toIdx]);
-      const targetPhase = (t0 + duration - (motionEpoch || t0)) / 1000;
-      paintAlive(toIdx, targetPhase);
-      morphTargetCtx.clearRect(0, 0, SIZE, SIZE);
-      morphTargetCtx.drawImage(canvas, 0, 0);
-      ctx.clearRect(0, 0, SIZE, SIZE);
-      ctx.drawImage(morphSource, 0, 0);
+      const fromField = distanceFields[fromIdx];
+      const toField = distanceFields[toIdx];
       return new Promise((resolve) => {
         const tick = (now) => {
           if (!current) return resolve();
           const t = Math.min(1, (now - t0) / duration);
-          worldBlend = easeMorph(t);
-          drawMorphFrame(paired, fromIdx, toIdx, t);
+          const phase = (now - (motionEpoch || t0)) / 1000;
+          worldBlend = easeInOutQuint(t);
+          drawMorphFrame(fromField, toField, fromIdx, toIdx, t, phase);
           if (t < 1) morphRaf = requestAnimationFrame(tick);
           else {
             worldBlend = 1;
@@ -2179,23 +2241,21 @@
       });
     }
 
-    async function prepareClouds(story) {
-      pointClouds = [];
+    async function prepareMorphs(story) {
       bitmaps = [];
-      morphPairs = [];
+      distanceFields = [];
+      inkAreas = [];
       glyphSheets = [];
       for (const form of story.forms) {
         const img = await rasterizeForm(form);
         bitmaps.push(img);
-        pointClouds.push(samplePoints(img));
+        distanceFields.push(buildDistanceField(img));
+        inkAreas.push(measureInkArea(img));
         const sheet = document.createElement("canvas");
         sheet.width = SIZE;
         sheet.height = SIZE;
         sheet.getContext("2d").putImageData(img, 0, 0);
         glyphSheets.push(sheet);
-      }
-      for (let i = 0; i < pointClouds.length - 1; i++) {
-        morphPairs[i] = matchClouds(pointClouds[i], pointClouds[i + 1]);
       }
     }
 
@@ -2280,7 +2340,8 @@
       hintTap.classList.add("show");
       coldOpen.classList.add("show");
       ctx.clearRect(0, 0, SIZE, SIZE);
-      await prepareClouds(current);
+      void preloadNarration(current.texts);
+      await prepareMorphs(current);
       if (token !== playToken) return;
 
       motionEpoch = performance.now();
@@ -2327,7 +2388,7 @@
       ensureAudio();
       if (musicBus && audioCtx) musicBus.gain.setTargetAtTime(soundOn ? 0.72 : 0, audioCtx.currentTime, 0.3);
       startAcousticScore();
-      voiceState.textContent = soundOn ? "声音已开启 · 真实古琴配乐 + 磁性男声" : "声音已关闭";
+      voiceState.textContent = soundOn ? "声音已开启 · 真实古琴配乐 + MiMo「白桦」男声" : "声音已关闭";
       startWorld(0);
       requestAnimationFrame(() => requestAnimationFrame(() => storyEl.classList.add("ready")));
       autoPlay();
@@ -2342,7 +2403,7 @@
       clearTimeout(autoTimer);
       cancelAnimationFrame(morphRaf);
       stopRecording();
-      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      stopNarration();
       if (musicBus && audioCtx) musicBus.gain.setTargetAtTime(0, audioCtx.currentTime, 0.35);
       if (guqinElement) guqinElement.pause();
       if (gongElement) gongElement.pause();
@@ -2354,9 +2415,9 @@
       delete storyEl.dataset.beat;
       hintTap.classList.remove("show");
       ctx.clearRect(0, 0, SIZE, SIZE);
-      pointClouds = [];
       bitmaps = [];
-      morphPairs = [];
+      distanceFields = [];
+      inkAreas = [];
       glyphSheets = [];
       motionEpoch = 0;
       current = null;

@@ -52,12 +52,13 @@ function fromOfficial(character, stage) {
 function officialRaster(character, stage) {
   const webp = path.join(__dirname, "refs", `${character}-${stage}.webp`);
   const png = path.join(__dirname, "refs", `${character}-${stage}.png`);
-  const asset = fs.existsSync(webp)
-    ? `./refs/${character}-${stage}.webp`
-    : fs.existsSync(png)
-      ? `./refs/${character}-${stage}.png`
-      : null;
-  if (!asset) throw new Error(`Missing checked historical asset: ${character}-${stage}`);
+  const assetPath = fs.existsSync(webp) ? webp : fs.existsSync(png) ? png : null;
+  if (!assetPath) throw new Error(`Missing checked historical asset: ${character}-${stage}`);
+  const mime = path.extname(assetPath).toLowerCase() === ".webp" ? "image/webp" : "image/png";
+  // These images are sampled with getImageData(). Relative file URLs taint the
+  // canvas when index.html is opened via file://, so keep the generated browser
+  // bundle self-contained and origin-clean.
+  const asset = `data:${mime};base64,${fs.readFileSync(assetPath).toString("base64")}`;
   return {
     asset,
     source: `Wikimedia Ancient Chinese Characters · ${character}-${stage}.svg · CUHK / Academia Sinica cross-check`,
@@ -938,11 +939,108 @@ const STORIES = [
       charGlyph("东"),
     ],
   },
+  {
+    id: "long",
+    glyph: "龙",
+    meaning: "龙",
+    motion: "dragon",
+    hook: "龙最初不是神话，而是一条被刻进骨头的巨兽。",
+    payoff: "鳞爪被笔画收走，腾跃的力量留了下来。",
+    texts: [
+      "甲骨文的龙弓身卷尾，头上有角，巨口向前。先民把敬畏刻成一只有形的兽。",
+      "金文让龙身更加盘曲，角、爪与鳞甲纠缠在青铜光泽里，它开始靠近神灵。",
+      "小篆把飞动的躯体收进纵向结构，曲线仍像云中翻转的脊梁。",
+      "隶书写成「龍」，龙首、龙身和尾部被压进密集笔画，野性开始服从书写。",
+      "今天的「龙」只剩五画。形体被极度压缩，昂首腾空的方向没有改变。",
+    ],
+    forms: [charGlyph("龍"), charGlyph("龍"), charGlyph("龍"), charGlyph("龍"), charGlyph("龙")],
+  },
+  {
+    id: "niao",
+    glyph: "鸟",
+    meaning: "飞鸟",
+    motion: "fly",
+    hook: "这个字里，曾完整地藏着一只回头的鸟。",
+    payoff: "羽毛一笔笔消失，飞翔没有。",
+    texts: [
+      "甲骨文画出鸟喙、眼睛、翅膀、足与长尾，像一只刚刚落上树枝的鸟。",
+      "金文的羽翼更加丰满，尾羽向后舒展，青铜把轻盈变成了重量。",
+      "小篆让鸟直立起来，头、身和尾被组织成一条适合书写的轴线。",
+      "隶书写成「鳥」，底下四点像收拢的爪，也像振翅时落下的羽毛。",
+      "今天的「鸟」只有五画。尾羽变成一横，它仍随最后一点飞出纸面。",
+    ],
+    forms: [charGlyph("鳥"), charGlyph("鳥"), charGlyph("鳥"), charGlyph("鳥"), charGlyph("鸟")],
+  },
+  {
+    id: "gui",
+    glyph: "龟",
+    meaning: "龟",
+    motion: "crawl",
+    hook: "甲骨文的甲骨，竟把自己的主人也画了进去。",
+    payoff: "龟甲保存文字，文字也保存了龟。",
+    texts: [
+      "甲骨文从侧面画龟：头颈伸出，背甲隆起，四足和短尾贴近地面。",
+      "金文把龟甲刻得更厚，甲纹与肢体仍然清楚，缓慢因此有了分量。",
+      "小篆把头、甲、足、尾折进修长结构，真实的龟开始蜕变为复杂符号。",
+      "隶书写成「龜」，密集折画像层层甲片，古老生命被封存在字的内部。",
+      "今天的「龟」轻了许多。外壳被简化，缓慢而坚定的脚步仍在向前。",
+    ],
+    forms: [charGlyph("龜"), charGlyph("龜"), charGlyph("龜"), charGlyph("龜"), charGlyph("龟")],
+  },
+  {
+    id: "zhou",
+    glyph: "舟",
+    meaning: "舟船",
+    motion: "sail",
+    hook: "第一只舟，是一段被掏空的树干。",
+    payoff: "船形变成六画，人类继续越过水面。",
+    texts: [
+      "甲骨文像俯视一只独木舟：两端上翘，中间空出船舱，水路由此被打开。",
+      "金文加深船舷与舱格，舟不只是工具，也载着贡物、军队与远方。",
+      "小篆将船身竖起，弧形船舷被拉成长轴，水上的横物变成纸上的竖字。",
+      "隶书舒展横画，舟体渐平方正，摇晃的船开始服从稳定的笔势。",
+      "今天的「舟」仍像一叶船。六画之间，留着可以容纳远方的空处。",
+    ],
+    forms: [charGlyph("舟"), charGlyph("舟"), charGlyph("舟"), charGlyph("舟"), charGlyph("舟")],
+  },
+  {
+    id: "hu-tiger",
+    glyph: "虎",
+    meaning: "猛虎",
+    motion: "prowl",
+    hook: "虎的斑纹，曾经就是这个字的一部分。",
+    payoff: "皮毛被抽象成笔画，扑出的力量仍伏在其中。",
+    texts: [
+      "甲骨文画出张口的虎头、长身、利爪和卷尾，斑纹沿着背部起伏。",
+      "金文让虎身更厚重，爪牙与尾巴仍在，威严被铸进祭器。",
+      "小篆把虎头收成「虍」，身体蜷在下方，猛兽第一次进入字形的笼子。",
+      "隶书拉开撇横，虎的躯干被拆成笔画，仍保持向前压低的姿态。",
+      "今天的「虎」有八画。最后一弯像尾巴扫过，字面仍藏着一次扑击。",
+    ],
+    forms: [charGlyph("虎"), charGlyph("虎"), charGlyph("虎"), charGlyph("虎"), charGlyph("虎")],
+  },
+  {
+    id: "xiang",
+    glyph: "象",
+    meaning: "大象",
+    motion: "elephant",
+    hook: "中原曾有象群，所以先民能画下真正的大象。",
+    payoff: "象离开了北方，却留在想象与万象之中。",
+    texts: [
+      "甲骨文画出长鼻、大耳、粗身与四足，一头真实的大象站在三千年前。",
+      "金文让象身更加圆厚，长鼻向下弯曲，它既是猛兽，也是王权的奇观。",
+      "小篆把头、鼻、身、足纵向叠合，庞然巨物被收进一枚修长的字。",
+      "隶书把弧线变成撇捺，象的四足藏入下部，长鼻仍从上方向前伸出。",
+      "今天的「象」有十一画。我们用它表示形象、现象，因为看见从它开始。",
+    ],
+    forms: [charGlyph("象"), charGlyph("象"), charGlyph("象"), charGlyph("象"), charGlyph("象")],
+  },
 ];
 
 const HISTORICAL_HEAD = {
   ri: "日", yue: "月", shan: "山", shui: "水", ren: "人", mu: "木", huo: "火", yu: "雨",
   ma: "馬", "yu-fish": "魚", che: "車", jia: "家", ming: "明", dong: "東",
+  long: "龍", niao: "鳥", gui: "龜", zhou: "舟", "hu-tiger": "虎", xiang: "象",
 };
 
 for (const story of STORIES) {
