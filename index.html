@@ -7,8 +7,16 @@
   <title>字迹</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/max32002/masafont@2.1/webfont/MasaFont-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&display=swap" rel="stylesheet" />
   <style>
+    @font-face {
+      font-family: "MasaGyousho";
+      src: url("https://cdn.jsdelivr.net/gh/max32002/masafont@2.1/webfont/MasaFont-Regular.woff2") format("woff2");
+      font-display: swap;
+    }
+
     :root {
       --bg: #0e0d0b;
       --fg: #e6dfd0;
@@ -231,6 +239,73 @@
       animation: grainShift 0.85s steps(4) infinite;
     }
 
+    .cut-flash {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+      background:
+        radial-gradient(circle at 50% 43%, rgba(255,246,221,0.96), rgba(211,132,77,0.36) 22%, transparent 62%),
+        linear-gradient(105deg, transparent 38%, rgba(255,255,255,0.76) 49%, transparent 58%);
+      mix-blend-mode: screen;
+    }
+
+    .cut-flash.fire { animation: cutFlash 0.58s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .era-slam {
+      position: absolute;
+      inset: 18% 0 auto;
+      z-index: 9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      color: #fff8e9;
+      text-align: center;
+      text-shadow: 0 8px 38px rgba(0,0,0,0.82), 0 0 42px rgba(201,132,90,0.48);
+    }
+
+    .era-slam small {
+      margin-bottom: 0.3rem;
+      color: rgba(255,210,151,0.88);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.46em;
+    }
+
+    .era-slam strong {
+      font-size: clamp(3rem, 14vw, 5.8rem);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: 0.08em;
+    }
+
+    .era-slam.show { animation: eraSlam 0.92s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .retention-badge {
+      position: absolute;
+      top: calc(9.2vh + var(--safe-t));
+      left: 50%;
+      z-index: 8;
+      padding: 0.36rem 0.72rem;
+      border: 1px solid rgba(255,217,166,0.3);
+      border-radius: 999px;
+      background: rgba(12,10,9,0.42);
+      color: rgba(255,226,185,0.84);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      opacity: 0;
+      transform: translate(-50%, -8px) scale(0.92);
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .retention-badge.show { animation: badgePop 1.7s cubic-bezier(0.16, 1, 0.3, 1); }
+
     .letterbox {
       position: absolute;
       left: 0;
@@ -305,10 +380,10 @@
     .cold-hook {
       max-width: 13em;
       color: rgba(244, 238, 226, 0.96);
-      font-size: clamp(1.55rem, 5.6vw, 2.45rem);
-      font-weight: 500;
-      line-height: 1.55;
-      letter-spacing: 0.08em;
+      font-size: clamp(1.8rem, 7.2vw, 3.1rem);
+      font-weight: 750;
+      line-height: 1.3;
+      letter-spacing: 0.045em;
       text-wrap: balance;
       text-shadow: 0 8px 42px rgba(0, 0, 0, 0.72);
     }
@@ -322,6 +397,58 @@
     }
 
     .cold-open.show .cold-line { width: min(13rem, 54vw); }
+
+    .guess-countdown {
+      position: absolute;
+      left: 50%;
+      bottom: calc(12.5vh + var(--safe-b));
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: rgba(255, 220, 173, 0.78);
+      transform: translateX(-50%);
+    }
+
+    .countdown-shell {
+      position: relative;
+      display: grid;
+      width: 3.2rem;
+      height: 3.2rem;
+      place-items: center;
+      border: 1px solid rgba(255, 216, 162, 0.24);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,132,90,0.2), rgba(4,5,6,0.56) 68%);
+      box-shadow: 0 0 34px rgba(201,132,90,0.16);
+    }
+
+    .countdown-shell::after {
+      position: absolute;
+      inset: -4px;
+      border: 2px solid transparent;
+      border-top-color: #ffd39a;
+      border-right-color: rgba(122,154,132,0.8);
+      border-radius: 50%;
+      content: "";
+      animation: countdownSpin 0.65s linear infinite;
+    }
+
+    .countdown-shell strong {
+      color: #fff8e9;
+      font: 800 1.65rem/1 system-ui, sans-serif;
+      text-shadow: 0 0 20px rgba(255,185,105,0.68);
+    }
+
+    .guess-countdown small {
+      width: 5.8em;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-align: left;
+    }
+
+    .guess-countdown.pop .countdown-shell { animation: countdownBeat 0.22s cubic-bezier(0.16, 1, 0.3, 1); }
+    .guess-countdown.final .countdown-shell { border-color: rgba(255,157,95,0.72); transform: scale(1.12); }
+    .cold-open.answer .guess-countdown { display: none; }
 
     .icon-btn {
       appearance: none;
@@ -356,6 +483,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      perspective: 980px;
+      perspective-origin: 50% 46%;
+      transform-style: preserve-3d;
     }
 
     .glyph-frame canvas {
@@ -364,23 +494,34 @@
       height: 100%;
       filter: drop-shadow(0 12px 40px rgba(0,0,0,0.45));
       transition: filter 0.7s ease;
+      transform: translateZ(18px);
+      transform-style: preserve-3d;
     }
 
     .glyph-frame {
+      --tilt-x: 0deg;
+      --tilt-y: 0deg;
+      --depth-z: 0px;
+      --glyph-scale: 1;
+      --morph-scale: 1;
       transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateZ(var(--depth-z)) scale(var(--glyph-scale)) scale(var(--morph-scale));
+      transform-style: preserve-3d;
       will-change: transform;
     }
 
-    .glyph-frame.morphing { transform: scale(1.018); }
+    .glyph-frame.morphing { --morph-scale: 1.018; }
     .glyph-frame.morphing canvas {
       filter: blur(0.35px) drop-shadow(0 18px 52px rgba(0,0,0,0.52));
     }
 
-    .story[data-beat="mystery"] .glyph-frame { transform: scale(0.92); }
-    .story[data-beat="rise"] .glyph-frame { transform: scale(0.99); }
-    .story[data-beat="turn"] .glyph-frame { transform: scale(1.025); }
-    .story[data-beat="impact"] .glyph-frame { transform: scale(1.07); }
-    .story[data-beat="resolve"] .glyph-frame { transform: scale(0.98); }
+    .story.cut-punch .stage { animation: cameraPunch 0.76s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .story[data-beat="mystery"] .glyph-frame { --glyph-scale: 0.92; }
+    .story[data-beat="rise"] .glyph-frame { --glyph-scale: 0.99; }
+    .story[data-beat="turn"] .glyph-frame { --glyph-scale: 1.025; }
+    .story[data-beat="impact"] .glyph-frame { --glyph-scale: 1.07; }
+    .story[data-beat="resolve"] .glyph-frame { --glyph-scale: 0.98; }
 
     .story-copy {
       position: absolute;
@@ -416,13 +557,15 @@
     .era.show { opacity: 1; transform: none; }
 
     .line {
-      font-weight: 300;
-      font-size: 0.98rem;
-      line-height: 1.9;
-      letter-spacing: 0.08em;
-      min-height: 3.4em;
+      max-width: 18em;
+      margin: 0 auto;
+      font-weight: 720;
+      font-size: clamp(1.18rem, 5vw, 1.72rem);
+      line-height: 1.42;
+      letter-spacing: 0.045em;
+      min-height: 2.9em;
       color: rgba(236, 228, 214, 0.92);
-      text-shadow: 0 2px 16px rgba(0,0,0,0.85);
+      text-shadow: 0 3px 18px rgba(0,0,0,0.92), 0 0 34px rgba(201,132,90,0.12);
     }
 
     .line .cursor {
@@ -436,11 +579,27 @@
     }
 
     .line .char {
-      display: inline;
-      opacity: 0;
-      filter: blur(2px);
-      animation: revealChar 0.62s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      display: inline-block;
+      opacity: 1;
+      transform: none;
     }
+
+    .line .char.hot {
+      color: #ffd394;
+      text-shadow: 0 0 22px rgba(244,159,88,0.5), 0 3px 18px rgba(0,0,0,0.92);
+      animation: keywordPulse 0.82s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .story[data-motion="swim"] .line .char.hot,
+    .story[data-motion="river"] .line .char.hot,
+    .story[data-motion="sail"] .line .char.hot { animation-name: keywordSwim; }
+    .story[data-motion="gallop"] .line .char.hot,
+    .story[data-motion="walk"] .line .char.hot,
+    .story[data-motion="prowl"] .line .char.hot { animation-name: keywordGallop; }
+    .story[data-motion="cart"] .line .char.hot { animation-name: keywordWheel; }
+    .story[data-motion="fire"] .line .char.hot,
+    .story[data-motion="sun"] .line .char.hot,
+    .story[data-motion="dawn"] .line .char.hot { animation-name: keywordFlame; }
 
     .dots {
       position: absolute;
@@ -585,6 +744,81 @@
       from { opacity: 0; filter: blur(2px); }
       to { opacity: 1; filter: blur(0); }
     }
+
+    @keyframes captionPunch {
+      0% { opacity: 0; filter: blur(4px); transform: translateY(var(--lift)) scale(1.42) rotate(var(--tilt)); }
+      58% { opacity: 1; filter: blur(0); transform: translateY(-2px) scale(0.97) rotate(0); }
+      100% { opacity: 1; filter: blur(0); transform: none; }
+    }
+
+    @keyframes keywordPulse {
+      0% { opacity: 0; filter: blur(5px); transform: translateY(10px) scale(1.55); }
+      55% { opacity: 1; filter: blur(0); transform: translateY(-3px) scale(0.96); }
+      100% { opacity: 1; transform: none; }
+    }
+
+    @keyframes keywordSwim {
+      0% { opacity: 0; filter: blur(4px); transform: translate(-16px, 5px) rotate(-7deg); }
+      48% { opacity: 1; filter: blur(0); transform: translate(5px, -3px) rotate(3deg); }
+      72% { transform: translate(-2px, 1px) rotate(-1deg); }
+      100% { opacity: 1; transform: none; }
+    }
+
+    @keyframes keywordGallop {
+      0% { opacity: 0; transform: translate(-12px, -8px) skewX(-12deg); }
+      42% { opacity: 1; transform: translate(5px, 4px) skewX(4deg); }
+      64% { transform: translate(-2px, -3px); }
+      82% { transform: translate(1px, 1px); }
+      100% { opacity: 1; transform: none; }
+    }
+
+    @keyframes keywordWheel {
+      0% { opacity: 0; transform: translateX(-20px) rotate(-24deg); }
+      62% { opacity: 1; transform: translateX(4px) rotate(6deg); }
+      100% { opacity: 1; transform: none; }
+    }
+
+    @keyframes keywordFlame {
+      0% { opacity: 0; filter: blur(7px) brightness(2); transform: translateY(12px) scaleY(0.72); }
+      52% { opacity: 1; filter: blur(0) brightness(1.4); transform: translateY(-5px) scaleY(1.12); }
+      100% { opacity: 1; filter: none; transform: none; }
+    }
+
+    @keyframes cutFlash {
+      0% { opacity: 0; transform: scale(0.82) rotate(-3deg); }
+      12% { opacity: 0.92; }
+      42% { opacity: 0.24; transform: scale(1.12) rotate(1deg); }
+      100% { opacity: 0; transform: scale(1.3); }
+    }
+
+    @keyframes eraSlam {
+      0% { opacity: 0; filter: blur(10px); transform: scale(2.25) rotate(-4deg); }
+      18% { opacity: 1; filter: blur(0); transform: scale(0.9) rotate(1deg); }
+      34% { transform: scale(1.04) rotate(0); }
+      68% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; filter: blur(3px); transform: scale(0.78) translateY(-18px); }
+    }
+
+    @keyframes cameraPunch {
+      0% { transform: scale(0.9) rotate(-0.8deg); filter: brightness(1.45); }
+      22% { transform: scale(1.1) rotate(0.5deg); }
+      48% { transform: scale(0.985) rotate(-0.15deg); }
+      100% { transform: none; filter: none; }
+    }
+
+    @keyframes badgePop {
+      0% { opacity: 0; transform: translate(-50%, -8px) scale(0.8); }
+      14%, 72% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -6px) scale(0.92); }
+    }
+
+    @keyframes countdownSpin { to { transform: rotate(360deg); } }
+
+    @keyframes countdownBeat {
+      0% { transform: scale(1.7); filter: brightness(2.2); }
+      42% { transform: scale(0.9); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
   </style>
 </head>
 <body>
@@ -592,19 +826,22 @@
     <div>
       <p class="brand">字迹</p>
       <h1 class="title">每个字，都是一部电影</h1>
-      <p class="sub">14 个汉字，14 场穿越三千年的命运转折。</p>
+      <p class="sub">20 个汉字，20 场穿越三千年的命运转折。</p>
       <div class="intro-meta" aria-label="作品信息">
         <span id="storyCount">20 个字</span><span>5 个时代</span><span>MiMo 男声 · 原创配乐</span>
       </div>
     </div>
     <div class="grid" id="grid"></div>
-    <p class="foot-hint">甲骨 · 金文 · 小篆 · 隶书 · 简体</p>
+    <p class="foot-hint">甲骨 · 金文 · 小篆 · 隶书 · 现代行楷</p>
   </section>
 
   <section class="story hidden" id="story">
     <canvas class="world" id="world" aria-hidden="true"></canvas>
     <div class="vignette"></div>
     <div class="grain"></div>
+    <div class="cut-flash" id="cutFlash"></div>
+    <div class="era-slam" id="eraSlam"><small id="eraSlamIndex">FORM 01</small><strong id="eraSlamText">甲骨</strong></div>
+    <div class="retention-badge" id="retentionBadge">别眨眼 · 下一形态马上出现</div>
     <div class="letterbox top"></div>
     <div class="letterbox bot"></div>
     <div class="story-bar">
@@ -621,6 +858,7 @@
       <p class="cold-index" id="coldIndex">01 · 日</p>
       <p class="cold-hook" id="coldHook"></p>
       <span class="cold-line"></span>
+      <div class="guess-countdown" id="guessCountdown"><span class="countdown-shell"><strong id="countdownValue">3</strong></span><small>秒内认出它</small></div>
     </div>
     <div class="stage" id="stage">
       <div class="glyph-frame" id="glyphFrame">
@@ -636,14 +874,15 @@
     <div class="dots" id="dots"></div>
     <div class="progress" aria-label="播放进度"><span id="progressFill"></span></div>
     <p class="source">甲金篆：中大 / 中研院校勘 · 隶书：中研院篆隶库结构重绘 · ACC（PD/CC0）</p>
-    <p class="voice-state" id="voiceState" aria-live="polite">声音已开启 · 真实古琴配乐 + MiMo「白桦」男声</p>
+    <p class="voice-state" id="voiceState" aria-live="polite">声音已开启 · 108 BPM 动态原创配乐 + MiMo「白桦」男声</p>
   </section>
 
   <script src="./glyphs.js"></script>
   <script>
     const SIZE = 360;
     const INK = [230, 223, 208];
-    const MORPH_MS = 2050;
+    const MORPH_MS = 1550;
+    const MORPH_DURATIONS = [0, 1280, 1120, 1700, 1180];
 
     const WORLDS = [
       {
@@ -708,6 +947,18 @@
     const morphImage = morphCtx.createImageData(SIZE, SIZE);
     const morphDistances = new Float32Array(SIZE * SIZE);
     const morphHistogram = new Uint32Array(512);
+    const lightCanvas = document.createElement("canvas");
+    lightCanvas.width = SIZE;
+    lightCanvas.height = SIZE;
+    const lightCtx = lightCanvas.getContext("2d", { alpha: true });
+    const shadowCanvas = document.createElement("canvas");
+    shadowCanvas.width = SIZE;
+    shadowCanvas.height = SIZE;
+    const shadowCtx = shadowCanvas.getContext("2d", { alpha: true });
+    const heritageCanvas = document.createElement("canvas");
+    heritageCanvas.width = SIZE;
+    heritageCanvas.height = SIZE;
+    const heritageCtx = heritageCanvas.getContext("2d", { alpha: true });
     const worldEl = document.getElementById("world");
     const wctx = worldEl.getContext("2d", { alpha: false });
     const recordCanvas = document.createElement("canvas");
@@ -730,6 +981,14 @@
     const coldOpen = document.getElementById("coldOpen");
     const coldIndex = document.getElementById("coldIndex");
     const coldHook = document.getElementById("coldHook");
+    const cutFlash = document.getElementById("cutFlash");
+    const eraSlam = document.getElementById("eraSlam");
+    const eraSlamIndex = document.getElementById("eraSlamIndex");
+    const eraSlamText = document.getElementById("eraSlamText");
+    const retentionBadge = document.getElementById("retentionBadge");
+    const guessCountdown = document.getElementById("guessCountdown");
+    const countdownValue = document.getElementById("countdownValue");
+    const countdownLabel = guessCountdown.querySelector("small");
 
     let ERAS = [];
     let STORIES = [];
@@ -740,6 +999,7 @@
     let paused = false;
     let autoTimer = 0;
     let storyHideTimer = 0;
+    let viralTimers = [];
     let playToken = 0;
     let morphRaf = 0;
     let bitmaps = [];
@@ -763,6 +1023,7 @@
     let musicReverb = null;
     let musicTimer = 0;
     let musicPhrase = 0;
+    let scoreNextAt = 0;
     let narrationSource = null;
     const narrationCache = new Map();
     let guqinElement = null;
@@ -771,7 +1032,10 @@
     let gongGain = null;
     let beatEnergy = 0.28;
     let beatTarget = 0.28;
+    let rhythmPulse = 0;
     let impactFlash = 0;
+    let chapterRevealEpoch = 0;
+    let heritageHoldUntil = 0;
     let musicLevel = 0.56;
     let soundOn = true;
     let recording = null;
@@ -830,25 +1094,103 @@
       overtone.stop(at + duration + 0.05);
     }
 
-    function scheduleMusic() {
+    const SCORE_ROOTS = {
+      sun: 146.83, moon: 110, mountain: 98, water: 123.47, walk: 130.81,
+      tree: 110, flame: 146.83, rain: 98, gallop: 123.47, swim: 110,
+      cart: 98, home: 130.81, glow: 146.83, dawn: 123.47, dragon: 92.5,
+      fly: 146.83, crawl: 98, sail: 110, prowl: 92.5, elephant: 82.41,
+    };
+
+    function playScoreKick(at, level = 0.08, accent = false) {
       if (!audioCtx || !musicBus) return;
-      const pentatonic = [293.66, 329.63, 392, 440, 523.25, 587.33];
-      const phrases = [
-        [0, 2, 3, 1, 4, 2],
-        [2, 4, 5, 3, 1, 0],
-        [0, 3, 2, 5, 4, 2],
-        [4, 3, 1, 2, 0, 2],
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(accent ? 132 : 104, at);
+      osc.frequency.exponentialRampToValueAtTime(42, at + 0.22);
+      gain.gain.setValueAtTime(0.0001, at);
+      gain.gain.exponentialRampToValueAtTime(level, at + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.3);
+      osc.connect(gain).connect(musicBus);
+      osc.start(at);
+      osc.stop(at + 0.32);
+    }
+
+    function playScoreTick(at, level = 0.022) {
+      if (!audioCtx || !musicBus) return;
+      const length = Math.floor(audioCtx.sampleRate * 0.055);
+      const buffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 4);
+      const source = audioCtx.createBufferSource();
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+      source.buffer = buffer;
+      filter.type = "highpass";
+      filter.frequency.value = 2400;
+      gain.gain.value = level;
+      source.connect(filter).connect(gain).connect(musicBus);
+      source.start(at);
+    }
+
+    function playScorePluck(frequency, at, level = 0.022, duration = 0.7) {
+      if (!audioCtx || !musicBus) return;
+      const osc = audioCtx.createOscillator();
+      const overtone = audioCtx.createOscillator();
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+      osc.type = "triangle";
+      overtone.type = "sine";
+      osc.frequency.value = frequency;
+      overtone.frequency.value = frequency * 2.01;
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(Math.max(360, frequency * 3.4), at);
+      filter.Q.value = 1.1;
+      gain.gain.setValueAtTime(0.0001, at);
+      gain.gain.exponentialRampToValueAtTime(level, at + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+      osc.connect(filter);
+      overtone.connect(filter);
+      filter.connect(gain).connect(musicBus);
+      osc.start(at);
+      overtone.start(at);
+      osc.stop(at + duration + 0.02);
+      overtone.stop(at + duration + 0.02);
+    }
+
+    function scheduleMusic() {
+      if (!audioCtx || !musicBus || !current) return;
+      const stepDuration = 60 / 108 / 2;
+      if (!scoreNextAt || scoreNextAt < audioCtx.currentTime - 0.4) scoreNextAt = audioCtx.currentTime + 0.04;
+      const root = SCORE_ROOTS[current.motion] || 110;
+      const scale = [1, 9 / 8, 4 / 3, 3 / 2, 5 / 3, 2];
+      const motifs = [
+        [0, 0, 2, 0, 3, 2, 0, 4],
+        [0, 2, 3, 2, 4, 3, 2, 5],
+        [0, 3, 2, 4, 3, 5, 4, 2],
+        [0, 4, 5, 3, 5, 4, 2, 5],
+        [5, 4, 3, 2, 4, 2, 0, 0],
       ];
-      const phrase = phrases[musicPhrase % phrases.length];
-      const start = audioCtx.currentTime + 0.08;
-      phrase.forEach((note, index) => {
-        const human = index % 2 ? 0.035 : 0;
-        if (index % 2 === 0) playMusicNote(pentatonic[note], start + index * 1.5 + human, 2.8, index === 0 ? 0.018 : 0.011);
-      });
-      playMusicNote(pentatonic[phrase[0]] / 2, start, 7.8, 0.006);
-      musicPhrase += 1;
+      while (scoreNextAt < audioCtx.currentTime + 0.38) {
+        const step = musicPhrase++;
+        const withinBar = step % 8;
+        const energy = Math.max(0.15, beatTarget);
+        const motif = motifs[Math.min(chapter, motifs.length - 1)];
+        if (withinBar === 0 || (energy > 0.58 && withinBar === 4)) {
+          playScoreKick(scoreNextAt, 0.055 + energy * 0.075, withinBar === 0);
+        }
+        if (withinBar % 2 === 1 && energy > 0.32) {
+          playScoreTick(scoreNextAt, 0.008 + energy * 0.018);
+        }
+        if (withinBar % (energy > 0.72 ? 1 : 2) === 0) {
+          const note = motif[withinBar];
+          playScorePluck(root * scale[note], scoreNextAt, 0.008 + energy * 0.014, 0.42 + (1 - energy) * 0.45);
+        }
+        if (withinBar === 0) playScorePluck(root / 2, scoreNextAt, 0.012 + energy * 0.012, 1.5);
+        scoreNextAt += stepDuration;
+      }
       clearTimeout(musicTimer);
-      musicTimer = setTimeout(scheduleMusic, 9000);
+      musicTimer = setTimeout(scheduleMusic, 90);
     }
 
     function prepareAcousticInstruments() {
@@ -877,6 +1219,10 @@
 
     function startAcousticScore() {
       if (!guqinElement || !soundOn) return;
+      clearTimeout(musicTimer);
+      musicPhrase = 0;
+      scoreNextAt = audioCtx ? audioCtx.currentTime + 0.06 : 0;
+      scheduleMusic();
       guqinElement.play().catch(() => {});
     }
 
@@ -923,7 +1269,6 @@
       musicBus.connect(dry).connect(audioMaster);
       musicBus.connect(musicReverb).connect(wet).connect(audioMaster);
       prepareAcousticInstruments();
-      scheduleMusic();
       if (audioCtx.state === "suspended") audioCtx.resume();
     }
 
@@ -943,17 +1288,195 @@
       osc.stop(now + duration + 0.02);
     }
 
+    function playTransitionImpact(intensity = 1) {
+      if (!soundOn || !audioCtx || !audioMaster) return;
+      const now = audioCtx.currentTime;
+      const hit = audioCtx.createOscillator();
+      const hitGain = audioCtx.createGain();
+      hit.type = "sine";
+      hit.frequency.setValueAtTime(118, now);
+      hit.frequency.exponentialRampToValueAtTime(42, now + 0.38);
+      hitGain.gain.setValueAtTime(0.0001, now);
+      hitGain.gain.exponentialRampToValueAtTime(0.2 * intensity, now + 0.012);
+      hitGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.46);
+      hit.connect(hitGain).connect(audioMaster);
+      hit.start(now);
+      hit.stop(now + 0.5);
+
+      const noiseBuffer = audioCtx.createBuffer(1, Math.floor(audioCtx.sampleRate * 0.34), audioCtx.sampleRate);
+      const noiseData = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < noiseData.length; i++) {
+        const envelope = Math.pow(1 - i / noiseData.length, 1.8);
+        noiseData[i] = (Math.random() * 2 - 1) * envelope;
+      }
+      const noise = audioCtx.createBufferSource();
+      const noiseFilter = audioCtx.createBiquadFilter();
+      const noiseGain = audioCtx.createGain();
+      noise.buffer = noiseBuffer;
+      noiseFilter.type = "bandpass";
+      noiseFilter.frequency.setValueAtTime(1600, now);
+      noiseFilter.frequency.exponentialRampToValueAtTime(380, now + 0.3);
+      noiseFilter.Q.value = 0.7;
+      noiseGain.gain.setValueAtTime(0.11 * intensity, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.34);
+      noise.connect(noiseFilter).connect(noiseGain).connect(audioMaster);
+      noise.start(now);
+    }
+
+    function playMorphRiser(intensity = 1) {
+      if (!soundOn || !audioCtx || !musicBus) return;
+      const now = audioCtx.currentTime;
+      const duration = (MORPH_DURATIONS[chapter] || MORPH_MS) / 1000;
+      const length = Math.floor(audioCtx.sampleRate * duration);
+      const buffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < length; i++) {
+        const progress = i / length;
+        data[i] = (Math.random() * 2 - 1) * Math.pow(progress, 1.7) * Math.pow(1 - progress * 0.35, 2);
+      }
+      const source = audioCtx.createBufferSource();
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+      source.buffer = buffer;
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(180, now);
+      filter.frequency.exponentialRampToValueAtTime(3200, now + duration);
+      filter.Q.setValueAtTime(0.6, now);
+      filter.Q.linearRampToValueAtTime(2.2, now + duration);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.035 * intensity, now + duration * 0.72);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      source.connect(filter).connect(gain).connect(musicBus);
+      source.start(now);
+    }
+
+    function playCarouselWhoosh(intensity = 1) {
+      if (!soundOn || !audioCtx || !musicBus) return;
+      const now = audioCtx.currentTime;
+      const duration = 0.72;
+      const length = Math.floor(audioCtx.sampleRate * duration);
+      const buffer = audioCtx.createBuffer(1, length, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < length; i++) {
+        const progress = i / length;
+        const envelope = Math.sin(Math.PI * progress) * (0.42 + progress * 0.58);
+        data[i] = (Math.random() * 2 - 1) * envelope;
+      }
+
+      const source = audioCtx.createBufferSource();
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+      const panner = audioCtx.createStereoPanner?.();
+      source.buffer = buffer;
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(360, now);
+      filter.frequency.exponentialRampToValueAtTime(2100, now + duration * 0.58);
+      filter.frequency.exponentialRampToValueAtTime(620, now + duration);
+      filter.Q.value = 0.82;
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.032 * intensity, now + duration * 0.36);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      source.connect(filter).connect(gain);
+      if (panner) {
+        panner.pan.setValueAtTime(0.82, now);
+        panner.pan.linearRampToValueAtTime(-0.82, now + duration);
+        gain.connect(panner).connect(musicBus);
+      } else {
+        gain.connect(musicBus);
+      }
+      source.start(now);
+    }
+
+    function playChapterMotif(index) {
+      if (!soundOn || !audioCtx || !musicBus || !current) return;
+      const root = SCORE_ROOTS[current.motion] || 110;
+      const chord = index === 4 ? [1, 1.5, 2] : index === 3 ? [1, 4 / 3, 5 / 3] : [1, 3 / 2];
+      chord.forEach((ratio, note) => {
+        playScorePluck(root * ratio * (index > 2 ? 2 : 1), audioCtx.currentTime + note * 0.045, 0.018 + index * 0.005, 0.8 + index * 0.12);
+      });
+    }
+
+    function playCountdownTick(value) {
+      if (!soundOn || !audioCtx || !audioMaster) return;
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = value === "?" ? "sawtooth" : "sine";
+      osc.frequency.setValueAtTime(value === "?" ? 440 : 220 + Number(value) * 32, now);
+      osc.frequency.exponentialRampToValueAtTime(value === "?" ? 660 : 92, now + 0.16);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(value === "?" ? 0.09 : 0.055, now + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+      osc.connect(gain).connect(audioMaster);
+      osc.start(now);
+      osc.stop(now + 0.22);
+    }
+
+    function scheduleViral(callback, delay) {
+      const timer = setTimeout(() => {
+        viralTimers = viralTimers.filter((item) => item !== timer);
+        callback();
+      }, delay);
+      viralTimers.push(timer);
+      return timer;
+    }
+
+    function restartAnimation(element, className) {
+      element.classList.remove(className);
+      void element.offsetWidth;
+      element.classList.add(className);
+    }
+
+    function clearViralEffects() {
+      viralTimers.forEach(clearTimeout);
+      viralTimers = [];
+      cutFlash.classList.remove("fire");
+      eraSlam.classList.remove("show");
+      retentionBadge.classList.remove("show");
+      storyEl.classList.remove("cut-punch");
+    }
+
+    function triggerTransitionImpact(i) {
+      const badgeCopy = [
+        "第一刀落下 · 它还不是一个字",
+        "看这道金线 · 同一笔开始穿越",
+        "同一笔未断 · 轮廓却已重生",
+        "毛笔接管 · 三千年最剧烈的断裂",
+        `四个祖形归来 · 汇成「${current?.glyph || "它"}」`,
+      ];
+      eraSlamIndex.textContent = `FORM ${String(i + 1).padStart(2, "0")} · 3000 YEARS`;
+      eraSlamText.textContent = ERAS[i] || "演化";
+      retentionBadge.textContent = badgeCopy[i] || "别眨眼 · 下一形态马上出现";
+      if (i >= 2) restartAnimation(cutFlash, "fire");
+      if (i >= 2) restartAnimation(eraSlam, "show");
+      if (i > 0) restartAnimation(retentionBadge, "show");
+      if (i >= 3) restartAnimation(storyEl, "cut-punch");
+      scheduleViral(() => storyEl.classList.remove("cut-punch"), i === 4 ? 920 : 720);
+      scheduleViral(() => cutFlash.classList.remove("fire"), i === 4 ? 760 : 520);
+      scheduleViral(() => eraSlam.classList.remove("show"), i === 4 ? 1120 : 860);
+      scheduleViral(() => retentionBadge.classList.remove("show"), 1750);
+      const impactCurve = [0.28, 0.42, 0.58, 0.82, 1.35];
+      const intensity = impactCurve[i] || 0.4;
+      impactFlash = Math.max(impactFlash, intensity * 0.58);
+      playTransitionImpact(intensity);
+      if (i > 0) {
+        playMorphRiser(0.52 + i * 0.16);
+        playCarouselWhoosh(0.35 + i * 0.2);
+      }
+      playChapterMotif(i);
+    }
+
     const TTS_VOICE = "白桦";
     const TTS_DIRECTIONS = [
-      "中文纪录片男声，低沉克制，带一点神秘感；语速偏慢，句间留出呼吸。",
-      "中文纪录片男声，沉稳而有画面感；语速适中，逐渐增强叙事力量。",
-      "中文纪录片男声，清晰庄重；强调文字结构发生变化的关键词。",
-      "中文纪录片男声，节奏稍快、力量更强；在转折处明显停顿。",
-      "中文纪录片男声，温暖悠远，像讲完一段跨越三千年的故事；结尾放慢。",
+      "抖音历史悬疑短片男声，低沉抓人，开头立刻制造疑问；语速稍快，关键答案前停半拍。",
+      "抖音知识短片男声，有画面、有推进感；语速明快，重读字形发生变化的词。",
+      "抖音历史短片男声，庄重但不拖沓；在时代转折处突然加重，形成反差。",
+      "抖音爆款解说男声，节奏强、情绪高，像高潮揭晓；转折前短停，之后有爆发力。",
+      "抖音人文短片男声，温暖而有余韵；先有力量地揭晓答案，结尾用提问感邀请互动。",
     ];
 
     function narrationKey(text, chapterIndex) {
-      return `${TTS_VOICE}\0${chapterIndex}\0${text}`;
+      return `${TTS_VOICE}\0${TTS_DIRECTIONS[chapterIndex] || ""}\0${text}`;
     }
 
     function fetchNarration(text, chapterIndex) {
@@ -1000,13 +1523,14 @@
 
     async function speak(text) {
       if (!soundOn || !text) return;
+      const requestedChapter = chapter;
       ensureAudio();
       stopNarration();
       if (musicBus && audioCtx) musicBus.gain.setTargetAtTime(0.28, audioCtx.currentTime, 0.22);
       voiceState.textContent = `MiMo-V2.5-TTS · 中文男声「${TTS_VOICE}」生成中…`;
       try {
-        const encoded = await fetchNarration(text, chapter);
-        if (!current || !soundOn) return;
+        const encoded = await fetchNarration(text, requestedChapter);
+        if (!current || !soundOn || chapter !== requestedChapter) return;
         const decoded = await audioCtx.decodeAudioData(encoded.slice(0));
         await new Promise((resolve) => {
           const source = audioCtx.createBufferSource();
@@ -1019,7 +1543,7 @@
             if (narrationSource === source) narrationSource = null;
             resolve();
           };
-          voiceState.textContent = `真实古琴配乐 · MiMo「${TTS_VOICE}」男声`;
+          voiceState.textContent = `108 BPM 动态原创配乐 · MiMo「${TTS_VOICE}」男声`;
           source.start();
         });
       } catch (error) {
@@ -1053,13 +1577,38 @@
       if (i === 3) impactFlash = 0.34;
     }
 
+    async function holdBeforeFinalReveal(token) {
+      if (soundOn && audioCtx) {
+        const now = audioCtx.currentTime;
+        musicBus?.gain.cancelScheduledValues(now);
+        musicBus?.gain.setTargetAtTime(0.0001, now, 0.035);
+        guqinGain?.gain.setTargetAtTime(0.0001, now, 0.03);
+      }
+      beatTarget = 0.04;
+      hintTap.textContent = "听——这一笔没有断";
+      await wait(220);
+      if (token !== playToken || !current) return false;
+      if (soundOn && audioCtx) {
+        const now = audioCtx.currentTime;
+        musicBus?.gain.setTargetAtTime(0.66, now, 0.08);
+        guqinGain?.gain.setTargetAtTime(0.16, now, 0.18);
+      }
+      return true;
+    }
+
     function toggleSound() {
       ensureAudio();
       soundOn = !soundOn;
       btnSound.classList.toggle("active", soundOn);
       btnSound.textContent = soundOn ? "声音" : "静音";
-      voiceState.textContent = soundOn ? "声音已开启 · 真实古琴配乐 + MiMo「白桦」男声" : "声音已关闭";
-      if (!soundOn) stopNarration();
+      voiceState.textContent = soundOn ? "声音已开启 · 108 BPM 动态原创配乐 + MiMo「白桦」男声" : "声音已关闭";
+      if (soundOn) startAcousticScore();
+      else {
+        stopNarration();
+        clearTimeout(musicTimer);
+        scoreNextAt = 0;
+        if (guqinElement) guqinElement.pause();
+      }
       if (audioMaster) audioMaster.gain.setTargetAtTime(soundOn ? 0.72 : 0, audioCtx.currentTime, 0.12);
     }
 
@@ -1151,14 +1700,20 @@
       recordCtx.fillStyle = shade;
       recordCtx.fillRect(0, 0, rw, rh);
       if (coldOpen.classList.contains("show")) {
-        recordCtx.fillStyle = "rgba(0,0,0,.54)";
+        recordCtx.save();
+        recordCtx.globalAlpha = 0.72;
+        recordCtx.shadowColor = "rgba(0,0,0,.58)";
+        recordCtx.shadowBlur = 42;
+        recordCtx.drawImage(canvas, 90, 220, 540, 540);
+        recordCtx.restore();
+        recordCtx.fillStyle = "rgba(0,0,0,.46)";
         recordCtx.fillRect(0, 0, rw, rh);
         recordCtx.textAlign = "center";
         recordCtx.fillStyle = "rgba(201,132,90,.86)";
         recordCtx.font = '500 22px "Noto Serif SC", serif';
         recordCtx.fillText(coldIndex.textContent, rw / 2, 500);
         recordCtx.fillStyle = "rgba(246,240,228,.97)";
-        recordCtx.font = '500 40px "Noto Serif SC", serif';
+        recordCtx.font = '750 48px "Noto Serif SC", serif';
         const hookLines = wrapCanvasText(recordCtx, coldHook.textContent, 560);
         hookLines.forEach((line, index) => recordCtx.fillText(line, rw / 2, 590 + index * 68));
         const lineWidth = 220;
@@ -1168,13 +1723,54 @@
         hookRule.addColorStop(1, "rgba(201,132,90,0)");
         recordCtx.fillStyle = hookRule;
         recordCtx.fillRect(rw / 2 - lineWidth / 2, 780, lineWidth, 2);
+        if (!coldOpen.classList.contains("answer")) {
+          recordCtx.beginPath();
+          recordCtx.arc(rw / 2, 890, 45, 0, Math.PI * 2);
+          recordCtx.fillStyle = "rgba(8,9,10,.62)";
+          recordCtx.fill();
+          recordCtx.lineWidth = 3;
+          recordCtx.strokeStyle = "rgba(255,211,154,.82)";
+          recordCtx.stroke();
+          recordCtx.fillStyle = "#fff8e9";
+          recordCtx.font = '800 44px system-ui, sans-serif';
+          recordCtx.fillText(countdownValue.textContent, rw / 2, 905);
+          recordCtx.fillStyle = "rgba(255,220,173,.78)";
+          recordCtx.font = '700 17px system-ui, sans-serif';
+          recordCtx.fillText(countdownLabel.textContent, rw / 2, 970);
+        }
         return;
       }
       recordCtx.save();
       recordCtx.shadowColor = "rgba(0,0,0,.48)";
       recordCtx.shadowBlur = 36;
-      recordCtx.drawImage(canvas, 90, 220, 540, 540);
+      const isPunching = storyEl.classList.contains("cut-punch");
+      const glyphInset = isPunching ? 58 : 90;
+      const glyphSize = isPunching ? 604 : 540;
+      recordCtx.drawImage(canvas, glyphInset, isPunching ? 188 : 220, glyphSize, glyphSize);
       recordCtx.restore();
+      if (retentionBadge.classList.contains("show")) {
+        recordCtx.textAlign = "center";
+        recordCtx.font = '700 20px system-ui, sans-serif';
+        const badgeWidth = Math.min(530, recordCtx.measureText(retentionBadge.textContent).width + 54);
+        recordCtx.fillStyle = "rgba(9,10,12,.74)";
+        recordCtx.fillRect((rw - badgeWidth) / 2, 120, badgeWidth, 46);
+        recordCtx.fillStyle = "rgba(255,209,149,.96)";
+        recordCtx.fillText(retentionBadge.textContent, rw / 2, 151);
+      }
+      if (eraSlam.classList.contains("show")) {
+        recordCtx.fillStyle = "rgba(4,5,6,.34)";
+        recordCtx.fillRect(0, 250, rw, 270);
+        recordCtx.textAlign = "center";
+        recordCtx.fillStyle = "rgba(255,210,151,.92)";
+        recordCtx.font = '700 18px system-ui, sans-serif';
+        recordCtx.fillText(eraSlamIndex.textContent, rw / 2, 338);
+        recordCtx.fillStyle = "#fff8e9";
+        recordCtx.shadowColor = "rgba(201,132,90,.68)";
+        recordCtx.shadowBlur = 34;
+        recordCtx.font = '800 88px "Noto Serif SC", serif';
+        recordCtx.fillText(eraSlamText.textContent, rw / 2, 448);
+        recordCtx.shadowBlur = 0;
+      }
       recordCtx.textAlign = "center";
       recordCtx.fillStyle = "rgba(232,210,170,.78)";
       recordCtx.font = '500 24px "Noto Serif SC", serif';
@@ -1281,6 +1877,114 @@
       return Math.max(0, Math.min(1, amount));
     }
 
+    function drawVolumetricLight(w, h, t, scene, motion) {
+      const lightX = w * (0.5 + Math.sin(t * 0.17 + (motion === "moon" ? 1.8 : 0)) * 0.2);
+      const lightY = h * (motion === "moon" || motion === "rain" ? 0.13 : 0.2);
+      wctx.save();
+      wctx.globalCompositeOperation = "screen";
+      for (let i = 0; i < 5; i++) {
+        const drift = Math.sin(t * 0.11 + i * 1.73) * w * 0.08;
+        const width = w * (0.12 + i * 0.025) * (1 + rhythmPulse * 0.16);
+        const ray = wctx.createLinearGradient(lightX, lightY, lightX + drift, h * 0.88);
+        ray.addColorStop(0, rgb(scene.disc, 0.075 + rhythmPulse * 0.035));
+        ray.addColorStop(0.48, rgb(scene.haze, 0.025 + beatEnergy * 0.02));
+        ray.addColorStop(1, "rgba(0,0,0,0)");
+        wctx.fillStyle = ray;
+        wctx.beginPath();
+        wctx.moveTo(lightX - 3, lightY);
+        wctx.lineTo(lightX + drift - width, h * 0.92);
+        wctx.lineTo(lightX + drift + width, h * 0.92);
+        wctx.closePath();
+        wctx.fill();
+      }
+
+      const focusX = w * 0.5 + Math.sin(t * 0.23) * w * 0.045;
+      const focus = wctx.createRadialGradient(focusX, h * 0.43, 10, focusX, h * 0.43, Math.max(w, h) * 0.34);
+      focus.addColorStop(0, rgb(scene.disc, 0.065 + rhythmPulse * 0.065));
+      focus.addColorStop(0.42, rgb(scene.haze, 0.018 + rhythmPulse * 0.02));
+      focus.addColorStop(1, "rgba(0,0,0,0)");
+      wctx.fillStyle = focus;
+      wctx.fillRect(0, 0, w, h);
+      wctx.restore();
+
+      wctx.save();
+      wctx.globalCompositeOperation = "multiply";
+      const shade = wctx.createLinearGradient(0, h * 0.12, w, h * 0.92);
+      shade.addColorStop(0, "rgba(0,0,0,.3)");
+      shade.addColorStop(Math.max(0.2, Math.min(0.76, lightX / w)), "rgba(0,0,0,0)");
+      shade.addColorStop(1, "rgba(0,0,0,.38)");
+      wctx.fillStyle = shade;
+      wctx.fillRect(0, 0, w, h);
+      wctx.restore();
+    }
+
+    function drawDepthStage(w, h, t, scene) {
+      const horizon = h * (0.59 + Math.sin(t * 0.09) * 0.008);
+      const vanishX = w * 0.5 + Math.sin(t * 0.12) * w * 0.035;
+      wctx.save();
+      wctx.globalCompositeOperation = "multiply";
+      const floorShade = wctx.createLinearGradient(0, horizon, 0, h);
+      floorShade.addColorStop(0, "rgba(0,0,0,0)");
+      floorShade.addColorStop(0.38, "rgba(0,0,0,.12)");
+      floorShade.addColorStop(1, "rgba(0,0,0,.5)");
+      wctx.fillStyle = floorShade;
+      wctx.fillRect(0, horizon, w, h - horizon);
+
+      for (let i = -5; i <= 5; i++) {
+        const baseX = w * 0.5 + i * w * 0.12;
+        wctx.strokeStyle = `rgba(3,7,7,${0.025 + Math.abs(i) * 0.004})`;
+        wctx.lineWidth = 0.7;
+        wctx.beginPath();
+        wctx.moveTo(vanishX, horizon);
+        wctx.lineTo(baseX, h * 1.08);
+        wctx.stroke();
+      }
+      for (let i = 1; i <= 7; i++) {
+        const depth = i / 7;
+        const y = horizon + Math.pow(depth, 2.05) * (h - horizon);
+        wctx.strokeStyle = `rgba(5,9,8,${0.018 + depth * 0.055})`;
+        wctx.lineWidth = 0.6 + depth * 0.7;
+        wctx.beginPath();
+        wctx.ellipse(vanishX, y, w * (0.1 + depth * 0.62), 4 + depth * 23, 0, Math.PI, Math.PI * 2);
+        wctx.stroke();
+      }
+      wctx.restore();
+
+      wctx.save();
+      wctx.globalCompositeOperation = "screen";
+      const stageGlow = wctx.createRadialGradient(vanishX, h * 0.69, 0, vanishX, h * 0.69, w * 0.52);
+      stageGlow.addColorStop(0, rgb(scene.haze, 0.07 + rhythmPulse * 0.04));
+      stageGlow.addColorStop(0.36, rgb(scene.haze, 0.022));
+      stageGlow.addColorStop(1, "rgba(0,0,0,0)");
+      wctx.fillStyle = stageGlow;
+      wctx.save();
+      wctx.translate(vanishX, h * 0.69);
+      wctx.scale(1, 0.23);
+      wctx.translate(-vanishX, -h * 0.69);
+      wctx.fillRect(vanishX - w * 0.55, h * 0.69 - w * 0.55, w * 1.1, w * 1.1);
+      wctx.restore();
+      wctx.restore();
+    }
+
+    function drawForegroundDepth(w, h, t, scene) {
+      wctx.save();
+      wctx.globalCompositeOperation = "screen";
+      for (let i = 0; i < 8; i++) {
+        const bit = weatherBits[weatherBits.length - 1 - i];
+        const depth = 0.45 + bit.z * 0.8;
+        const x = ((bit.x * w + t * (4 + i % 3)) % (w + 160)) - 80;
+        const y = h * (0.12 + bit.y * 0.78) + Math.sin(t * 0.35 + bit.p) * 18;
+        const radius = 8 + depth * depth * 25;
+        const bokeh = wctx.createRadialGradient(x, y, 0, x, y, radius);
+        bokeh.addColorStop(0, rgb(scene.disc, 0.028 + rhythmPulse * 0.018));
+        bokeh.addColorStop(0.42, rgb(scene.haze, 0.015));
+        bokeh.addColorStop(1, "rgba(0,0,0,0)");
+        wctx.fillStyle = bokeh;
+        wctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+      }
+      wctx.restore();
+    }
+
     function paintWorld(t) {
       const w = window.innerWidth;
       const h = window.innerHeight;
@@ -1292,9 +1996,17 @@
       ), motion);
       beatEnergy += (beatTarget - beatEnergy) * 0.025;
       impactFlash *= 0.93;
+      const beatClock = audioCtx ? audioCtx.currentTime : t;
+      const beatPhase = (beatClock * 108 / 60) % 1;
+      rhythmPulse = Math.exp(-beatPhase * 7.5) * beatEnergy;
       const kenX = Math.sin(t * (0.052 + beatEnergy * 0.025)) * (7 + beatEnergy * 8);
       const kenY = Math.cos(t * (0.044 + beatEnergy * 0.018)) * (4 + beatEnergy * 5);
-      const kenZ = 1.06 + beatEnergy * 0.018 + Math.sin(t * 0.045) * (0.008 + beatEnergy * 0.01);
+      const kenZ = 1.06 + beatEnergy * 0.018 + rhythmPulse * 0.008 + Math.sin(t * 0.045) * (0.008 + beatEnergy * 0.01);
+      const tiltX = -1.6 + Math.sin(t * 0.31) * (1.2 + beatEnergy * 0.7);
+      const tiltY = Math.cos(t * 0.27) * (2.4 + beatEnergy * 1.8);
+      glyphFrame.style.setProperty("--tilt-x", `${tiltX.toFixed(3)}deg`);
+      glyphFrame.style.setProperty("--tilt-y", `${tiltY.toFixed(3)}deg`);
+      glyphFrame.style.setProperty("--depth-z", `${(8 + rhythmPulse * 14).toFixed(2)}px`);
 
       wctx.setTransform(1, 0, 0, 1, 0, 0);
       wctx.globalAlpha = 1;
@@ -1319,6 +2031,8 @@
 
       drawSkyDisc(w, h, t, scene, motion);
       drawClouds(w, h, t, scene);
+      drawVolumetricLight(w, h, t, scene, motion);
+      drawDepthStage(w, h, t, scene);
       if (motion === "mountain") drawRidges(w, h, scene, t);
       const rainAmount = weatherMix(scene, "rain");
       if (motion === "water" || rainAmount > 0.01) {
@@ -1328,6 +2042,7 @@
       wctx.restore();
 
       drawWeather(w, h, t, scene, motion);
+      drawForegroundDepth(w, h, t, scene);
       if (motion === "fire" && scene.weather !== "ember") {
         paintWeatherKind("ember", 0.4, w, h, t, scene, motion);
       }
@@ -1584,14 +2299,28 @@
       } else if (textMatch) {
         const ch = textMatch[1];
         const isClerical = /scale\(1\.08/.test(form.body);
+        const isXingkai = /data-style=["']xingkai["']/i.test(form.body);
         octx.fillStyle = "#e6dfd0";
         octx.textAlign = "center";
         octx.textBaseline = "middle";
-        octx.font = `500 ${isClerical ? 200 : 216}px "Noto Serif SC", serif`;
+        if (isXingkai) {
+          await document.fonts.load('226px "MasaGyousho"', ch).catch(() => []);
+        }
+        octx.font = isXingkai
+          ? `500 226px "MasaGyousho", "STXingkai", "华文行楷", "Xingkai SC", "KaiTi", "楷体", serif`
+          : `500 ${isClerical ? 200 : 216}px "Noto Serif SC", serif`;
         if (isClerical) {
           octx.save();
           octx.translate(SIZE / 2, SIZE / 2 + 6);
           octx.scale(1.08, 0.92);
+          octx.fillText(ch, 0, 0);
+          octx.restore();
+        } else if (isXingkai) {
+          octx.save();
+          octx.translate(SIZE / 2, SIZE / 2 + 9);
+          octx.transform(1, -0.035, -0.11, 1, 0, 0);
+          octx.rotate(-0.028);
+          octx.scale(1.04, 0.98);
           octx.fillText(ch, 0, 0);
           octx.restore();
         } else {
@@ -1713,6 +2442,169 @@
       return x * x * (3 - 2 * x);
     }
 
+    function heritageGuide(motion) {
+      if (["tree", "rain", "fire", "home", "dawn"].includes(motion)) {
+        return { start: [190, 54], control: [165, 188], end: [205, 332] };
+      }
+      if (["swim", "river", "sail", "moon"].includes(motion)) {
+        return { start: [48, 205], control: [190, 135], end: [336, 215] };
+      }
+      if (["gallop", "walk", "prowl", "cart", "elephant"].includes(motion)) {
+        return { start: [52, 242], control: [186, 190], end: [334, 230] };
+      }
+      if (["mountain", "dragon", "fly"].includes(motion)) {
+        return { start: [62, 286], control: [182, 86], end: [326, 236] };
+      }
+      return { start: [58, 174], control: [185, 224], end: [330, 166] };
+    }
+
+    function drawHeritageStroke(sheet, motion, progress, phase, strength = 1) {
+      if (!sheet || strength <= 0.01) return;
+      const guide = heritageGuide(motion);
+      const [sx, sy] = guide.start;
+      const [cx, cy] = guide.control;
+      const [ex, ey] = guide.end;
+      heritageCtx.setTransform(1, 0, 0, 1, 0, 0);
+      heritageCtx.globalCompositeOperation = "source-over";
+      heritageCtx.clearRect(0, 0, SIZE, SIZE);
+      heritageCtx.drawImage(sheet, 0, 0);
+      heritageCtx.globalCompositeOperation = "source-in";
+      const sweep = (progress * 0.82 + 0.12) % 1;
+      const headX = sx + (ex - sx) * sweep;
+      const headY = sy + (ey - sy) * sweep;
+      const gold = heritageCtx.createRadialGradient(headX, headY, 2, headX, headY, 118);
+      gold.addColorStop(0, "rgba(255,248,205,1)");
+      gold.addColorStop(0.24, "rgba(255,193,104,.94)");
+      gold.addColorStop(0.72, "rgba(211,126,63,.54)");
+      gold.addColorStop(1, "rgba(178,86,38,.08)");
+      heritageCtx.strokeStyle = gold;
+      heritageCtx.lineWidth = 17;
+      heritageCtx.lineCap = "round";
+      heritageCtx.beginPath();
+      heritageCtx.moveTo(sx, sy);
+      heritageCtx.quadraticCurveTo(cx, cy, ex, ey);
+      heritageCtx.stroke();
+      heritageCtx.globalCompositeOperation = "source-over";
+
+      const pulse = 0.72 + Math.sin(phase * 5.4) * 0.12;
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.globalAlpha = strength * pulse;
+      ctx.shadowColor = "rgba(255,164,76,.92)";
+      ctx.shadowBlur = 12 + strength * 16;
+      ctx.drawImage(heritageCanvas, 0, 0);
+      ctx.restore();
+    }
+
+    function drawCarouselCollapse(t, phase) {
+      if (glyphSheets.length < 5 || t < 0.42) return;
+      const collapse = smoothstep(0.42, 0.94, t);
+      const visibility = Math.sin(Math.PI * collapse) * (1 - smoothstep(0.86, 1, collapse));
+      if (visibility < 0.01) return;
+      const radius = 142 * (1 - collapse) + 8;
+      const rotation = phase * 0.16 + collapse * Math.PI * 0.72;
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.lineCap = "round";
+      for (let i = 0; i < 4; i++) {
+        const angle = -Math.PI * 0.78 + i * (Math.PI * 1.56 / 3) + rotation;
+        const depth = 0.5 + Math.sin(angle) * 0.5;
+        const x = SIZE / 2 + Math.cos(angle) * radius;
+        const y = SIZE / 2 + 18 + Math.sin(angle) * radius * 0.34;
+        const size = 50 + depth * 23 + collapse * 10;
+        const alpha = visibility * (0.1 + depth * 0.12);
+
+        ctx.strokeStyle = `rgba(220,174,118,${alpha * 0.72})`;
+        ctx.lineWidth = 0.7 + collapse * 1.1;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.quadraticCurveTo(
+          SIZE / 2 + Math.cos(angle + 0.7) * radius * 0.42,
+          SIZE / 2 + Math.sin(angle + 0.7) * radius * 0.16,
+          SIZE / 2,
+          SIZE / 2
+        );
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate((x < SIZE / 2 ? 1 : -1) * (1 - depth) * 0.13);
+        ctx.scale(0.54 + depth * 0.46, 1);
+        ctx.globalAlpha = alpha;
+        ctx.filter = `blur(${(1 - depth) * 1.8}px)`;
+        ctx.shadowColor = i % 2 ? "rgba(101,190,201,.92)" : "rgba(233,137,82,.9)";
+        ctx.shadowBlur = 12 + collapse * 18;
+        ctx.drawImage(glyphSheets[i], -size / 2, -size / 2, size, size);
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
+    function drawTimeCarousel(fromIdx, toIdx, t, phase) {
+      if (glyphSheets.length < 5) return;
+      const enter = smoothstep(0.05, 0.2, t);
+      const leave = 1 - smoothstep(0.74, 0.95, t);
+      const collapse = toIdx === 4 ? smoothstep(0.42, 0.76, t) : 0;
+      const stageStrength = [0, 0.28, 0.5, 0.74, 1][toIdx] || 0;
+      const strength = enter * leave * stageStrength * (1 - collapse * 0.78);
+      const centerIndex = fromIdx + (toIdx - fromIdx) * easeInOutQuint(t);
+
+      if (strength > 0.01) {
+        let carouselItems = [];
+        for (let i = 0; i < glyphSheets.length; i++) {
+          const slot = i - centerIndex;
+          if (Math.abs(slot) > 2.35 || Math.abs(slot) < 0.26) continue;
+          const side = Math.tanh(slot * 0.88);
+          const depth = Math.exp(-Math.abs(slot) * 0.58);
+          carouselItems.push({ i, slot, side, depth });
+        }
+        const itemLimit = [0, 1, 3, 4, 5][toIdx] || 1;
+        carouselItems = carouselItems
+          .sort((a, b) => Math.abs(a.slot) - Math.abs(b.slot))
+          .slice(0, itemLimit);
+        carouselItems.sort((a, b) => a.depth - b.depth);
+
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+        ctx.strokeStyle = `rgba(218,180,129,${0.1 * strength})`;
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.ellipse(SIZE / 2, SIZE / 2 + 42, 166, 57, -0.02, Math.PI * 1.05, Math.PI * 1.95);
+        ctx.stroke();
+        for (let i = 0; i < 9; i++) {
+          const angle = Math.PI * (1.08 + i * 0.105);
+          const x = SIZE / 2 + Math.cos(angle) * 166;
+          const y = SIZE / 2 + 42 + Math.sin(angle) * 57;
+          ctx.fillStyle = `rgba(123,186,196,${strength * (i === 4 ? 0.22 : 0.08)})`;
+          ctx.beginPath();
+          ctx.arc(x, y, i === 4 ? 2.1 : 1.15, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        for (const item of carouselItems) {
+          const x = SIZE / 2 + Math.sign(item.side) * (106 + Math.abs(item.side) * 58);
+          const y = SIZE / 2 + 24 + (1 - item.depth) * 42;
+          const size = 62 + item.depth * 45;
+          const widthScale = 0.44 + item.depth * 0.56;
+          const alpha = strength * (0.07 + item.depth * 0.14);
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(-item.side * (1 - item.depth) * 0.12);
+          ctx.scale(widthScale, 1);
+          ctx.globalAlpha = alpha;
+          ctx.filter = `blur(${(1 - item.depth) * 2.8}px)`;
+          ctx.shadowColor = item.i % 2 ? "rgba(92,178,201,.88)" : "rgba(229,142,83,.9)";
+          ctx.shadowBlur = 10 + item.depth * 16;
+          ctx.drawImage(glyphSheets[item.i], -size / 2, -size / 2, size, size);
+          ctx.restore();
+        }
+        ctx.restore();
+      }
+
+      if (toIdx === 4) drawCarouselCollapse(t, phase);
+    }
+
     function drawMorphFrame(fromField, toField, fromIdx, toIdx, t = 1, phase = 0) {
       const eased = easeInOutQuint(t);
       const pixels = morphImage.data;
@@ -1762,6 +2654,20 @@
       const amp = fromAmp + (toAmp - fromAmp) * eased;
       const era = fromIdx + (toIdx - fromIdx) * eased;
       ctx.clearRect(0, 0, SIZE, SIZE);
+      drawTimeCarousel(fromIdx, toIdx, t, phase);
+      const ruptureWeight = [0.16, 0.18, 0.3, 1, 0.42][toIdx] || 0.16;
+      const rupture = Math.sin(Math.PI * t) * ruptureWeight;
+      if (rupture > 0.02) {
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+        ctx.globalAlpha = 0.11 * rupture;
+        ctx.shadowBlur = 20 * rupture;
+        ctx.shadowColor = toIdx === 3 ? "rgba(255,116,72,0.9)" : "rgba(125,190,204,0.72)";
+        ctx.drawImage(morphCanvas, -14 * rupture, 4 * rupture);
+        ctx.shadowColor = "rgba(88,154,214,0.86)";
+        ctx.drawImage(morphCanvas, 13 * rupture, -3 * rupture);
+        ctx.restore();
+      }
       ctx.save();
       const breath = Math.sin(Math.PI * t);
       ctx.translate(SIZE / 2, SIZE / 2);
@@ -1769,7 +2675,92 @@
       ctx.translate(-SIZE / 2, -SIZE / 2);
       drawSemanticLayer(morphCanvas, motion, phase, amp, era);
       ctx.restore();
+      const heritageStrength = Math.sin(Math.PI * t) * (0.62 + toIdx * 0.1);
+      drawHeritageStroke(morphCanvas, motion, t, phase, heritageStrength);
       drawExtras(motion, phase, amp, era);
+      if (toIdx === 3 && rupture > 0.08) drawMorphFractures(rupture, phase);
+      if (toIdx === 4 && t > 0.76) drawEvolutionEchoes(phase, smoothstep(0.76, 1, t));
+    }
+
+    function drawMorphFractures(strength, phase) {
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.lineWidth = 0.7;
+      for (let i = 0; i < 4; i++) {
+        const y = SIZE * (0.27 + i * 0.15) + Math.sin(phase * 9 + i) * 5;
+        const offset = Math.sin(phase * 6.5 + i * 2.1) * 13 * strength;
+        ctx.strokeStyle = i % 2
+          ? `rgba(100,178,210,${0.16 * strength})`
+          : `rgba(255,142,86,${0.2 * strength})`;
+        ctx.beginPath();
+        ctx.moveTo(28 + offset, y);
+        ctx.lineTo(SIZE - 30 - offset, y + (i % 2 ? 6 : -5));
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawEvolutionEchoes(phase, strength = 1) {
+      if (glyphSheets.length < 4 || strength <= 0) return;
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      const y = 38 + Math.sin(phase * 1.2) * 2;
+      for (let i = 0; i < 4; i++) {
+        const size = 66 + Math.sin(phase * 1.4 + i) * 3;
+        const x = 46 + i * 89;
+        ctx.globalAlpha = (0.1 + i * 0.025) * strength;
+        ctx.shadowColor = i % 2 ? "rgba(120,181,168,.7)" : "rgba(223,149,91,.68)";
+        ctx.shadowBlur = 12;
+        ctx.drawImage(glyphSheets[i], x - size / 2, y - size / 2, size, size);
+        if (i < 3) {
+          ctx.strokeStyle = `rgba(230,210,175,${0.1 * strength})`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(x + 18, y);
+          ctx.lineTo(x + 71, y);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    function drawModernSeal(age) {
+      if (age < 0) return;
+      const reveal = smoothstep(0, 0.22, age);
+      const strike = Math.max(0, 1 - age / 0.48);
+      const scale = 1 + strike * 1.15;
+      ctx.save();
+      ctx.translate(302, 292);
+      ctx.rotate(-0.065);
+      ctx.scale(scale, scale);
+      ctx.globalAlpha = reveal;
+      ctx.shadowColor = `rgba(185,39,28,${0.55 + strike * 0.35})`;
+      ctx.shadowBlur = 8 + strike * 24;
+      ctx.strokeStyle = "rgba(194,49,35,.88)";
+      ctx.fillStyle = "rgba(175,38,28,.2)";
+      ctx.lineWidth = 3.2;
+      ctx.strokeRect(-22, -22, 44, 44);
+      ctx.fillRect(-20, -20, 40, 40);
+      ctx.fillStyle = "rgba(232,210,170,.92)";
+      ctx.font = '500 26px "MasaGyousho", "STXingkai", "华文行楷", "KaiTi", serif';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("今", 0, 1);
+      ctx.restore();
+
+      if (strike > 0.03) {
+        ctx.save();
+        ctx.fillStyle = "rgba(194,49,35,.62)";
+        for (let i = 0; i < 9; i++) {
+          const angle = i * 2.399 + age;
+          const distance = (1 - strike) * (18 + i * 2.8);
+          ctx.globalAlpha = strike * (0.18 + (i % 3) * 0.09);
+          ctx.beginPath();
+          ctx.arc(302 + Math.cos(angle) * distance, 292 + Math.sin(angle) * distance, 0.8 + (i % 2), 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
     }
 
     function drawBitmap(i) {
@@ -1996,6 +2987,87 @@
       }
     }
 
+    function drawGlyphUnderlight(sheet, t, amp, era) {
+      shadowCtx.setTransform(1, 0, 0, 1, 0, 0);
+      shadowCtx.globalCompositeOperation = "source-over";
+      shadowCtx.clearRect(0, 0, SIZE, SIZE);
+      shadowCtx.drawImage(sheet, 0, 0);
+      shadowCtx.globalCompositeOperation = "source-in";
+      shadowCtx.fillStyle = era >= 4 ? "rgba(58,25,17,.98)" : "rgba(8,25,25,.98)";
+      shadowCtx.fillRect(0, 0, SIZE, SIZE);
+      shadowCtx.globalCompositeOperation = "source-over";
+
+      const extrusionDepth = 5 + era * 0.85 + beatEnergy * 2.4;
+      const extrusionX = -0.72 + Math.sin(t * 0.17) * 0.24;
+      const extrusionY = 0.9 + Math.cos(t * 0.13) * 0.18;
+      ctx.save();
+      ctx.globalCompositeOperation = "source-over";
+      for (let layer = Math.ceil(extrusionDepth); layer >= 1; layer--) {
+        const depth = layer / extrusionDepth;
+        ctx.globalAlpha = 0.11 + depth * 0.08;
+        ctx.drawImage(shadowCanvas, extrusionX * layer, extrusionY * layer);
+      }
+      ctx.restore();
+
+      const castX = 9 + Math.sin(t * 0.17) * 8;
+      const castY = 13 + Math.cos(t * 0.13) * 5;
+      ctx.save();
+      ctx.globalAlpha = 0.3 + beatEnergy * 0.16;
+      ctx.filter = `blur(${7 + era * 0.7}px)`;
+      ctx.transform(1, 0.045, -0.08, 0.9, castX, castY);
+      ctx.drawImage(shadowCanvas, 0, 0);
+      ctx.restore();
+
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.globalAlpha = 0.06 + amp * 0.07 + rhythmPulse * 0.09;
+      ctx.filter = `blur(${8 + rhythmPulse * 5}px)`;
+      ctx.shadowColor = era >= 4 ? "rgba(255,183,105,.82)" : "rgba(132,190,184,.62)";
+      ctx.shadowBlur = 22 + rhythmPulse * 18;
+      ctx.drawImage(sheet, -2, -3);
+      ctx.restore();
+    }
+
+    function drawGlyphLightSweep(sheet, t, amp, era) {
+      lightCtx.setTransform(1, 0, 0, 1, 0, 0);
+      lightCtx.globalCompositeOperation = "source-over";
+      lightCtx.clearRect(0, 0, SIZE, SIZE);
+      lightCtx.drawImage(sheet, 0, 0);
+      lightCtx.globalCompositeOperation = "source-in";
+      const sweepX = ((t * (54 + beatEnergy * 36) + era * 73) % (SIZE * 1.8)) - SIZE * 0.4;
+      const sheen = lightCtx.createLinearGradient(sweepX - 72, SIZE, sweepX + 72, 0);
+      sheen.addColorStop(0, "rgba(255,255,255,0)");
+      sheen.addColorStop(0.38, "rgba(255,225,176,.08)");
+      sheen.addColorStop(0.5, `rgba(255,248,222,${0.48 + rhythmPulse * 0.28})`);
+      sheen.addColorStop(0.62, "rgba(122,190,183,.12)");
+      sheen.addColorStop(1, "rgba(255,255,255,0)");
+      lightCtx.fillStyle = sheen;
+      lightCtx.fillRect(0, 0, SIZE, SIZE);
+      lightCtx.globalCompositeOperation = "source-over";
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.globalAlpha = 0.44 + amp * 0.18;
+      ctx.drawImage(lightCanvas, 0, 0);
+      ctx.restore();
+    }
+
+    function drawRhythmHalo(era) {
+      if (rhythmPulse < 0.012) return;
+      const radius = 86 + (1 - Math.min(1, rhythmPulse)) * 42 + era * 2;
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.strokeStyle = era >= 4
+        ? `rgba(231,154,91,${rhythmPulse * 0.24})`
+        : `rgba(123,181,174,${rhythmPulse * 0.19})`;
+      ctx.lineWidth = 0.8 + rhythmPulse * 1.7;
+      ctx.shadowColor = era >= 4 ? "rgba(231,154,91,.72)" : "rgba(123,181,174,.62)";
+      ctx.shadowBlur = 12 + rhythmPulse * 18;
+      ctx.beginPath();
+      ctx.arc(SIZE / 2, SIZE / 2, radius, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
     function drawSemanticLayer(sheet, motion, t, amp, era) {
       ctx.save();
       ctx.translate(SIZE / 2, SIZE / 2);
@@ -2035,7 +3107,10 @@
       }
 
       ctx.translate(-SIZE / 2, -SIZE / 2);
+      drawRhythmHalo(era);
+      drawGlyphUnderlight(sheet, t, amp, era);
       drawSemanticGlyph(sheet, motion, t, amp, era);
+      drawGlyphLightSweep(sheet, t, amp, era);
       ctx.restore();
     }
 
@@ -2049,7 +3124,15 @@
       const motion = current.motion || "pulse";
       ctx.clearRect(0, 0, SIZE, SIZE);
       drawSemanticLayer(sheet, motion, t, amp, i);
+      if (performance.now() < heritageHoldUntil) {
+        const remaining = Math.max(0, (heritageHoldUntil - performance.now()) / 820);
+        drawHeritageStroke(sheet, motion, 1 - remaining * 0.18, t, smoothstep(0, 0.45, remaining));
+      }
       drawExtras(motion, t, amp, i);
+      if (i === 4) {
+        drawEvolutionEchoes(t, 0.9);
+        drawModernSeal(chapterRevealEpoch ? (performance.now() - chapterRevealEpoch) / 1000 : -1);
+      }
     }
 
     function drawExtras(motion, t, amp, i) {
@@ -2233,6 +3316,7 @@
           else {
             worldBlend = 1;
             glyphFrame.classList.remove("morphing");
+            heritageHoldUntil = performance.now() + 820;
             startIdle(toIdx);
             resolve();
           }
@@ -2259,19 +3343,86 @@
       }
     }
 
+    function chapterCaption(story, index) {
+      const source = index === story.texts.length - 1 && story.payoff
+        ? story.payoff
+        : story.texts[index] || "";
+      const sentences = source
+        .replace(/\s+/g, "")
+        .split(/(?<=[。！？!?；;])/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+      let punch = sentences[0] || source;
+      if (punch.length > 28) {
+        const clauses = punch.split(/(?<=[，、：:—])/).filter(Boolean);
+        punch = clauses[0] || punch;
+        if (clauses[1] && punch.length + clauses[1].length <= 26) punch += clauses[1];
+      }
+      return punch.length > 28 ? `${punch.slice(0, 27)}…` : punch;
+    }
+
+    const MOTION_KEYWORDS = {
+      swim: ["鱼", "游", "水", "尾"],
+      gallop: ["马", "奔", "跑", "蹄"],
+      cart: ["车", "轮", "轴", "转"],
+      rain: ["雨", "滴", "落", "云"],
+      fire: ["火", "燃", "光", "焰"],
+      river: ["河", "川", "水", "流"],
+      dragon: ["龙", "盘", "鳞", "飞"],
+      moon: ["月", "夜", "缺", "圆"],
+      sun: ["日", "太阳", "光", "时间"],
+      tree: ["木", "树", "根", "枝"],
+      mountain: ["山", "峰", "岩", "高"],
+      walk: ["走", "步", "路", "行"],
+      elephant: ["象", "鼻", "足", "大"],
+    };
+
+    function captionHotIndexes(text) {
+      const characters = [...text];
+      const hot = new Set();
+      const quote = text.match(/「([^」]{1,5})」/)?.[1];
+      const candidates = [
+        quote,
+        current?.meaning,
+        current?.glyph,
+        ...(MOTION_KEYWORDS[current?.motion] || []),
+        "同一笔",
+        "三千年",
+        "第一次",
+        "毛笔",
+        "青铜",
+        "今天",
+      ].filter(Boolean).sort((a, b) => b.length - a.length);
+      let matchedTerms = 0;
+      for (const candidate of candidates) {
+        const start = text.indexOf(candidate);
+        if (start < 0) continue;
+        const termLength = [...candidate].length;
+        const overlaps = Array.from({ length: termLength }, (_, offset) => start + offset).some((index) => hot.has(index));
+        if (overlaps) continue;
+        for (let offset = 0; offset < termLength; offset++) hot.add(start + offset);
+        matchedTerms += 1;
+        if (matchedTerms >= 2) break;
+      }
+      return { characters, hot };
+    }
+
     function typeText(text) {
       clearInterval(typing);
       lineEl.innerHTML = "";
       const fragment = document.createDocumentFragment();
-      [...text].forEach((character, index) => {
+      const { characters, hot } = captionHotIndexes(text);
+      let hotOrder = 0;
+      characters.forEach((character, index) => {
         const span = document.createElement("span");
-        span.className = "char";
+        const isHot = hot.has(index) && !/[，。！？!?；;、]/.test(character);
+        span.className = `char${isHot ? " hot" : ""}`;
         span.textContent = character;
-        span.style.animationDelay = `${index * 22}ms`;
+        if (isHot) span.style.animationDelay = `${hotOrder++ * 70}ms`;
         fragment.appendChild(span);
       });
       lineEl.appendChild(fragment);
-      return wait(Math.min(1450, 620 + text.length * 22));
+      return wait(760);
     }
 
     function wait(ms) {
@@ -2286,46 +3437,101 @@
       });
     }
 
+    async function runGuessCountdown(token) {
+      coldOpen.classList.remove("answer");
+      guessCountdown.classList.remove("final");
+      for (const value of [3, 2, 1]) {
+        if (token !== playToken) return false;
+        countdownValue.textContent = String(value);
+        restartAnimation(guessCountdown, "pop");
+        playCountdownTick(value);
+        await wait(170);
+      }
+      if (token !== playToken) return false;
+      countdownValue.textContent = "?";
+      guessCountdown.classList.add("final");
+      restartAnimation(guessCountdown, "pop");
+      playCountdownTick("?");
+      impactFlash = Math.max(impactFlash, 0.38);
+      await wait(150);
+      return token === playToken;
+    }
+
     function setDots() {
       dotsEl.innerHTML = current.texts
         .map((_, i) => `<span class="dot${i === chapter ? " on" : ""}"></span>`)
         .join("");
     }
 
+    function nextGlyphPrompt() {
+      const index = Math.max(0, STORIES.indexOf(current));
+      const first = STORIES[(index + 1) % STORIES.length]?.glyph || "龙";
+      const second = STORIES[(index + 2) % STORIES.length]?.glyph || "龟";
+      return `下一个拆「${first}」还是「${second}」？`;
+    }
+
+    async function loopBackToOrigin(token) {
+      coldOpen.classList.remove("show");
+      await wait(180);
+      if (token !== playToken || !current) return false;
+      chapterRevealEpoch = 0;
+      worldFrom = 4;
+      worldTo = 0;
+      worldBlend = 0;
+      if (musicBus && audioCtx && soundOn) musicBus.gain.setTargetAtTime(0.24, audioCtx.currentTime, 0.12);
+      await morphBetween(4, 0, 760);
+      if (token !== playToken || !current) return false;
+      coldOpen.classList.remove("answer");
+      coldIndex.textContent = "再看第一笔 · 循环已经开始";
+      coldHook.textContent = "这个字，三千年前是活的。";
+      countdownValue.textContent = "?";
+      countdownLabel.textContent = "再猜一次";
+      coldOpen.classList.add("show");
+      await wait(220);
+      return token === playToken;
+    }
+
     async function showChapter(i, { morphFrom } = {}) {
       if (!current || i < 0 || i >= current.texts.length) return;
+      const token = playToken;
       chapter = i;
       setNarrativeBeat(i);
+      if (i === 4 && morphFrom != null && !await holdBeforeFinalReveal(token)) return;
+      triggerTransitionImpact(i);
       chapterEl.textContent = `${String(i + 1).padStart(2, "0")} / ${String(current.texts.length).padStart(2, "0")}`;
       setProgress(i, current.texts.length);
       setDots();
       eraEl.classList.remove("show");
       storyCopy.classList.add("changing");
+      const caption = chapterCaption(current, i);
+      const emotionalHold = Math.min(2200, 1300 + caption.length * 30);
+      ensureAudio();
+      if (guqinElement) guqinElement.playbackRate = [0.9, 0.93, 0.96, 0.98, 1][i] || 0.96;
+      playCeremonialGong([0.24, 0.34, 0.5, 0.74, 1.18][i] || 0.3);
+      playTone(260 + i * 54, 0.12);
+      let narration = i === 4 ? Promise.resolve() : speak(caption);
       await wait(morphFrom != null ? 40 : 60);
       if (morphFrom != null) {
         worldFrom = morphFrom;
         worldTo = i;
         worldBlend = 0;
-        await morphBetween(morphFrom, i, MORPH_MS);
+        await morphBetween(morphFrom, i, MORPH_DURATIONS[i] || MORPH_MS);
       } else {
         worldFrom = i;
         worldTo = i;
         worldBlend = 1;
         startIdle(i);
       }
-      const actNames = ["诞生", "扩张", "定形", "裂变", "回响"];
+      chapterRevealEpoch = i === 4 ? performance.now() : 0;
+      if (i === 4) narration = speak(caption);
+      const actNames = ["像画", "铸形", "收束", "断裂", "行楷"];
       eraEl.textContent = `${ERAS[i]} · ${actNames[i]}`;
       lineEl.innerHTML = "";
       storyCopy.classList.remove("changing");
       requestAnimationFrame(() => eraEl.classList.add("show"));
-      ensureAudio();
-      if (guqinElement) guqinElement.playbackRate = [0.9, 0.93, 0.96, 0.98, 1][i] || 0.96;
-      playCeremonialGong(i === 0 ? 0.62 : i === 3 ? 1 : 0.36);
-      playTone(260 + i * 54, 0.12);
-      const emotionalHold = Math.min(4200, 2500 + current.texts[i].length * 28);
       await Promise.all([
-        typeText(current.texts[i]),
-        speak(current.texts[i]),
+        typeText(caption),
+        Promise.race([narration, wait(5200)]),
         wait(emotionalHold),
       ]);
     }
@@ -2336,21 +3542,36 @@
       paused = false;
       btnPlay.textContent = "暂停";
       btnPlay.setAttribute("aria-label", "暂停播放");
-      hintTap.textContent = "演化中…";
+      hintTap.textContent = "别眨眼 · 下一形态";
       hintTap.classList.add("show");
+      clearViralEffects();
+      chapterRevealEpoch = 0;
+      startAcousticScore();
+      const storyNumber = STORIES.indexOf(current) + 1;
+      coldIndex.textContent = `先看结局 · 第 ${String(storyNumber).padStart(2, "0")} 个字`;
+      coldHook.textContent = "这个字，三千年前是活的。";
+      countdownLabel.textContent = "瞬间认出它";
       coldOpen.classList.add("show");
       ctx.clearRect(0, 0, SIZE, SIZE);
-      void preloadNarration(current.texts);
+      const punchLines = current.texts.map((_, index) => chapterCaption(current, index));
+      void preloadNarration(punchLines);
       await prepareMorphs(current);
       if (token !== playToken) return;
 
       motionEpoch = performance.now();
+      drawBitmap(4);
+      startIdle(4);
+      impactFlash = Math.max(impactFlash, 0.28);
+      await wait(340);
+      if (token !== playToken) return;
+      coldIndex.textContent = `0.8 秒猜字 · 第 ${String(storyNumber).padStart(2, "0")} 个`;
+      coldHook.textContent = "只看三千年前的第一笔，你能认出今天的它吗？";
       drawBitmap(0);
       startIdle(0);
-      await wait(1850);
+      await runGuessCountdown(token);
       if (token !== playToken) return;
       coldOpen.classList.remove("show");
-      await wait(520);
+      await wait(90);
       if (token !== playToken) return;
 
       await showChapter(0);
@@ -2363,32 +3584,43 @@
         if (token !== playToken) return;
       }
 
+      await wait(260);
+      if (token !== playToken) return;
+      coldIndex.textContent = `答案：「${current.glyph}」 · 你猜对了吗？`;
+      coldHook.textContent = `${current.payoff || "一笔落下，时间开始显形。"} ${nextGlyphPrompt()}`;
+      coldOpen.classList.add("answer");
+      coldOpen.classList.add("show");
+      await wait(1120);
+      if (token !== playToken) return;
+      if (!await loopBackToOrigin(token)) return;
+      if (recording) stopRecording();
       autoPlaying = false;
       paused = false;
       btnPlay.textContent = "重播";
       btnPlay.setAttribute("aria-label", "重新播放");
       hintTap.textContent = "重播这三千年";
-      if (recording) stopRecording();
     }
 
     function openStory(id) {
       current = STORIES.find((s) => s.id === id);
       if (!current) return;
+      storyEl.dataset.motion = current.motion || "pulse";
       clearTimeout(storyHideTimer);
       storyHideTimer = 0;
       gallery.classList.add("hidden");
       storyEl.classList.remove("hidden");
       storyEl.classList.remove("ready");
       const storyNumber = STORIES.indexOf(current) + 1;
-      coldIndex.textContent = `${String(storyNumber).padStart(2, "0")} · ${current.glyph}`;
-      coldHook.textContent = current.hook || "一个字，如何穿过三千年？";
+      coldIndex.textContent = `0.8 秒猜字 · 第 ${String(storyNumber).padStart(2, "0")} 个`;
+      coldHook.textContent = "只看三千年前的第一笔，你能认出今天的它吗？";
+      countdownLabel.textContent = "瞬间认出它";
+      coldOpen.classList.remove("answer");
       coldOpen.classList.add("show");
       eraEl.textContent = "序章";
       lineEl.textContent = current.payoff || "一笔落下，时间开始显形。";
       ensureAudio();
       if (musicBus && audioCtx) musicBus.gain.setTargetAtTime(soundOn ? 0.72 : 0, audioCtx.currentTime, 0.3);
-      startAcousticScore();
-      voiceState.textContent = soundOn ? "声音已开启 · 真实古琴配乐 + MiMo「白桦」男声" : "声音已关闭";
+      voiceState.textContent = soundOn ? "声音已开启 · 108 BPM 动态原创配乐 + MiMo「白桦」男声" : "声音已关闭";
       startWorld(0);
       requestAnimationFrame(() => requestAnimationFrame(() => storyEl.classList.add("ready")));
       autoPlay();
@@ -2404,14 +3636,18 @@
       cancelAnimationFrame(morphRaf);
       stopRecording();
       stopNarration();
+      clearTimeout(musicTimer);
+      scoreNextAt = 0;
       if (musicBus && audioCtx) musicBus.gain.setTargetAtTime(0, audioCtx.currentTime, 0.35);
       if (guqinElement) guqinElement.pause();
       if (gongElement) gongElement.pause();
       stopIdle();
       stopWorld();
+      clearViralEffects();
       glyphFrame.classList.remove("morphing");
       storyCopy.classList.remove("changing");
       coldOpen.classList.remove("show");
+      coldOpen.classList.remove("answer");
       delete storyEl.dataset.beat;
       hintTap.classList.remove("show");
       ctx.clearRect(0, 0, SIZE, SIZE);
@@ -2420,7 +3656,10 @@
       inkAreas = [];
       glyphSheets = [];
       motionEpoch = 0;
+      chapterRevealEpoch = 0;
+      heritageHoldUntil = 0;
       current = null;
+      delete storyEl.dataset.motion;
       storyEl.classList.remove("ready");
       gallery.classList.remove("hidden");
       clearTimeout(storyHideTimer);

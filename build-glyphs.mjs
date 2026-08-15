@@ -29,6 +29,13 @@ function charGlyph(ch) {
   };
 }
 
+function xingkaiGlyph(ch) {
+  return {
+    viewBox: "0 0 300 300",
+    body: `<text data-style="xingkai" x="150" y="218" text-anchor="middle" font-family="MasaGyousho, STXingkai, 华文行楷, Xingkai SC, KaiTi, 楷体, serif" font-size="190" fill="#e6dfd0">${ch}</text>`,
+  };
+}
+
 function fromRefs(file, transform = null, viewBox = "0 0 300 300") {
   const ds = paths(file);
   if (!ds.length) return null;
@@ -672,7 +679,7 @@ const STORIES = [
       fromRefs("日-bronze.svg"),
       HAND["日-seal"],
       HAND["日-clerical"],
-      charGlyph("日"),
+      xingkaiGlyph("日"),
     ],
   },
   {
@@ -696,7 +703,7 @@ const STORIES = [
         "0 0 225 225"
       ),
       HAND["月-clerical"],
-      charGlyph("月"),
+      xingkaiGlyph("月"),
     ],
   },
   {
@@ -716,7 +723,7 @@ const STORIES = [
       fromRefs("山-bronze.svg"),
       fromRefs("山-seal.svg"),
       HAND["山-clerical"],
-      charGlyph("山"),
+      xingkaiGlyph("山"),
     ],
   },
   {
@@ -736,7 +743,7 @@ const STORIES = [
       fromRefs("水-bronze.svg"),
       HAND["水-seal"],
       HAND["水-clerical"],
-      charGlyph("水"),
+      xingkaiGlyph("水"),
     ],
   },
   {
@@ -756,7 +763,7 @@ const STORIES = [
       HAND["人-bronze"],
       HAND["人-seal"],
       HAND["人-clerical"],
-      charGlyph("人"),
+      xingkaiGlyph("人"),
     ],
   },
   {
@@ -776,7 +783,7 @@ const STORIES = [
       HAND["木-bronze"],
       HAND["木-seal"],
       HAND["木-clerical"],
-      charGlyph("木"),
+      xingkaiGlyph("木"),
     ],
   },
   {
@@ -796,7 +803,7 @@ const STORIES = [
       HAND["火-bronze"],
       fromRefs("火-seal.svg"),
       HAND["火-clerical"],
-      charGlyph("火"),
+      xingkaiGlyph("火"),
     ],
   },
   {
@@ -816,7 +823,7 @@ const STORIES = [
       HAND["雨-bronze"],
       HAND["雨-seal"],
       HAND["雨-clerical"],
-      charGlyph("雨"),
+      xingkaiGlyph("雨"),
     ],
   },
   {
@@ -836,7 +843,7 @@ const STORIES = [
       HAND["马-bronze"],
       HAND["马-seal"],
       HAND["马-clerical"],
-      charGlyph("马"),
+      xingkaiGlyph("马"),
     ],
   },
   {
@@ -856,7 +863,7 @@ const STORIES = [
       HAND["鱼-bronze"],
       HAND["鱼-seal"],
       HAND["鱼-clerical"],
-      charGlyph("鱼"),
+      xingkaiGlyph("鱼"),
     ],
   },
   {
@@ -876,7 +883,7 @@ const STORIES = [
       HAND["车-bronze"],
       HAND["车-seal"],
       HAND["车-clerical"],
-      charGlyph("车"),
+      xingkaiGlyph("车"),
     ],
   },
   {
@@ -896,7 +903,7 @@ const STORIES = [
       HAND["家-bronze"],
       HAND["家-seal"],
       HAND["家-clerical"],
-      charGlyph("家"),
+      xingkaiGlyph("家"),
     ],
   },
   {
@@ -916,7 +923,7 @@ const STORIES = [
       HAND["明-bronze"],
       HAND["明-seal"],
       HAND["明-clerical"],
-      charGlyph("明"),
+      xingkaiGlyph("明"),
     ],
   },
   {
@@ -936,7 +943,7 @@ const STORIES = [
       HAND["东-bronze"],
       HAND["东-seal"],
       HAND["东-clerical"],
-      charGlyph("东"),
+      xingkaiGlyph("东"),
     ],
   },
   {
@@ -953,7 +960,7 @@ const STORIES = [
       "隶书写成「龍」，龙首、龙身和尾部被压进密集笔画，野性开始服从书写。",
       "今天的「龙」只剩五画。形体被极度压缩，昂首腾空的方向没有改变。",
     ],
-    forms: [charGlyph("龍"), charGlyph("龍"), charGlyph("龍"), charGlyph("龍"), charGlyph("龙")],
+    forms: [charGlyph("龍"), charGlyph("龍"), charGlyph("龍"), charGlyph("龍"), xingkaiGlyph("龙")],
   },
   {
     id: "niao",
@@ -969,7 +976,7 @@ const STORIES = [
       "隶书写成「鳥」，底下四点像收拢的爪，也像振翅时落下的羽毛。",
       "今天的「鸟」只有五画。尾羽变成一横，它仍随最后一点飞出纸面。",
     ],
-    forms: [charGlyph("鳥"), charGlyph("鳥"), charGlyph("鳥"), charGlyph("鳥"), charGlyph("鸟")],
+    forms: [charGlyph("鳥"), charGlyph("鳥"), charGlyph("鳥"), charGlyph("鳥"), xingkaiGlyph("鸟")],
   },
   {
     id: "gui",
@@ -985,7 +992,7 @@ const STORIES = [
       "隶书写成「龜」，密集折画像层层甲片，古老生命被封存在字的内部。",
       "今天的「龟」轻了许多。外壳被简化，缓慢而坚定的脚步仍在向前。",
     ],
-    forms: [charGlyph("龜"), charGlyph("龜"), charGlyph("龜"), charGlyph("龜"), charGlyph("龟")],
+    forms: [charGlyph("龜"), charGlyph("龜"), charGlyph("龜"), charGlyph("龜"), xingkaiGlyph("龟")],
   },
   {
     id: "zhou",
@@ -1001,7 +1008,7 @@ const STORIES = [
       "隶书舒展横画，舟体渐平方正，摇晃的船开始服从稳定的笔势。",
       "今天的「舟」仍像一叶船。六画之间，留着可以容纳远方的空处。",
     ],
-    forms: [charGlyph("舟"), charGlyph("舟"), charGlyph("舟"), charGlyph("舟"), charGlyph("舟")],
+    forms: [charGlyph("舟"), charGlyph("舟"), charGlyph("舟"), charGlyph("舟"), xingkaiGlyph("舟")],
   },
   {
     id: "hu-tiger",
@@ -1017,7 +1024,7 @@ const STORIES = [
       "隶书拉开撇横，虎的躯干被拆成笔画，仍保持向前压低的姿态。",
       "今天的「虎」有八画。最后一弯像尾巴扫过，字面仍藏着一次扑击。",
     ],
-    forms: [charGlyph("虎"), charGlyph("虎"), charGlyph("虎"), charGlyph("虎"), charGlyph("虎")],
+    forms: [charGlyph("虎"), charGlyph("虎"), charGlyph("虎"), charGlyph("虎"), xingkaiGlyph("虎")],
   },
   {
     id: "xiang",
@@ -1033,7 +1040,7 @@ const STORIES = [
       "隶书把弧线变成撇捺，象的四足藏入下部，长鼻仍从上方向前伸出。",
       "今天的「象」有十一画。我们用它表示形象、现象，因为看见从它开始。",
     ],
-    forms: [charGlyph("象"), charGlyph("象"), charGlyph("象"), charGlyph("象"), charGlyph("象")],
+    forms: [charGlyph("象"), charGlyph("象"), charGlyph("象"), charGlyph("象"), xingkaiGlyph("象")],
   },
 ];
 
@@ -1211,7 +1218,7 @@ for (const story of STORIES) {
   Object.assign(story, STORY_DIRECTION[story.id] || {});
 }
 
-const ERAS = ["甲骨", "金文", "小篆", "隶书", "简体"];
+const ERAS = ["甲骨", "金文", "小篆", "隶书", "现代行楷"];
 
 fs.writeFileSync(
   path.join(__dirname, "glyphs.json"),
