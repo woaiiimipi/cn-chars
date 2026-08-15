@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0e0d0b" />
+  <meta name="theme-color" content="#dff1d5" />
   <title>字迹</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,12 +18,12 @@
     }
 
     :root {
-      --bg: #0e0d0b;
-      --fg: #e6dfd0;
-      --muted: #8f8778;
-      --soft: #3a362e;
-      --jade: #7a9a84;
-      --ember: #c9845a;
+      --bg: #f4f1d9;
+      --fg: #294f48;
+      --muted: #72877b;
+      --soft: #c5d5bd;
+      --jade: #64aa79;
+      --ember: #ee9963;
       --safe-b: env(safe-area-inset-bottom, 0px);
       --safe-t: env(safe-area-inset-top, 0px);
     }
@@ -54,8 +54,8 @@
       margin: 0 auto;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 90% 45% at 50% -5%, rgba(122, 154, 132, 0.1), transparent 55%),
-        radial-gradient(ellipse 70% 35% at 80% 100%, rgba(201, 132, 90, 0.06), transparent 50%);
+        radial-gradient(ellipse 90% 45% at 50% -5%, rgba(108, 190, 139, 0.22), transparent 58%),
+        radial-gradient(ellipse 70% 35% at 80% 100%, rgba(244, 179, 108, 0.18), transparent 52%);
       z-index: 0;
     }
 
@@ -143,16 +143,17 @@
       display: block;
       margin-top: 0.28rem;
       font-size: 0.62rem;
-      color: rgba(230, 223, 208, 0.42);
+      color: rgba(55, 91, 81, 0.58);
       letter-spacing: 0.08em;
     }
 
     .card {
       appearance: none;
-      border: 1px solid rgba(230, 223, 208, 0.1);
-      background: linear-gradient(165deg, rgba(28, 26, 22, 0.95), rgba(14, 13, 11, 0.5));
+      border: 1px solid rgba(76, 129, 103, 0.18);
+      background: linear-gradient(165deg, rgba(255, 253, 232, 0.96), rgba(221, 239, 205, 0.76));
+      box-shadow: 0 10px 28px rgba(76, 119, 92, 0.08);
       color: var(--fg);
-      border-radius: 2px;
+      border-radius: 18px;
       padding: 1.05rem 0.75rem 0.95rem;
       text-align: center;
       cursor: pointer;
@@ -189,7 +190,7 @@
 
     body.film {
       max-width: none;
-      background: #000;
+      background: #d8edcf;
     }
 
     body.film::before { opacity: 0; }
@@ -201,7 +202,7 @@
       display: block;
       padding: 0;
       overflow: hidden;
-      background: #000;
+      background: #d8edcf;
       opacity: 0;
       transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -215,7 +216,7 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
-      background: #0d1114;
+      background: #b9e2e4;
     }
 
     .vignette {
@@ -224,8 +225,8 @@
       z-index: 1;
       pointer-events: none;
       background:
-        radial-gradient(ellipse 70% 55% at 50% 42%, transparent 30%, rgba(0,0,0,0.55) 100%),
-        linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 18%, transparent 72%, rgba(0,0,0,0.72) 100%);
+        radial-gradient(ellipse 76% 62% at 50% 42%, rgba(255,255,231,0.12) 18%, transparent 64%, rgba(40,91,82,0.18) 100%),
+        linear-gradient(180deg, rgba(255,248,207,0.08) 0%, transparent 28%, transparent 70%, rgba(35,80,72,0.34) 100%);
     }
 
     .grain {
@@ -233,8 +234,8 @@
       inset: -20%;
       z-index: 7;
       pointer-events: none;
-      opacity: 0.14;
-      mix-blend-mode: overlay;
+      opacity: 0.055;
+      mix-blend-mode: soft-light;
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
       animation: grainShift 0.85s steps(4) infinite;
     }
@@ -311,7 +312,7 @@
       left: 0;
       right: 0;
       z-index: 5;
-      background: #000;
+      background: rgba(31, 72, 68, 0.72);
       pointer-events: none;
     }
 
@@ -319,12 +320,14 @@
       top: 0;
       height: calc(7.6vh + var(--safe-t));
       min-height: calc(48px + var(--safe-t));
+      background: linear-gradient(180deg, rgba(25,66,65,.78), rgba(25,66,65,.54));
     }
 
     .letterbox.bot {
       bottom: 0;
       height: calc(26vh + var(--safe-b));
       min-height: calc(168px + var(--safe-b));
+      background: linear-gradient(0deg, rgba(25,66,65,.88), rgba(32,82,75,.68));
     }
 
     .story-bar {
@@ -361,7 +364,7 @@
       pointer-events: none;
       opacity: 0;
       transform: scale(1.035);
-      background: radial-gradient(circle at 50% 46%, rgba(16, 18, 19, 0.34), rgba(0, 0, 0, 0.78) 72%);
+      background: radial-gradient(circle at 50% 44%, rgba(255,244,198,0.2), rgba(31,83,79,0.68) 76%);
       transition: opacity 0.65s ease, transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -880,59 +883,59 @@
   <script src="./glyphs.js"></script>
   <script>
     const SIZE = 360;
-    const INK = [230, 223, 208];
+    const INK = [43, 76, 67];
     const MORPH_MS = 1550;
     const MORPH_DURATIONS = [0, 1280, 1120, 1700, 1180];
 
     const WORLDS = [
       {
-        top: [58, 28, 12], mid: [118, 62, 28], bot: [22, 11, 6],
-        haze: [214, 156, 88], disc: [255, 176, 92], weather: "sand",
-        horizon: 0.66, discY: 0.28, wind: 1.35,
+        top: [158, 211, 232], mid: [230, 235, 192], bot: [105, 158, 92],
+        haze: [255, 242, 193], disc: [255, 220, 126], weather: "pollen",
+        horizon: 0.66, discY: 0.25, wind: 0.72,
       },
       {
-        top: [10, 6, 8], mid: [62, 26, 12], bot: [118, 46, 14],
-        haze: [255, 132, 48], disc: [255, 150, 70], weather: "ember",
-        horizon: 0.78, discY: 0.72, wind: 0.4,
+        top: [177, 218, 225], mid: [247, 219, 157], bot: [126, 168, 91],
+        haze: [255, 224, 158], disc: [255, 196, 103], weather: "petal",
+        horizon: 0.72, discY: 0.32, wind: 0.48,
       },
       {
-        top: [26, 36, 34], mid: [52, 64, 58], bot: [14, 18, 16],
-        haze: [168, 196, 176], disc: [210, 220, 200], weather: "ash",
-        horizon: 0.6, discY: 0.22, wind: 0.2,
+        top: [170, 222, 216], mid: [215, 236, 197], bot: [89, 148, 101],
+        haze: [235, 244, 205], disc: [255, 235, 175], weather: "pollen",
+        horizon: 0.62, discY: 0.22, wind: 0.3,
       },
       {
-        top: [16, 20, 32], mid: [30, 36, 52], bot: [6, 8, 14],
-        haze: [150, 172, 204], disc: [186, 198, 220], weather: "rain",
-        horizon: 0.74, discY: 0.18, wind: 0.55,
+        top: [154, 202, 224], mid: [190, 222, 222], bot: [86, 143, 113],
+        haze: [221, 239, 226], disc: [247, 235, 190], weather: "rain",
+        horizon: 0.7, discY: 0.2, wind: 0.58,
       },
       {
-        top: [18, 30, 48], mid: [40, 56, 74], bot: [8, 10, 16],
-        haze: [186, 210, 232], disc: [240, 220, 190], weather: "haze",
-        horizon: 0.7, discY: 0.36, wind: 0.18,
+        top: [145, 211, 236], mid: [218, 238, 210], bot: [101, 164, 104],
+        haze: [255, 244, 206], disc: [255, 224, 143], weather: "petal",
+        horizon: 0.68, discY: 0.27, wind: 0.34,
       },
     ];
 
     const ATMOSPHERES = {
-      sun:      { top: [42, 16, 8], mid: [152, 62, 18], bot: [28, 8, 4], haze: [255, 154, 60], disc: [255, 205, 116], strength: 0.58, wind: 0.72, horizon: 0.7, weather: "haze" },
-      moon:     { top: [7, 12, 28], mid: [24, 35, 62], bot: [4, 7, 17], haze: [118, 145, 190], disc: [226, 230, 218], strength: 0.66, wind: 0.34, horizon: 0.72, weather: "ash" },
-      mountain: { top: [17, 26, 27], mid: [44, 60, 52], bot: [7, 12, 12], haze: [143, 169, 148], disc: [198, 207, 184], strength: 0.56, wind: 0.18, horizon: 0.64, weather: "haze" },
-      water:    { top: [8, 28, 39], mid: [20, 74, 82], bot: [3, 18, 27], haze: [104, 190, 194], disc: [184, 222, 218], strength: 0.62, wind: 0.46, horizon: 0.68, weather: "haze" },
-      walk:     { top: [35, 25, 20], mid: [88, 62, 40], bot: [15, 10, 8], haze: [190, 145, 94], disc: [226, 190, 134], strength: 0.45, wind: 0.5, horizon: 0.73, weather: "ash" },
-      tree:     { top: [10, 29, 24], mid: [34, 82, 57], bot: [5, 17, 13], haze: [118, 183, 128], disc: [206, 219, 169], strength: 0.62, wind: 0.72, horizon: 0.69, weather: "ash" },
-      fire:     { top: [34, 5, 4], mid: [138, 31, 8], bot: [25, 3, 2], haze: [255, 92, 26], disc: [255, 172, 54], strength: 0.72, wind: 0.8, horizon: 0.78, weather: "ember" },
-      rain:     { top: [12, 20, 34], mid: [36, 53, 70], bot: [5, 10, 18], haze: [125, 157, 185], disc: [186, 201, 211], strength: 0.7, wind: 1.05, horizon: 0.72, weather: "rain" },
-      gallop:   { top: [55, 28, 12], mid: [132, 70, 27], bot: [27, 13, 6], haze: [222, 154, 76], disc: [255, 190, 104], strength: 0.62, wind: 1.75, horizon: 0.76, weather: "sand" },
-      swim:     { top: [4, 25, 38], mid: [10, 79, 91], bot: [2, 14, 24], haze: [74, 181, 193], disc: [160, 220, 218], strength: 0.72, wind: 0.28, horizon: 0.63, weather: "haze" },
-      cart:     { top: [42, 29, 18], mid: [112, 72, 38], bot: [20, 12, 7], haze: [205, 154, 92], disc: [239, 196, 128], strength: 0.56, wind: 1.22, horizon: 0.76, weather: "sand" },
-      home:     { top: [38, 17, 10], mid: [112, 54, 28], bot: [18, 7, 5], haze: [229, 143, 74], disc: [255, 193, 112], strength: 0.62, wind: 0.2, horizon: 0.74, weather: "ash" },
-      glow:     { top: [12, 20, 38], mid: [57, 61, 74], bot: [6, 9, 18], haze: [214, 184, 119], disc: [247, 222, 161], strength: 0.58, wind: 0.24, horizon: 0.69, weather: "haze" },
-      dawn:     { top: [33, 18, 42], mid: [151, 68, 57], bot: [14, 8, 18], haze: [255, 153, 111], disc: [255, 213, 150], strength: 0.68, wind: 0.32, horizon: 0.72, weather: "haze" },
-      dragon:   { top: [12, 17, 39], mid: [50, 56, 104], bot: [5, 8, 25], haze: [132, 151, 221], disc: [220, 205, 151], strength: 0.78, wind: 1.45, horizon: 0.76, weather: "rain" },
-      fly:      { top: [31, 54, 73], mid: [112, 137, 144], bot: [17, 29, 38], haze: [215, 220, 201], disc: [244, 218, 159], strength: 0.63, wind: 1.7, horizon: 0.67, weather: "haze" },
-      crawl:    { top: [27, 38, 27], mid: [78, 91, 53], bot: [13, 21, 12], haze: [170, 173, 106], disc: [220, 205, 139], strength: 0.54, wind: 0.18, horizon: 0.79, weather: "ash" },
-      sail:     { top: [9, 31, 52], mid: [24, 88, 106], bot: [3, 18, 34], haze: [113, 188, 199], disc: [226, 202, 143], strength: 0.68, wind: 0.9, horizon: 0.62, weather: "haze" },
-      prowl:    { top: [38, 19, 8], mid: [111, 66, 24], bot: [17, 8, 3], haze: [219, 142, 55], disc: [246, 187, 91], strength: 0.7, wind: 0.78, horizon: 0.77, weather: "sand" },
-      elephant: { top: [38, 42, 43], mid: [98, 92, 75], bot: [20, 19, 16], haze: [187, 167, 127], disc: [230, 204, 151], strength: 0.58, wind: 0.36, horizon: 0.76, weather: "sand" },
+      sun:      { top: [143, 211, 239], mid: [255, 225, 155], bot: [112, 171, 93], haze: [255, 239, 181], disc: [255, 205, 105], strength: 0.72, wind: 0.48, horizon: 0.69, weather: "pollen" },
+      moon:     { top: [157, 183, 226], mid: [202, 213, 234], bot: [103, 145, 135], haze: [232, 236, 247], disc: [255, 250, 216], strength: 0.66, wind: 0.28, horizon: 0.7, weather: "petal" },
+      mountain: { top: [151, 215, 225], mid: [211, 233, 201], bot: [85, 151, 99], haze: [235, 245, 216], disc: [255, 232, 164], strength: 0.68, wind: 0.22, horizon: 0.62, weather: "pollen" },
+      water:    { top: [116, 210, 229], mid: [115, 211, 205], bot: [45, 139, 143], haze: [206, 249, 235], disc: [255, 239, 180], strength: 0.72, wind: 0.4, horizon: 0.66, weather: "bubble" },
+      walk:     { top: [159, 215, 232], mid: [226, 235, 190], bot: [101, 163, 92], haze: [253, 239, 190], disc: [255, 220, 137], strength: 0.62, wind: 0.48, horizon: 0.72, weather: "pollen" },
+      tree:     { top: [150, 218, 224], mid: [209, 238, 194], bot: [70, 148, 84], haze: [232, 248, 206], disc: [255, 235, 169], strength: 0.76, wind: 0.68, horizon: 0.68, weather: "petal" },
+      fire:     { top: [170, 216, 235], mid: [255, 208, 143], bot: [126, 163, 84], haze: [255, 225, 151], disc: [255, 177, 83], strength: 0.68, wind: 0.56, horizon: 0.72, weather: "pollen" },
+      rain:     { top: [154, 207, 230], mid: [198, 226, 222], bot: [88, 151, 112], haze: [231, 245, 235], disc: [255, 244, 204], strength: 0.78, wind: 0.82, horizon: 0.7, weather: "rain" },
+      gallop:   { top: [138, 207, 235], mid: [228, 234, 181], bot: [89, 160, 79], haze: [255, 237, 177], disc: [255, 212, 116], strength: 0.82, wind: 1.55, horizon: 0.72, weather: "pollen" },
+      swim:     { top: [84, 194, 224], mid: [66, 181, 197], bot: [30, 119, 139], haze: [173, 239, 229], disc: [236, 250, 210], strength: 0.88, wind: 0.24, horizon: 0.6, weather: "bubble" },
+      cart:     { top: [151, 211, 231], mid: [236, 230, 180], bot: [107, 163, 86], haze: [255, 235, 183], disc: [255, 214, 128], strength: 0.78, wind: 1.05, horizon: 0.72, weather: "petal" },
+      home:     { top: [165, 216, 230], mid: [252, 220, 180], bot: [116, 166, 101], haze: [255, 234, 193], disc: [255, 207, 132], strength: 0.7, wind: 0.18, horizon: 0.71, weather: "petal" },
+      glow:     { top: [156, 211, 234], mid: [230, 229, 194], bot: [100, 153, 104], haze: [255, 237, 185], disc: [255, 222, 140], strength: 0.68, wind: 0.22, horizon: 0.68, weather: "pollen" },
+      dawn:     { top: [170, 205, 238], mid: [255, 200, 177], bot: [114, 159, 101], haze: [255, 228, 193], disc: [255, 209, 140], strength: 0.76, wind: 0.3, horizon: 0.7, weather: "petal" },
+      dragon:   { top: [137, 205, 238], mid: [202, 225, 222], bot: [83, 145, 113], haze: [233, 244, 227], disc: [255, 232, 165], strength: 0.82, wind: 1.2, horizon: 0.71, weather: "petal" },
+      fly:      { top: [139, 211, 239], mid: [220, 238, 213], bot: [101, 160, 103], haze: [250, 244, 211], disc: [255, 225, 151], strength: 0.76, wind: 1.35, horizon: 0.66, weather: "petal" },
+      crawl:    { top: [163, 217, 225], mid: [224, 237, 191], bot: [85, 151, 76], haze: [246, 242, 198], disc: [255, 225, 145], strength: 0.72, wind: 0.16, horizon: 0.76, weather: "pollen" },
+      sail:     { top: [121, 205, 233], mid: [114, 202, 210], bot: [47, 131, 153], haze: [218, 244, 229], disc: [255, 226, 159], strength: 0.82, wind: 0.82, horizon: 0.61, weather: "bubble" },
+      prowl:    { top: [153, 211, 234], mid: [241, 224, 172], bot: [116, 165, 82], haze: [255, 232, 171], disc: [255, 210, 115], strength: 0.74, wind: 0.7, horizon: 0.73, weather: "pollen" },
+      elephant: { top: [154, 211, 230], mid: [224, 232, 185], bot: [94, 154, 82], haze: [248, 236, 189], disc: [255, 220, 139], strength: 0.72, wind: 0.34, horizon: 0.72, weather: "pollen" },
     };
 
     const gallery = document.getElementById("gallery");
@@ -1096,7 +1099,7 @@
 
     const SCORE_ROOTS = {
       sun: 146.83, moon: 110, mountain: 98, water: 123.47, walk: 130.81,
-      tree: 110, flame: 146.83, rain: 98, gallop: 123.47, swim: 110,
+      tree: 110, fire: 146.83, rain: 98, gallop: 123.47, swim: 110,
       cart: 98, home: 130.81, glow: 146.83, dawn: 123.47, dragon: 92.5,
       fly: 146.83, crawl: 98, sail: 110, prowl: 92.5, elephant: 82.41,
     };
@@ -1396,6 +1399,22 @@
       });
     }
 
+    function playSemanticSceneCue(index) {
+      if (!soundOn || !audioCtx || !musicBus || !current || index === 0) return;
+      const now = audioCtx.currentTime + 0.04;
+      if (current.motion === "gallop") {
+        [0, 0.12, 0.25, 0.37].forEach((delay, hoof) => playScoreKick(now + delay, 0.026 + (hoof % 2) * 0.009));
+      } else if (current.motion === "swim" || current.motion === "water") {
+        [659.25, 783.99, 587.33].forEach((frequency, note) => playScorePluck(frequency, now + note * 0.11, 0.008, 0.34));
+      } else if (current.motion === "rain") {
+        [523.25, 659.25, 783.99, 659.25].forEach((frequency, note) => playScorePluck(frequency, now + note * 0.085, 0.006, 0.26));
+      } else if (current.motion === "cart") {
+        [0, 0.16, 0.32].forEach((delay, note) => playScoreTick(now + delay, 0.01 + note * 0.002));
+      } else if (["tree", "fly", "dawn", "sun"].includes(current.motion)) {
+        [880, 1046.5].forEach((frequency, note) => playScorePluck(frequency, now + note * 0.13, 0.006, 0.3));
+      }
+    }
+
     function playCountdownTick(value) {
       if (!soundOn || !audioCtx || !audioMaster) return;
       const now = audioCtx.currentTime;
@@ -1438,11 +1457,11 @@
 
     function triggerTransitionImpact(i) {
       const badgeCopy = [
-        "第一刀落下 · 它还不是一个字",
-        "看这道金线 · 同一笔开始穿越",
-        "同一笔未断 · 轮廓却已重生",
-        "毛笔接管 · 三千年最剧烈的断裂",
-        `四个祖形归来 · 汇成「${current?.glyph || "它"}」`,
+        "第一笔醒来 · 图画开始说话",
+        "看这道金线 · 同一笔向春天生长",
+        "线条舒展开 · 古老形态长出新枝",
+        "毛笔轻轻落下 · 它学会了呼吸",
+        `四个祖形相逢 · 汇成今天的「${current?.glyph || "它"}」`,
       ];
       eraSlamIndex.textContent = `FORM ${String(i + 1).padStart(2, "0")} · 3000 YEARS`;
       eraSlamText.textContent = ERAS[i] || "演化";
@@ -1464,15 +1483,16 @@
         playCarouselWhoosh(0.35 + i * 0.2);
       }
       playChapterMotif(i);
+      playSemanticSceneCue(i);
     }
 
     const TTS_VOICE = "白桦";
     const TTS_DIRECTIONS = [
-      "抖音历史悬疑短片男声，低沉抓人，开头立刻制造疑问；语速稍快，关键答案前停半拍。",
-      "抖音知识短片男声，有画面、有推进感；语速明快，重读字形发生变化的词。",
-      "抖音历史短片男声，庄重但不拖沓；在时代转折处突然加重，形成反差。",
-      "抖音爆款解说男声，节奏强、情绪高，像高潮揭晓；转折前短停，之后有爆发力。",
-      "抖音人文短片男声，温暖而有余韵；先有力量地揭晓答案，结尾用提问感邀请互动。",
+      "春日亲子人文短片男声，明亮、好奇、像带孩子发现秘密；语速轻快，开头马上提出问题。",
+      "温暖的知识故事男声，有画面、有笑意；语速明快，重读字形正在生长和变化的词。",
+      "清朗的人文纪录片男声，稳重但不严肃；时代转折像翻开新的一页，保持温暖。",
+      "充满生命力的短片男声，节奏清晰、情绪上扬；转折前轻停，之后像春风推开画面。",
+      "温暖而有余韵的亲子故事男声；自然揭晓答案，结尾带着笑意邀请大人和孩子一起回答。",
     ];
 
     function narrationKey(text, chapterIndex) {
@@ -1686,17 +1706,17 @@
       const rw = recordCanvas.width;
       const rh = recordCanvas.height;
       recordCtx.setTransform(1, 0, 0, 1, 0, 0);
-      recordCtx.fillStyle = "#08090a";
+      recordCtx.fillStyle = "#d8edcf";
       recordCtx.fillRect(0, 0, rw, rh);
       if (worldEl.width && worldEl.height) {
         const rect = coverRect(worldEl.width, worldEl.height, rw, rh);
         recordCtx.drawImage(worldEl, rect.x, rect.y, rect.width, rect.height);
       }
       const shade = recordCtx.createLinearGradient(0, 0, 0, rh);
-      shade.addColorStop(0, "rgba(0,0,0,.36)");
-      shade.addColorStop(0.22, "rgba(0,0,0,0)");
-      shade.addColorStop(0.64, "rgba(0,0,0,.08)");
-      shade.addColorStop(1, "rgba(0,0,0,.88)");
+      shade.addColorStop(0, "rgba(31,78,73,.18)");
+      shade.addColorStop(0.22, "rgba(31,78,73,0)");
+      shade.addColorStop(0.64, "rgba(31,78,73,.06)");
+      shade.addColorStop(1, "rgba(24,67,64,.88)");
       recordCtx.fillStyle = shade;
       recordCtx.fillRect(0, 0, rw, rh);
       if (coldOpen.classList.contains("show")) {
@@ -1706,7 +1726,7 @@
         recordCtx.shadowBlur = 42;
         recordCtx.drawImage(canvas, 90, 220, 540, 540);
         recordCtx.restore();
-        recordCtx.fillStyle = "rgba(0,0,0,.46)";
+        recordCtx.fillStyle = "rgba(28,77,73,.42)";
         recordCtx.fillRect(0, 0, rw, rh);
         recordCtx.textAlign = "center";
         recordCtx.fillStyle = "rgba(201,132,90,.86)";
@@ -1910,9 +1930,9 @@
       wctx.save();
       wctx.globalCompositeOperation = "multiply";
       const shade = wctx.createLinearGradient(0, h * 0.12, w, h * 0.92);
-      shade.addColorStop(0, "rgba(0,0,0,.3)");
+      shade.addColorStop(0, "rgba(35,83,69,.05)");
       shade.addColorStop(Math.max(0.2, Math.min(0.76, lightX / w)), "rgba(0,0,0,0)");
-      shade.addColorStop(1, "rgba(0,0,0,.38)");
+      shade.addColorStop(1, "rgba(35,83,69,.12)");
       wctx.fillStyle = shade;
       wctx.fillRect(0, 0, w, h);
       wctx.restore();
@@ -1925,14 +1945,14 @@
       wctx.globalCompositeOperation = "multiply";
       const floorShade = wctx.createLinearGradient(0, horizon, 0, h);
       floorShade.addColorStop(0, "rgba(0,0,0,0)");
-      floorShade.addColorStop(0.38, "rgba(0,0,0,.12)");
-      floorShade.addColorStop(1, "rgba(0,0,0,.5)");
+      floorShade.addColorStop(0.38, "rgba(34,92,67,.035)");
+      floorShade.addColorStop(1, "rgba(34,92,67,.14)");
       wctx.fillStyle = floorShade;
       wctx.fillRect(0, horizon, w, h - horizon);
 
       for (let i = -5; i <= 5; i++) {
         const baseX = w * 0.5 + i * w * 0.12;
-        wctx.strokeStyle = `rgba(3,7,7,${0.025 + Math.abs(i) * 0.004})`;
+        wctx.strokeStyle = `rgba(39,96,70,${0.015 + Math.abs(i) * 0.003})`;
         wctx.lineWidth = 0.7;
         wctx.beginPath();
         wctx.moveTo(vanishX, horizon);
@@ -1942,7 +1962,7 @@
       for (let i = 1; i <= 7; i++) {
         const depth = i / 7;
         const y = horizon + Math.pow(depth, 2.05) * (h - horizon);
-        wctx.strokeStyle = `rgba(5,9,8,${0.018 + depth * 0.055})`;
+        wctx.strokeStyle = `rgba(39,96,70,${0.012 + depth * 0.035})`;
         wctx.lineWidth = 0.6 + depth * 0.7;
         wctx.beginPath();
         wctx.ellipse(vanishX, y, w * (0.1 + depth * 0.62), 4 + depth * 23, 0, Math.PI, Math.PI * 2);
@@ -2041,16 +2061,17 @@
 
       wctx.restore();
 
+      drawSemanticWorld(w, h, t, scene, motion);
       drawWeather(w, h, t, scene, motion);
       drawForegroundDepth(w, h, t, scene);
       if (motion === "fire" && scene.weather !== "ember") {
-        paintWeatherKind("ember", 0.4, w, h, t, scene, motion);
+        paintWeatherKind("ember", 0.18, w, h, t, scene, motion);
       }
       if (motion === "rain" && scene.weather !== "rain") {
         paintWeatherKind("rain", 0.5, w, h, t, scene, motion);
       }
-      if (motion === "gallop" && scene.weather !== "sand") {
-        paintWeatherKind("sand", 0.28, w, h, t, scene, motion);
+      if (motion === "gallop" && scene.weather !== "pollen") {
+        paintWeatherKind("pollen", 0.38, w, h, t, scene, motion);
       }
       drawInkTransition(w, h, t, scene);
 
@@ -2090,8 +2111,8 @@
         const y = h * (0.12 + bit.y * 0.66);
         const radius = Math.max(w, h) * (0.16 + bit.z * 0.16) * (0.7 + energy * 0.55);
         const ink = wctx.createRadialGradient(x, y, radius * 0.08, x, y, radius);
-        ink.addColorStop(0, rgb(mix3(scene.bot, [4, 5, 6], 0.65), 0.22 * energy));
-        ink.addColorStop(0.46, rgb(scene.bot, 0.11 * energy));
+        ink.addColorStop(0, rgb(mix3(scene.bot, [55, 103, 80], 0.26), 0.09 * energy));
+        ink.addColorStop(0.46, rgb(scene.bot, 0.045 * energy));
         ink.addColorStop(1, "rgba(0,0,0,0)");
         wctx.fillStyle = ink;
         wctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
@@ -2112,8 +2133,14 @@
       if (visibility < 0.02) return;
       wctx.save();
       wctx.globalAlpha = visibility;
-      const cx = w * (0.62 + Math.sin(t * 0.05) * 0.04);
-      const cy = h * scene.discY;
+      const celestialGlyph = motion === "sun" || motion === "moon";
+      const glyphRect = celestialGlyph ? glyphFrame.getBoundingClientRect() : null;
+      const cx = glyphRect?.width
+        ? glyphRect.left + glyphRect.width * (0.5 + (motion === "sun" ? 32 / SIZE : 36 / SIZE))
+        : w * (0.62 + Math.sin(t * 0.05) * 0.04);
+      const cy = glyphRect?.height
+        ? glyphRect.top + glyphRect.height * (0.5 + (motion === "sun" ? -62 / SIZE : -58 / SIZE))
+        : h * scene.discY;
       const r = (motion === "sun" ? 0.11 : 0.08) * Math.min(w, h);
       const pulse = 1 + Math.sin(t * 1.4) * 0.04;
       const g = wctx.createRadialGradient(cx, cy, 0, cx, cy, r * 3.2 * pulse);
@@ -2124,7 +2151,7 @@
       wctx.beginPath();
       wctx.arc(cx, cy, r * 3.2 * pulse, 0, Math.PI * 2);
       wctx.fill();
-      wctx.fillStyle = rgb(scene.disc, isMoon ? 0.78 : 0.55);
+      wctx.fillStyle = rgb(scene.disc, celestialGlyph ? (isMoon ? 0.16 : 0.12) : (isMoon ? 0.78 : 0.55));
       wctx.beginPath();
       wctx.arc(cx, cy, r * pulse, 0, Math.PI * 2);
       wctx.fill();
@@ -2187,6 +2214,328 @@
       wctx.fill();
     }
 
+    function stageAnchor(w, h) {
+      const rect = glyphFrame.getBoundingClientRect();
+      if (!rect.width || !rect.height) return { x: w * 0.5, y: h * 0.61, size: Math.min(w, h) * 0.42 };
+      return {
+        x: rect.left + rect.width * 0.5,
+        y: rect.top + rect.height * 0.79,
+        size: rect.width,
+      };
+    }
+
+    function drawSpringMeadow(w, h, t, scene, motion) {
+      const anchor = stageAnchor(w, h);
+      const groundY = Math.min(h * 0.73, anchor.y + anchor.size * 0.015);
+      wctx.save();
+      const meadow = wctx.createLinearGradient(0, groundY - 70, 0, h);
+      meadow.addColorStop(0, "rgba(151,201,105,.16)");
+      meadow.addColorStop(0.2, "rgba(116,181,89,.72)");
+      meadow.addColorStop(1, "rgba(51,123,76,.94)");
+      wctx.fillStyle = meadow;
+      wctx.beginPath();
+      wctx.moveTo(-30, h + 20);
+      wctx.lineTo(-30, groundY);
+      for (let x = -30; x <= w + 30; x += 18) {
+        wctx.lineTo(x, groundY - 12 - Math.sin(x * 0.018 + t * 0.22) * 13 - Math.sin(x * 0.043) * 7);
+      }
+      wctx.lineTo(w + 30, h + 20);
+      wctx.closePath();
+      wctx.fill();
+
+      const shadowWidth = anchor.size * (motion === "gallop" ? 0.52 : 0.42);
+      wctx.fillStyle = "rgba(34,91,65,.2)";
+      wctx.beginPath();
+      wctx.ellipse(anchor.x, groundY + 8, shadowWidth, 13 + rhythmPulse * 5, 0, 0, Math.PI * 2);
+      wctx.fill();
+
+      for (let i = 0; i < 72; i++) {
+        const bit = weatherBits[i % weatherBits.length];
+        const x = (i * 61.7 + bit.x * 37) % (w + 24) - 12;
+        const depth = 0.35 + (i % 11) / 10;
+        const y = groundY + 5 + depth * (h - groundY) * 0.72;
+        const sway = Math.sin(t * (1.2 + depth) + bit.p) * (2 + depth * 4);
+        wctx.strokeStyle = `rgba(${i % 5 ? "46,119,70" : "239,186,87"},${0.2 + depth * 0.42})`;
+        wctx.lineWidth = 0.6 + depth * 1.1;
+        wctx.beginPath();
+        wctx.moveTo(x, y + 9 * depth);
+        wctx.quadraticCurveTo(x + sway * 0.4, y, x + sway, y - 10 * depth);
+        wctx.stroke();
+        if (i % 13 === 0) {
+          wctx.fillStyle = i % 26 ? "rgba(255,238,160,.78)" : "rgba(246,159,168,.72)";
+          wctx.beginPath();
+          wctx.arc(x + sway, y - 12 * depth, 1.6 + depth, 0, Math.PI * 2);
+          wctx.fill();
+        }
+      }
+
+      if (motion === "gallop") {
+        const stride = t * 7.2;
+        const hoofs = [-0.22, -0.08, 0.1, 0.24];
+        for (let i = 0; i < hoofs.length; i++) {
+          const impact = Math.pow(Math.max(0, Math.sin(stride + i * 1.7)), 8);
+          const hx = anchor.x + anchor.size * hoofs[i];
+          const hy = groundY - impact * 3;
+          wctx.strokeStyle = `rgba(39,91,67,${0.3 + impact * 0.52})`;
+          wctx.lineWidth = 2.2;
+          wctx.beginPath();
+          wctx.ellipse(hx, hy, 8 + impact * 4, 3.5, -0.08, 0, Math.PI);
+          wctx.stroke();
+          for (let k = 0; k < 4; k++) {
+            const angle = -Math.PI * 0.82 + k * 0.46;
+            const distance = 8 + impact * (12 + k * 3);
+            wctx.fillStyle = `rgba(224,191,112,${impact * (0.3 + k * 0.08)})`;
+            wctx.beginPath();
+            wctx.arc(hx + Math.cos(angle) * distance, hy + Math.sin(angle) * distance, 1.2 + k * 0.35, 0, Math.PI * 2);
+            wctx.fill();
+          }
+        }
+      }
+      wctx.restore();
+    }
+
+    function drawUnderwaterGarden(w, h, t, scene) {
+      const anchor = stageAnchor(w, h);
+      wctx.save();
+      const water = wctx.createLinearGradient(0, 0, 0, h);
+      water.addColorStop(0, "rgba(167,237,237,.16)");
+      water.addColorStop(0.55, "rgba(32,166,184,.18)");
+      water.addColorStop(1, "rgba(18,105,126,.48)");
+      wctx.fillStyle = water;
+      wctx.fillRect(0, 0, w, h);
+      wctx.globalCompositeOperation = "screen";
+      for (let i = 0; i < 7; i++) {
+        const x = ((i * 97 + t * (10 + i)) % (w + 180)) - 90;
+        const caustic = wctx.createLinearGradient(x - 45, 0, x + 90, h * 0.72);
+        caustic.addColorStop(0, "rgba(232,255,226,0)");
+        caustic.addColorStop(0.48, "rgba(232,255,226,.07)");
+        caustic.addColorStop(1, "rgba(232,255,226,0)");
+        wctx.fillStyle = caustic;
+        wctx.beginPath();
+        wctx.moveTo(x, 0);
+        wctx.lineTo(x + 36, 0);
+        wctx.lineTo(x + 180, h * 0.78);
+        wctx.lineTo(x + 80, h * 0.78);
+        wctx.closePath();
+        wctx.fill();
+      }
+      wctx.globalCompositeOperation = "source-over";
+      const seabedY = Math.min(h * 0.82, anchor.y + anchor.size * 0.32);
+      wctx.fillStyle = "rgba(216,211,145,.46)";
+      wctx.beginPath();
+      wctx.moveTo(-20, h + 20);
+      wctx.lineTo(-20, seabedY);
+      for (let x = -20; x <= w + 20; x += 16) wctx.lineTo(x, seabedY + Math.sin(x * 0.035 + t * 0.5) * 7);
+      wctx.lineTo(w + 20, h + 20);
+      wctx.closePath();
+      wctx.fill();
+      for (let i = 0; i < 22; i++) {
+        const side = i % 2 ? 0.12 : 0.88;
+        const x = w * side + Math.sin(i * 7.3) * w * 0.13;
+        const height = 32 + (i % 6) * 13;
+        const sway = Math.sin(t * 1.4 + i) * 10;
+        wctx.strokeStyle = i % 3 ? "rgba(37,130,102,.58)" : "rgba(105,164,91,.54)";
+        wctx.lineWidth = 2 + (i % 3);
+        wctx.beginPath();
+        wctx.moveTo(x, seabedY + 24);
+        wctx.quadraticCurveTo(x - sway, seabedY - height * 0.45, x + sway, seabedY - height);
+        wctx.stroke();
+      }
+      for (let i = 0; i < 28; i++) {
+        const bit = weatherBits[i];
+        const x = anchor.x + (bit.x - 0.5) * anchor.size * 1.5 + Math.sin(t + bit.p) * 7;
+        const y = ((anchor.y + anchor.size * 0.42 - t * (18 + bit.s * 14) - bit.y * h * 0.7) % (h * 0.78) + h * 0.78) % (h * 0.78);
+        wctx.strokeStyle = `rgba(225,255,239,${0.2 + bit.z * 0.32})`;
+        wctx.lineWidth = 1;
+        wctx.beginPath();
+        wctx.arc(x, y, 2 + bit.s * 2.4, 0, Math.PI * 2);
+        wctx.stroke();
+      }
+      wctx.restore();
+    }
+
+    function drawSeaSurface(w, h, t, scene) {
+      const anchor = stageAnchor(w, h);
+      const waterY = Math.min(h * 0.7, anchor.y + anchor.size * 0.04);
+      wctx.save();
+      const sea = wctx.createLinearGradient(0, waterY - 40, 0, h);
+      sea.addColorStop(0, "rgba(122,213,218,.18)");
+      sea.addColorStop(0.18, "rgba(74,177,194,.68)");
+      sea.addColorStop(1, "rgba(27,112,145,.88)");
+      wctx.fillStyle = sea;
+      wctx.beginPath();
+      wctx.moveTo(-20, h + 20);
+      wctx.lineTo(-20, waterY);
+      for (let x = -20; x <= w + 20; x += 10) {
+        wctx.lineTo(x, waterY + Math.sin(x * 0.035 + t * 1.8) * 6 + Math.sin(x * 0.073 - t * 1.1) * 3);
+      }
+      wctx.lineTo(w + 20, h + 20);
+      wctx.closePath();
+      wctx.fill();
+      wctx.globalCompositeOperation = "screen";
+      for (let row = 0; row < 8; row++) {
+        const y = waterY + 14 + row * 24;
+        wctx.strokeStyle = `rgba(225,250,225,${0.16 - row * 0.012})`;
+        wctx.lineWidth = 1.1;
+        wctx.beginPath();
+        for (let x = -20; x <= w + 20; x += 8) {
+          const wave = Math.sin(x * (0.045 + row * 0.004) + t * (1.7 + row * 0.08)) * (3 + row * 0.35);
+          if (x === -20) wctx.moveTo(x, y + wave);
+          else wctx.lineTo(x, y + wave);
+        }
+        wctx.stroke();
+      }
+      wctx.restore();
+    }
+
+    function drawCountryRoad(w, h, t, scene) {
+      drawSpringMeadow(w, h, t, scene, "cart");
+      const anchor = stageAnchor(w, h);
+      const groundY = Math.min(h * 0.73, anchor.y + anchor.size * 0.015);
+      wctx.save();
+      const road = wctx.createLinearGradient(0, groundY, 0, h);
+      road.addColorStop(0, "rgba(236,209,146,.58)");
+      road.addColorStop(1, "rgba(194,147,88,.8)");
+      wctx.fillStyle = road;
+      wctx.beginPath();
+      wctx.moveTo(anchor.x - 36, groundY - 5);
+      wctx.lineTo(anchor.x + 36, groundY - 5);
+      wctx.lineTo(w * 0.88, h);
+      wctx.lineTo(w * 0.12, h);
+      wctx.closePath();
+      wctx.fill();
+      for (let i = 0; i < 7; i++) {
+        const progress = ((t * 1.8 + i / 7) % 1);
+        const y = groundY + progress * progress * (h - groundY);
+        const half = 28 + progress * w * 0.32;
+        wctx.strokeStyle = `rgba(111,102,65,${0.08 + progress * 0.18})`;
+        wctx.beginPath();
+        wctx.moveTo(anchor.x - half, y);
+        wctx.lineTo(anchor.x + half, y);
+        wctx.stroke();
+      }
+      wctx.restore();
+    }
+
+    function drawRainGarden(w, h, t, scene) {
+      drawSpringMeadow(w, h, t, scene, "rain");
+      const anchor = stageAnchor(w, h);
+      const groundY = Math.min(h * 0.73, anchor.y + anchor.size * 0.015);
+      wctx.save();
+      for (let i = 0; i < 12; i++) {
+        const bit = weatherBits[i + 28];
+        const ripple = (t * (0.55 + bit.s * 0.18) + bit.p) % 1;
+        const x = bit.x * w;
+        const y = groundY + 10 + bit.y * (h - groundY) * 0.65;
+        wctx.strokeStyle = `rgba(226,250,239,${(1 - ripple) * 0.48})`;
+        wctx.lineWidth = 1;
+        wctx.beginPath();
+        wctx.ellipse(x, y, 4 + ripple * 24, 1.5 + ripple * 6, 0, 0, Math.PI * 2);
+        wctx.stroke();
+      }
+      wctx.restore();
+    }
+
+    function drawBirdTree(w, h, t, scene) {
+      drawSpringMeadow(w, h, t, scene, "fly");
+      const anchor = stageAnchor(w, h);
+      const branchY = anchor.y + anchor.size * 0.03;
+      wctx.save();
+      wctx.lineCap = "round";
+      wctx.strokeStyle = "rgba(91,91,51,.82)";
+      wctx.lineWidth = Math.max(12, anchor.size * 0.045);
+      wctx.beginPath();
+      wctx.moveTo(-20, branchY + anchor.size * 0.12);
+      wctx.bezierCurveTo(w * 0.18, branchY - 18, anchor.x - anchor.size * 0.2, branchY + 8, anchor.x + anchor.size * 0.42, branchY);
+      wctx.stroke();
+      wctx.strokeStyle = "rgba(115,105,57,.72)";
+      wctx.lineWidth *= 0.42;
+      wctx.beginPath();
+      wctx.moveTo(anchor.x - anchor.size * 0.12, branchY + 2);
+      wctx.quadraticCurveTo(anchor.x - anchor.size * 0.02, branchY - 54, anchor.x + anchor.size * 0.12, branchY - 78);
+      wctx.stroke();
+      for (let i = 0; i < 26; i++) {
+        const angle = i * 2.4 + t * 0.08;
+        const x = anchor.x - anchor.size * 0.05 + Math.cos(angle) * (42 + (i % 5) * 13);
+        const y = branchY - 64 + Math.sin(angle * 1.3) * (24 + (i % 4) * 8);
+        wctx.fillStyle = i % 7
+          ? "rgba(86,161,84,.72)"
+          : "rgba(247,180,183,.82)";
+        wctx.beginPath();
+        wctx.ellipse(x, y, 7 + i % 3, 3.5 + i % 2, angle, 0, Math.PI * 2);
+        wctx.fill();
+      }
+      wctx.restore();
+    }
+
+    function drawDragonSky(w, h, t, scene) {
+      const anchor = stageAnchor(w, h);
+      wctx.save();
+      wctx.globalCompositeOperation = "screen";
+      for (let band = 0; band < 7; band++) {
+        const y = anchor.y - anchor.size * 0.55 + band * 42 + Math.sin(t * 0.5 + band) * 12;
+        wctx.strokeStyle = `rgba(244,252,225,${0.1 + band * 0.018})`;
+        wctx.lineWidth = 12 + band * 2;
+        wctx.beginPath();
+        wctx.moveTo(-60, y);
+        wctx.bezierCurveTo(w * 0.2, y - 36, w * 0.36, y + 34, w * 0.56, y - 2);
+        wctx.bezierCurveTo(w * 0.74, y - 30, w * 0.84, y + 24, w + 60, y - 14);
+        wctx.stroke();
+      }
+      for (let i = 0; i < 12; i++) {
+        const bit = weatherBits[i + 8];
+        const x = ((bit.x * w + t * (18 + bit.s * 7)) % (w + 100)) - 50;
+        const y = h * (0.18 + bit.y * 0.42);
+        wctx.fillStyle = `rgba(255,240,167,${0.16 + bit.z * 0.17})`;
+        wctx.beginPath();
+        wctx.arc(x, y, 1 + bit.s * 1.1, 0, Math.PI * 2);
+        wctx.fill();
+      }
+      wctx.restore();
+    }
+
+    function drawTurtlePond(w, h, t, scene) {
+      drawSpringMeadow(w, h, t, scene, "crawl");
+      const anchor = stageAnchor(w, h);
+      const pondY = Math.min(h * 0.75, anchor.y + anchor.size * 0.04);
+      wctx.save();
+      const pond = wctx.createRadialGradient(anchor.x, pondY, 8, anchor.x, pondY, anchor.size * 0.78);
+      pond.addColorStop(0, "rgba(138,220,204,.82)");
+      pond.addColorStop(0.68, "rgba(69,169,158,.72)");
+      pond.addColorStop(1, "rgba(69,169,158,0)");
+      wctx.fillStyle = pond;
+      wctx.beginPath();
+      wctx.ellipse(anchor.x, pondY, anchor.size * 0.68, anchor.size * 0.17, 0, 0, Math.PI * 2);
+      wctx.fill();
+      for (let i = 0; i < 7; i++) {
+        const cycle = (t * 0.35 + i * 0.17) % 1;
+        wctx.strokeStyle = `rgba(230,252,224,${(1 - cycle) * 0.42})`;
+        wctx.lineWidth = 1;
+        wctx.beginPath();
+        wctx.ellipse(anchor.x + Math.sin(i * 3) * 54, pondY, 8 + cycle * 42, 2 + cycle * 9, 0, 0, Math.PI * 2);
+        wctx.stroke();
+      }
+      wctx.restore();
+    }
+
+    function drawSpringLandscape(w, h, t, scene, motion) {
+      if (["tree", "mountain", "walk", "crawl", "prowl", "elephant", "home", "dawn", "sun", "moon", "glow", "fire", "fly", "dragon"].includes(motion)) {
+        drawSpringMeadow(w, h, t, scene, motion);
+      }
+    }
+
+    function drawSemanticWorld(w, h, t, scene, motion) {
+      if (motion === "swim" || motion === "water") drawUnderwaterGarden(w, h, t, scene);
+      else if (motion === "sail") drawSeaSurface(w, h, t, scene);
+      else if (motion === "fly") drawBirdTree(w, h, t, scene);
+      else if (motion === "dragon") drawDragonSky(w, h, t, scene);
+      else if (motion === "crawl") drawTurtlePond(w, h, t, scene);
+      else if (motion === "gallop") drawSpringMeadow(w, h, t, scene, motion);
+      else if (motion === "cart") drawCountryRoad(w, h, t, scene);
+      else if (motion === "rain") drawRainGarden(w, h, t, scene);
+      else drawSpringLandscape(w, h, t, scene, motion);
+    }
+
     function drawWeather(w, h, t, scene, motion) {
       const aFrom = 1 - scene.blend;
       const aTo = scene.blend;
@@ -2202,7 +2551,41 @@
       const boostEmber = motion === "fire" ? 1.5 : 1;
       const boostSand = motion === "gallop" || motion === "cart" ? 1.4 : 1;
       wctx.save();
-      if (kind === "sand") {
+      if (kind === "petal") {
+        for (let i = 0; i < 44; i++) {
+          const b = weatherBits[i];
+          const x = ((b.x * w + t * (18 + b.s * 14) * scene.wind + Math.sin(t + b.p) * 22) % (w + 50)) - 25;
+          const y = ((b.y * h + t * (8 + b.s * 7)) % (h + 40)) - 20;
+          wctx.fillStyle = i % 3
+            ? `rgba(255,221,211,${alpha * (0.18 + b.z * 0.28)})`
+            : `rgba(255,244,174,${alpha * (0.16 + b.z * 0.24)})`;
+          wctx.beginPath();
+          wctx.ellipse(x, y, 2 + b.s * 2.4, 0.8 + b.s, t * 0.7 + b.p, 0, Math.PI * 2);
+          wctx.fill();
+        }
+      } else if (kind === "pollen") {
+        wctx.globalCompositeOperation = "screen";
+        for (let i = 0; i < 58; i++) {
+          const b = weatherBits[i];
+          const x = (b.x * w + t * (8 + b.s * 9) + Math.sin(t * 0.8 + b.p) * 14) % w;
+          const y = b.y * h * 0.86 + Math.cos(t * 0.55 + b.p) * 12;
+          wctx.fillStyle = `rgba(255,230,118,${alpha * (0.09 + b.z * 0.2)})`;
+          wctx.beginPath();
+          wctx.arc(x, y, 0.7 + b.s * 0.85, 0, Math.PI * 2);
+          wctx.fill();
+        }
+      } else if (kind === "bubble") {
+        for (let i = 0; i < 52; i++) {
+          const b = weatherBits[i];
+          const x = b.x * w + Math.sin(t * 0.9 + b.p) * 9;
+          const y = h - ((t * (15 + b.s * 12) + b.y * h) % (h + 30));
+          wctx.strokeStyle = `rgba(228,255,239,${alpha * (0.12 + b.z * 0.3)})`;
+          wctx.lineWidth = 0.8;
+          wctx.beginPath();
+          wctx.arc(x, y, 1.6 + b.s * 2.2, 0, Math.PI * 2);
+          wctx.stroke();
+        }
+      } else if (kind === "sand") {
         wctx.strokeStyle = rgb(scene.haze, 0.18 * alpha * boostSand);
         wctx.lineWidth = 1;
         for (let i = 0; i < 70; i++) {
@@ -2458,7 +2841,7 @@
       return { start: [58, 174], control: [185, 224], end: [330, 166] };
     }
 
-    function drawHeritageStroke(sheet, motion, progress, phase, strength = 1) {
+    function drawHeritageStroke(sheet, motion, progress, phase, strength = 1, pose = null) {
       if (!sheet || strength <= 0.01) return;
       const guide = heritageGuide(motion);
       const [sx, sy] = guide.start;
@@ -2488,6 +2871,7 @@
 
       const pulse = 0.72 + Math.sin(phase * 5.4) * 0.12;
       ctx.save();
+      if (pose) applySemanticPoseTransform(pose);
       ctx.globalCompositeOperation = "screen";
       ctx.globalAlpha = strength * pulse;
       ctx.shadowColor = "rgba(255,164,76,.92)";
@@ -2676,7 +3060,7 @@
       drawSemanticLayer(morphCanvas, motion, phase, amp, era);
       ctx.restore();
       const heritageStrength = Math.sin(Math.PI * t) * (0.62 + toIdx * 0.1);
-      drawHeritageStroke(morphCanvas, motion, t, phase, heritageStrength);
+      drawHeritageStroke(morphCanvas, motion, t, phase, heritageStrength, semanticPose(motion, phase, amp, era));
       drawExtras(motion, phase, amp, era);
       if (toIdx === 3 && rupture > 0.08) drawMorphFractures(rupture, phase);
       if (toIdx === 4 && t > 0.76) drawEvolutionEchoes(phase, smoothstep(0.76, 1, t));
@@ -2895,11 +3279,13 @@
         }, 24);
       } else if (motion === "fly") {
         drawGridWarp(sheet, (x, y) => {
+          const perch = smoothstep(1.8, 3.4, era);
           const wing = Math.min(1, Math.abs(x - SIZE / 2) / (SIZE * 0.32));
-          const flap = Math.sin(t * 5.4) * wing * amp;
+          const flap = Math.sin(t * 5.4) * wing * amp * (1 - perch * 0.82);
+          const throat = Math.exp(-Math.pow((y - SIZE * 0.38) / 52, 2)) * Math.sin(t * 5.4) * perch;
           return {
-            x: Math.sign(x - SIZE / 2) * Math.abs(flap) * 3,
-            y: -flap * 13 - Math.sin(t * 2.7 + y * 0.03) * 1.5 * amp,
+            x: Math.sign(x - SIZE / 2) * Math.abs(flap) * 3 + throat * 2.2,
+            y: -flap * 13 - Math.sin(t * 2.7 + y * 0.03) * (1.5 - perch * 0.8) * amp,
           };
         }, 24);
       } else if (motion === "crawl") {
@@ -2987,13 +3373,25 @@
       }
     }
 
+    function semanticThickness(motion, progress, t) {
+      const centerBody = Math.pow(Math.sin(Math.PI * progress), 1.25);
+      if (motion === "swim") return 0.34 + centerBody * 1.18;
+      if (motion === "dragon") return 0.48 + centerBody * 0.58 + Math.sin(progress * Math.PI * 5 + t * 2) * 0.13;
+      if (["gallop", "prowl", "elephant", "crawl", "fly"].includes(motion)) {
+        return 0.38 + Math.pow(Math.sin(Math.PI * Math.min(1, progress * 1.12)), 0.8) * 0.8;
+      }
+      if (motion === "tree") return 0.52 + Math.abs(progress - 0.58) * 0.55;
+      if (["water", "rain", "fire", "sail"].includes(motion)) return 0.5 + centerBody * 0.45;
+      return 0.68 + centerBody * 0.36;
+    }
+
     function drawGlyphUnderlight(sheet, t, amp, era) {
       shadowCtx.setTransform(1, 0, 0, 1, 0, 0);
       shadowCtx.globalCompositeOperation = "source-over";
       shadowCtx.clearRect(0, 0, SIZE, SIZE);
       shadowCtx.drawImage(sheet, 0, 0);
       shadowCtx.globalCompositeOperation = "source-in";
-      shadowCtx.fillStyle = era >= 4 ? "rgba(58,25,17,.98)" : "rgba(8,25,25,.98)";
+      shadowCtx.fillStyle = era >= 4 ? "rgba(96,67,45,.82)" : "rgba(25,75,64,.82)";
       shadowCtx.fillRect(0, 0, SIZE, SIZE);
       shadowCtx.globalCompositeOperation = "source-over";
 
@@ -3002,17 +3400,27 @@
       const extrusionY = 0.9 + Math.cos(t * 0.13) * 0.18;
       ctx.save();
       ctx.globalCompositeOperation = "source-over";
+      const bandCount = 8;
       for (let layer = Math.ceil(extrusionDepth); layer >= 1; layer--) {
         const depth = layer / extrusionDepth;
-        ctx.globalAlpha = 0.11 + depth * 0.08;
-        ctx.drawImage(shadowCanvas, extrusionX * layer, extrusionY * layer);
+        ctx.globalAlpha = 0.045 + depth * 0.045;
+        for (let band = 0; band < bandCount; band++) {
+          const bandY = band * SIZE / bandCount;
+          const thickness = semanticThickness(current?.motion || "pulse", (band + 0.5) / bandCount, t);
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(0, bandY - 1, SIZE, SIZE / bandCount + 2);
+          ctx.clip();
+          ctx.drawImage(shadowCanvas, extrusionX * layer * thickness, extrusionY * layer * thickness);
+          ctx.restore();
+        }
       }
       ctx.restore();
 
       const castX = 9 + Math.sin(t * 0.17) * 8;
       const castY = 13 + Math.cos(t * 0.13) * 5;
       ctx.save();
-      ctx.globalAlpha = 0.3 + beatEnergy * 0.16;
+      ctx.globalAlpha = 0.16 + beatEnergy * 0.08;
       ctx.filter = `blur(${7 + era * 0.7}px)`;
       ctx.transform(1, 0.045, -0.08, 0.9, castX, castY);
       ctx.drawImage(shadowCanvas, 0, 0);
@@ -3068,45 +3476,129 @@
       ctx.restore();
     }
 
+    function semanticPose(motion, t, amp, era) {
+      const pose = { x: 0, y: 0, rotation: 0, scaleX: 1, scaleY: 1, skewX: 0, skewY: 0 };
+      if (motion === "swim") {
+        const pictographTurn = 1 - smoothstep(1.35, 3.25, era);
+        const bodyPulse = Math.sin(t * 3.2) * 0.035 * amp;
+        pose.x = Math.sin(t * 1.15) * 22 * amp;
+        pose.y = 8 + Math.sin(t * 1.7) * 8 * amp;
+        pose.rotation = Math.PI * 0.5 * pictographTurn + Math.sin(t * 1.4) * 0.035 * amp;
+        pose.scaleX = 0.92 + bodyPulse;
+        pose.scaleY = 0.92 - bodyPulse * 0.55;
+      } else if (motion === "dragon") {
+        const depth = 0.5 + Math.sin(t * 0.9) * 0.5;
+        pose.x = Math.sin(t * 0.72) * 38 * amp;
+        pose.y = -34 + Math.cos(t * 1.05) * 23 * amp;
+        pose.rotation = Math.sin(t * 0.78) * 0.11 * amp;
+        pose.scaleX = 0.68 + depth * 0.3;
+        pose.scaleY = 0.82 + depth * 0.16;
+        pose.skewX = Math.sin(t * 0.9) * 0.08;
+      } else if (motion === "fly") {
+        const call = Math.max(0, Math.sin(t * 2.7));
+        pose.x = 22 + Math.sin(t * 1.5) * 5 * amp;
+        pose.y = 24 - call * 4 * amp;
+        pose.rotation = Math.sin(t * 1.45) * 0.035 * amp;
+        pose.scaleX = 0.84 + Math.sin(t * 2.7) * 0.018;
+        pose.scaleY = 0.86 - Math.sin(t * 2.7) * 0.012;
+      } else if (motion === "gallop") {
+        const stride = t * 7.2;
+        pose.x = Math.sin(stride) * 5 * amp;
+        pose.y = 24 - Math.abs(Math.sin(stride * 2)) * 8 * amp;
+        pose.rotation = Math.sin(stride) * 0.025 * amp;
+        pose.scaleX = 1.02 + Math.sin(stride * 2) * 0.025 * amp;
+        pose.scaleY = 0.98 - Math.sin(stride * 2) * 0.018 * amp;
+      } else if (motion === "cart") {
+        pose.x = Math.sin(t * 4.8) * 3 * amp;
+        pose.y = 26 - Math.abs(Math.sin(t * 4.8)) * 2.5 * amp;
+        pose.rotation = Math.sin(t * 4.8) * 0.012 * amp;
+      } else if (motion === "crawl") {
+        pose.x = Math.sin(t * 1.8) * 8 * amp;
+        pose.y = 38 - Math.abs(Math.sin(t * 2.2)) * 2 * amp;
+        pose.scaleX = 1.03;
+        pose.scaleY = 0.91;
+      } else if (motion === "prowl") {
+        pose.x = Math.sin(t * 2.1) * 8 * amp;
+        pose.y = 30 - Math.abs(Math.sin(t * 4.2)) * 4 * amp;
+        pose.rotation = Math.sin(t * 4.2) * 0.02 * amp;
+        pose.scaleX = 1.04;
+        pose.scaleY = 0.94;
+      } else if (motion === "elephant") {
+        pose.x = Math.sin(t * 1.2) * 4 * amp;
+        pose.y = 28 - Math.abs(Math.sin(t * 2.4)) * 3 * amp;
+        pose.scaleX = 1.06;
+        pose.scaleY = 0.98;
+      } else if (motion === "walk") {
+        pose.x = Math.sin(t * 3.2) * 4 * amp;
+        pose.y = 30 - Math.abs(Math.sin(t * 6.4)) * 4 * amp;
+        pose.rotation = Math.sin(t * 3.2) * 0.018 * amp;
+      } else if (motion === "tree") {
+        pose.y = 30;
+        pose.rotation = Math.sin(t * 1.1) * 0.012 * amp;
+        pose.scaleY = 1.05;
+      } else if (motion === "mountain") {
+        pose.y = 38;
+        pose.scaleX = 1.08;
+        pose.scaleY = 1.02;
+      } else if (motion === "water") {
+        pose.y = 42;
+        pose.scaleX = 1.12;
+        pose.scaleY = 0.78;
+        pose.skewX = Math.sin(t * 1.2) * 0.04;
+      } else if (motion === "rain") {
+        pose.y = -8 + Math.sin(t * 1.4) * 2 * amp;
+        pose.scaleX = 1.04;
+        pose.scaleY = 0.96;
+      } else if (motion === "sail") {
+        pose.y = 36 + Math.sin(t * 1.8) * 5 * amp;
+        pose.x = Math.sin(t * 0.8) * 9 * amp;
+        pose.rotation = Math.sin(t * 1.4) * 0.045 * amp;
+        pose.scaleX = 0.94;
+        pose.scaleY = 0.94;
+      } else if (motion === "sun") {
+        pose.x = 32;
+        pose.y = -62;
+        pose.scaleX = 0.78;
+        pose.scaleY = 0.78;
+      } else if (motion === "moon") {
+        pose.x = 36 + Math.sin(t * 0.5) * 4;
+        pose.y = -58 + Math.cos(t * 0.7) * 3;
+        pose.rotation = Math.sin(t * 0.5) * 0.018;
+        pose.scaleX = 0.8;
+        pose.scaleY = 0.8;
+      } else if (motion === "fire") {
+        pose.y = 34;
+        pose.scaleX = 0.92 + Math.sin(t * 4.6) * 0.025 * amp;
+        pose.scaleY = 1.02 + Math.sin(t * 3.9) * 0.045 * amp;
+      } else if (motion === "home") {
+        pose.y = 34;
+        pose.scaleX = 1.04;
+        pose.scaleY = 1.02;
+      } else if (motion === "dawn") {
+        pose.y = 12 - Math.sin(t * 0.72) * 7 * amp;
+        pose.scaleX = 0.94;
+        pose.scaleY = 0.94;
+      } else if (motion === "glow") {
+        const glow = 1 + Math.sin(t * 1.6) * 0.035 * amp;
+        pose.y = -8;
+        pose.scaleX = glow;
+        pose.scaleY = glow;
+      }
+      return pose;
+    }
+
+    function applySemanticPoseTransform(pose) {
+      ctx.translate(SIZE / 2, SIZE / 2);
+      ctx.translate(pose.x, pose.y);
+      ctx.rotate(pose.rotation);
+      ctx.transform(pose.scaleX, pose.skewY, pose.skewX, pose.scaleY, 0, 0);
+      ctx.translate(-SIZE / 2, -SIZE / 2);
+    }
+
     function drawSemanticLayer(sheet, motion, t, amp, era) {
       ctx.save();
-      ctx.translate(SIZE / 2, SIZE / 2);
-
-      if (motion === "dragon") {
-        ctx.translate(Math.sin(t * 1.7) * 5 * amp, Math.cos(t * 1.25) * 5 * amp);
-        ctx.rotate(Math.sin(t * 1.4) * 0.025 * amp);
-      } else if (motion === "fly") {
-        ctx.translate(Math.sin(t * 1.9) * 4 * amp, Math.sin(t * 3.1) * 5 * amp);
-        ctx.rotate(Math.sin(t * 1.9) * 0.025 * amp);
-      } else if (motion === "crawl") {
-        ctx.translate(Math.sin(t * 2.2) * 2.2 * amp, -Math.abs(Math.sin(t * 2.2)) * 1.2 * amp);
-      } else if (motion === "sail") {
-        ctx.translate(Math.sin(t * 1.4) * 3 * amp, Math.sin(t * 1.8) * 2.2 * amp);
-        ctx.rotate(Math.sin(t * 1.4) * 0.018 * amp);
-      } else if (motion === "prowl") {
-        ctx.translate(Math.sin(t * 4.2) * 2.2 * amp, -Math.abs(Math.sin(t * 4.2)) * 2.5 * amp);
-        ctx.rotate(Math.sin(t * 4.2) * 0.012 * amp);
-      } else if (motion === "elephant") {
-        ctx.translate(Math.sin(t * 2.4) * 1.4 * amp, -Math.abs(Math.sin(t * 2.4)) * 1.3 * amp);
-      } else if (motion === "gallop") {
-        const beat = t * 7.2;
-        ctx.translate(Math.sin(beat) * 1.8 * amp, -Math.abs(Math.sin(beat * 2)) * 3.8 * amp);
-        ctx.rotate(Math.sin(beat) * 0.014 * amp);
-      } else if (motion === "swim") {
-        ctx.translate(Math.sin(t * 1.6) * 5 * amp, Math.sin(t * 1.05) * 2.4 * amp);
-        ctx.rotate(Math.sin(t * 1.6) * 0.018 * amp);
-      } else if (motion === "cart") {
-        ctx.translate(Math.sin(t * 4.8) * 1.1 * amp, -Math.abs(Math.sin(t * 4.8)) * 1.2 * amp);
-      } else if (motion === "walk") {
-        ctx.translate(Math.sin(t * 3.2) * 1.5 * amp, -Math.abs(Math.sin(t * 6.4)) * 2 * amp);
-        ctx.rotate(Math.sin(t * 3.2) * 0.012 * amp);
-      } else if (motion === "fire") {
-        ctx.translate(0, Math.sin(t * 2.8) * 1.2 * amp);
-      } else {
-        ctx.translate(0, Math.sin(t * 1.2) * 1.4 * amp);
-      }
-
-      ctx.translate(-SIZE / 2, -SIZE / 2);
+      const pose = semanticPose(motion, t, amp, era);
+      applySemanticPoseTransform(pose);
       drawRhythmHalo(era);
       drawGlyphUnderlight(sheet, t, amp, era);
       drawSemanticGlyph(sheet, motion, t, amp, era);
@@ -3126,13 +3618,148 @@
       drawSemanticLayer(sheet, motion, t, amp, i);
       if (performance.now() < heritageHoldUntil) {
         const remaining = Math.max(0, (heritageHoldUntil - performance.now()) / 820);
-        drawHeritageStroke(sheet, motion, 1 - remaining * 0.18, t, smoothstep(0, 0.45, remaining));
+        drawHeritageStroke(sheet, motion, 1 - remaining * 0.18, t, smoothstep(0, 0.45, remaining), semanticPose(motion, t, amp, i));
       }
       drawExtras(motion, t, amp, i);
       if (i === 4) {
         drawEvolutionEchoes(t, 0.9);
         drawModernSeal(chapterRevealEpoch ? (performance.now() - chapterRevealEpoch) / 1000 : -1);
       }
+    }
+
+    function drawHoofContact(t, amp) {
+      const stride = t * 7.2;
+      ctx.save();
+      ctx.lineCap = "round";
+      const hoofs = [112, 151, 207, 246];
+      for (let i = 0; i < hoofs.length; i++) {
+        const impact = Math.pow(Math.max(0, Math.sin(stride + i * 1.7)), 7);
+        const x = hoofs[i] + Math.sin(stride + i) * 4 * amp;
+        const y = 285 - impact * 6;
+        ctx.strokeStyle = `rgba(37,88,66,${0.32 + impact * 0.5})`;
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.ellipse(x, y, 9 + impact * 3, 4, -0.08, 0.05 * Math.PI, 0.95 * Math.PI);
+        ctx.stroke();
+        for (let k = 0; k < 4; k++) {
+          const angle = -2.7 + k * 0.5;
+          const distance = 8 + impact * (10 + k * 3);
+          ctx.fillStyle = `rgba(232,179,77,${impact * (0.25 + k * 0.08)})`;
+          ctx.beginPath();
+          ctx.arc(x + Math.cos(angle) * distance, y + Math.sin(angle) * distance, 1.1 + k * 0.3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      for (let i = 0; i < 14; i++) {
+        const x = 74 + i * 17;
+        const sway = Math.sin(t * 2.1 + i) * 4;
+        ctx.strokeStyle = i % 5 ? "rgba(54,134,77,.46)" : "rgba(245,204,97,.62)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x, 310);
+        ctx.quadraticCurveTo(x + sway * 0.4, 298, x + sway, 288 - (i % 3) * 4);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawFishWake(t, amp) {
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.lineCap = "round";
+      for (let row = 0; row < 4; row++) {
+        ctx.strokeStyle = `rgba(183,244,231,${0.18 + row * 0.05})`;
+        ctx.lineWidth = 1 + row * 0.3;
+        ctx.beginPath();
+        for (let x = 28; x <= 150; x += 6) {
+          const fade = (x - 28) / 122;
+          const y = 185 + row * 12 + Math.sin(x * 0.055 - t * 3.4 + row) * (4 + fade * 5) * amp;
+          if (x === 28) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      for (let i = 0; i < 18; i++) {
+        const sp = specks[i];
+        const x = 62 + sp.x * 248 + Math.sin(t + sp.p) * 4;
+        const y = 286 - ((t * (13 + sp.s * 9) + sp.p * 19) % 230);
+        ctx.strokeStyle = `rgba(215,255,238,${0.25 + sp.s * 0.13})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.6 + sp.s * 1.4, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.globalCompositeOperation = "source-over";
+      for (let i = 0; i < 8; i++) {
+        const side = i % 2 ? 47 : 313;
+        const sway = Math.sin(t * 1.4 + i) * 8;
+        ctx.strokeStyle = i % 3 ? "rgba(42,133,104,.5)" : "rgba(105,164,91,.5)";
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        ctx.moveTo(side + (i % 4) * 5 - 8, 332);
+        ctx.quadraticCurveTo(side - sway, 300 - i * 4, side + sway, 264 - (i % 4) * 11);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function drawCartContact(t, amp) {
+      ctx.save();
+      ctx.strokeStyle = "rgba(79,111,70,.42)";
+      ctx.lineWidth = 1.5;
+      for (let row = 0; row < 2; row++) {
+        const y = 287 + row * 11;
+        ctx.beginPath();
+        for (let x = 44; x <= 320; x += 8) {
+          const offset = ((t * 70 + x * 0.7 + row * 17) % 32) < 15 ? 2.5 : -1;
+          if (x === 44) ctx.moveTo(x, y + offset);
+          else ctx.lineTo(x, y + offset);
+        }
+        ctx.stroke();
+      }
+      for (const wheelX of [116, 244]) {
+        ctx.strokeStyle = "rgba(42,87,67,.62)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(wheelX, 274, 18, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.save();
+        ctx.translate(wheelX, 274);
+        ctx.rotate(t * 4.8 * amp);
+        for (let spoke = 0; spoke < 6; spoke++) {
+          ctx.rotate(Math.PI / 3);
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(16, 0);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+      ctx.restore();
+    }
+
+    function drawRainContact(t, amp) {
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      for (let i = 0; i < 9; i++) {
+        const cycle = (t * (0.72 + i * 0.035) + i * 0.19) % 1;
+        const x = 48 + i * 34;
+        const y = 292 + (i % 3) * 8;
+        ctx.strokeStyle = `rgba(197,245,231,${(1 - cycle) * 0.56 * amp})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.ellipse(x, y, 3 + cycle * 18, 1.2 + cycle * 4.5, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        if (cycle < 0.16) {
+          ctx.beginPath();
+          ctx.moveTo(x, y - 2);
+          ctx.quadraticCurveTo(x - 5, y - 12, x - 7, y - 16);
+          ctx.moveTo(x, y - 2);
+          ctx.quadraticCurveTo(x + 5, y - 12, x + 7, y - 16);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
     }
 
     function drawExtras(motion, t, amp, i) {
@@ -3151,9 +3778,36 @@
           ctx.arc(x, y, 7 + sp.s * 7, Math.PI * 0.15, Math.PI * 0.85);
           ctx.stroke();
         }
+        ctx.globalCompositeOperation = "screen";
+        for (let cloud = 0; cloud < 4; cloud++) {
+          const y = 82 + cloud * 67 + Math.sin(t * 0.8 + cloud) * 9;
+          ctx.strokeStyle = `rgba(230,250,222,${0.14 + cloud * 0.025})`;
+          ctx.lineWidth = 5 + cloud;
+          ctx.beginPath();
+          ctx.moveTo(18, y);
+          ctx.bezierCurveTo(92, y - 34, 134, y + 31, 194, y - 4);
+          ctx.bezierCurveTo(248, y - 30, 287, y + 22, 344, y - 12);
+          ctx.stroke();
+        }
+        ctx.globalCompositeOperation = "source-over";
       }
 
       if (motion === "fly") {
+        ctx.strokeStyle = "rgba(92,91,51,.76)";
+        ctx.lineWidth = 7;
+        ctx.lineCap = "round";
+        ctx.beginPath();
+        ctx.moveTo(18, 294);
+        ctx.bezierCurveTo(105, 274, 213, 306, 344, 286);
+        ctx.stroke();
+        for (let leaf = 0; leaf < 9; leaf++) {
+          const x = 34 + leaf * 38;
+          const y = 286 + Math.sin(leaf * 1.8) * 10;
+          ctx.fillStyle = leaf % 4 ? "rgba(83,156,82,.68)" : "rgba(245,173,181,.82)";
+          ctx.beginPath();
+          ctx.ellipse(x, y - 9, 7, 3.5, Math.sin(leaf) * 0.8, 0, Math.PI * 2);
+          ctx.fill();
+        }
         for (let k = 0; k < 12; k++) {
           const sp = specks[k];
           const x = SIZE * 0.78 - ((t * (35 + sp.s * 22) + sp.p * 18) % (SIZE * 0.64));
@@ -3162,6 +3816,14 @@
           ctx.beginPath();
           ctx.ellipse(x, y, 3.4 * sp.s, 0.8, sp.p, 0, Math.PI * 2);
           ctx.fill();
+        }
+        const call = Math.pow(Math.max(0, Math.sin(t * 2.7)), 3);
+        ctx.strokeStyle = `rgba(244,184,80,${0.58 * call})`;
+        ctx.lineWidth = 1.8;
+        for (let ring = 0; ring < 3; ring++) {
+          ctx.beginPath();
+          ctx.arc(266, 126, 13 + ring * 11, -0.64, 0.6);
+          ctx.stroke();
         }
       }
 
@@ -3175,6 +3837,16 @@
           ctx.beginPath();
           ctx.arc(x, y, 0.8 + sp.s * 1.4, 0, Math.PI * 2);
           ctx.fill();
+        }
+        if (motion === "crawl") {
+          for (let ripple = 0; ripple < 4; ripple++) {
+            const cycle = (t * 0.5 + ripple * 0.23) % 1;
+            ctx.strokeStyle = `rgba(181,237,218,${(1 - cycle) * 0.38})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.ellipse(180, 295, 28 + cycle * 62, 5 + cycle * 13, 0, 0, Math.PI * 2);
+            ctx.stroke();
+          }
         }
       }
 
@@ -3192,6 +3864,7 @@
       }
 
       if (motion === "gallop") {
+        drawHoofContact(t, amp);
         for (let k = 0; k < 12; k++) {
           const sp = specks[k];
           const x = SIZE * 0.72 - ((t * (70 + sp.s * 40) + sp.p * 40) % (SIZE * 0.7));
@@ -3216,6 +3889,7 @@
       }
 
       if (motion === "rain") {
+        drawRainContact(t, amp);
         ctx.globalAlpha = 0.28 * amp + 0.12;
         for (let k = 0; k < 18; k++) {
           const sp = specks[k];
@@ -3277,6 +3951,7 @@
       }
 
       if (motion === "cart") {
+        drawCartContact(t, amp);
         ctx.globalAlpha = 0.2 * amp;
         for (let k = 0; k < 10; k++) {
           const sp = specks[k];
@@ -3294,6 +3969,8 @@
         ctx.arc(SIZE / 2, SIZE * 0.42, 70 + Math.sin(t) * 8, 0, Math.PI * 2);
         ctx.fill();
       }
+
+      if (motion === "swim") drawFishWake(t, amp);
 
       ctx.restore();
     }
@@ -3332,6 +4009,12 @@
       glyphSheets = [];
       for (const form of story.forms) {
         const img = await rasterizeForm(form);
+        for (let p = 0; p < img.data.length; p += 4) {
+          if (img.data[p + 3] < 2) continue;
+          img.data[p] = INK[0];
+          img.data[p + 1] = INK[1];
+          img.data[p + 2] = INK[2];
+        }
         bitmaps.push(img);
         distanceFields.push(buildDistanceField(img));
         inkAreas.push(measureInkArea(img));
@@ -3524,7 +4207,7 @@
       }
       chapterRevealEpoch = i === 4 ? performance.now() : 0;
       if (i === 4) narration = speak(caption);
-      const actNames = ["像画", "铸形", "收束", "断裂", "行楷"];
+      const actNames = ["苏醒", "生长", "舒展", "落笔", "新生"];
       eraEl.textContent = `${ERAS[i]} · ${actNames[i]}`;
       lineEl.innerHTML = "";
       storyCopy.classList.remove("changing");
